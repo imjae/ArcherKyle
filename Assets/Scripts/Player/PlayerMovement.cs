@@ -63,5 +63,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = forward * Input.GetAxisRaw("Vertical") + right * Input.GetAxisRaw("Horizontal");
 
         _controller.Move(moveDirection.normalized * finalSpped * Time.deltaTime);
+
+        float percent = ((run) ? 1f : 0.5f) * moveDirection.magnitude;
+        _animator.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
     }
 }
