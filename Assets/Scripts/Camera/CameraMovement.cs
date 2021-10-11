@@ -25,7 +25,7 @@ public class CameraMovement : MonoBehaviour
 
     // 최소, 최대 거리
     public float minDistance;
-    public float maxDixtance;
+    public float maxDistance;
     // 최종 계산된 거리
     public float finalDistance;
     // 카메라 움직임의 부드러움 정도
@@ -36,9 +36,11 @@ public class CameraMovement : MonoBehaviour
     {
         rotX = transform.localRotation.eulerAngles.x;
         rotY = transform.localRotation.eulerAngles.y;
+        // Debug.Log($"{rotX} / {rotY}");
 
         directionNomalized = realCamera.localPosition.normalized;
         finalDistance = realCamera.localPosition.magnitude;
+        // Debug.Log($"{directionNomalized} / {finalDistance}");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -46,6 +48,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+        // 카메라의 회전
         rotX += -(Input.GetAxis("Mouse Y")) * sensitivity * Time.deltaTime;
         rotY += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
 
@@ -59,17 +62,17 @@ public class CameraMovement : MonoBehaviour
         // 카메라의 움직임
         transform.position = Vector3.MoveTowards(transform.position, objectToFollow.position, followSpeed * Time.deltaTime);
 
-        finalDirection = transform.TransformPoint(directionNomalized * maxDixtance);
+        finalDirection = transform.TransformPoint(directionNomalized * maxDistance);
 
         RaycastHit hit;
 
-        if(Physics.Linecast(transform.position, finalDirection, out hit))
+        if (Physics.Linecast(transform.position, finalDirection, out hit))
         {
-            finalDistance = Mathf.Clamp(hit.distance, minDistance, maxDixtance);
+            finalDistance = Mathf.Clamp(hit.distance, minDistance, maxDistance);
         }
         else
         {
-            finalDistance = maxDixtance;
+            finalDistance = maxDistance;
         }
         realCamera.localPosition = Vector3.Lerp(realCamera.localPosition, directionNomalized * finalDistance, Time.deltaTime * smoothness);
     }

@@ -26,16 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftAlt))
-        {
-            // 둘러보기 활성화
-            toggleCameraRotation = true;
-        }
-        else
-        {
-            // 둘러보기 비활성화
-            toggleCameraRotation = false;
-        }
+        // Alt로 둘러보기 활성/비활성화
+        toggleCameraRotation = (Input.GetKey(KeyCode.LeftAlt)) ? true : false;
     }
 
     private void LateUpdate()
@@ -43,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         if (!toggleCameraRotation)
         {
             Vector3 playerRotate = Vector3.Scale(_camera.transform.forward, new Vector3(1, 0, 1));
+            // Debug.Log($"{_camera.transform.forward} / {new Vector3(1, 0, 1)} / { Vector3.Scale(_camera.transform.forward, new Vector3(1, 0, 1))}");
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
         }
 
