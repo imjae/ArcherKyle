@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Camera _camera;
     CharacterController _controller;
 
-    public float speed = 5f;
+    public float walkSpeed = 3.5f;
     public float runSpeed = 8f;
     public float finalSpped;
 
@@ -26,11 +26,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
             // 둘러보기 활성화
             toggleCameraRotation = true;
-        } else
+        }
+        else
         {
             // 둘러보기 비활성화
             toggleCameraRotation = false;
@@ -39,23 +40,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(!toggleCameraRotation)
+        if (!toggleCameraRotation)
         {
             Vector3 playerRotate = Vector3.Scale(_camera.transform.forward, new Vector3(1, 0, 1));
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
         }
 
-        if(Input.GetKey(KeyCode.LeftShift))
-            run = true;
-        else
-            run = false;
+        run = (Input.GetKey(KeyCode.LeftShift)) ? true : false;
 
         InputMovement();
     }
 
     void InputMovement()
     {
-        finalSpped = (run) ? runSpeed : speed;
+        finalSpped = (run) ? runSpeed : walkSpeed;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);

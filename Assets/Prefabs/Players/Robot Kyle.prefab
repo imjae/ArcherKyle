@@ -1747,7 +1747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167d0cd57d539a046a2ed88b1f9362e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 3.5
   runSpeed: 8
   finalSpped: 0
   toggleCameraRotation: 0
