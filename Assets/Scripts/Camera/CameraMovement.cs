@@ -59,6 +59,14 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
+        
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate()
+    {
         // 카메라의 움직임
         transform.position = Vector3.MoveTowards(transform.position, objectToFollow.position, followSpeed * Time.deltaTime);
 
