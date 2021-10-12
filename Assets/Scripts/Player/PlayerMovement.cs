@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float walkSpeed = 3.5f;
     public float runSpeed = 8f;
-    public float finalSpped;
+    public float finalSpeed;
 
     // alt 눌렀을때 둘러보기 기능
     public bool toggleCameraRotation;
@@ -46,14 +46,14 @@ public class PlayerMovement : MonoBehaviour
 
     void InputMovement()
     {
-        finalSpped = (run) ? runSpeed : walkSpeed;
+        finalSpeed = (run) ? runSpeed : walkSpeed;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         Vector3 moveDirection = forward * Input.GetAxisRaw("Vertical") + right * Input.GetAxisRaw("Horizontal");
 
-        _controller.Move(moveDirection.normalized * finalSpped * Time.deltaTime);
+        _controller.Move(moveDirection.normalized * finalSpeed * Time.deltaTime);
 
         float percent = ((run) ? 1f : 0.5f) * moveDirection.magnitude;
         _animator.SetFloat("Blend", percent, 0.1f, Time.deltaTime);

@@ -21,11 +21,14 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ;
         // 현재 캐릭터가 땅에 있는가?
-        if (_controller.isGrounded)
+        if (_controller.isGrounded || _controller.velocity == Vector3.zero)
         {
             // 위, 아래 움직임 셋팅. 
+            // 내가 누른 방향키의의 정도가 -1~1 범위로 나타남
             MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
 
             // 벡터를 로컬 좌표계 기준에서 월드 좌표계 기준으로 변환한다.
             MoveDir = transform.TransformDirection(MoveDir);
@@ -36,7 +39,6 @@ public class PlayerJump : MonoBehaviour
             // 캐릭터 점프
             if (Input.GetButton("Jump"))
                 MoveDir.y = jumpSpeed;
-
         }
 
         // 캐릭터에 중력 적용.
