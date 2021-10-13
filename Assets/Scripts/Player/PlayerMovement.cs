@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.GetButtonDown("Jump"))
         {
-            _rigidbody.AddForce(Vector3.up * 280f);
+            _rigidbody.AddForce(Vector3.up * 200f);
             Debug.Log(isGround);
         }
     }
