@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             finalSpeed = runSpeed;
         }
 
-        _animator.SetFloat("ForwardBlend", percent, 0.1f, Time.deltaTime);
+        _animator.SetFloat("MovementBlend", percent, 0.1f, Time.deltaTime);
 
         _rigidbody.MovePosition(transform.position + moveDirection.normalized * finalSpeed * Time.deltaTime);
 
@@ -91,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
+            _animator.SetTrigger("OnJumpTrigger");
             _rigidbody.AddForce(Vector3.up * 200f);
             Debug.Log(isGround);
         }
