@@ -9,8 +9,9 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody _rigidbody;
     Collider _collider;
 
-    public float walkSpeed = 3.5f;
-    public float runSpeed = 8f;
+    // 걷기 기능 삭제
+    // public float walkSpeed;
+    public float runSpeed;
     public float finalSpeed;
 
     // alt 눌렀을때 둘러보기 기능
@@ -37,8 +38,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        
 
+
+        InputJump();
     }
 
     private void FixedUpdate()
@@ -50,15 +52,14 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
         }
 
-        run = (Input.GetKey(KeyCode.LeftShift)) ? true : false;
+        // run = (Input.GetKey(KeyCode.LeftShift)) ? true : false;
 
         InputMovement();
-        InputJump();
     }
 
     void InputMovement()
     {
-        finalSpeed = (run) ? runSpeed : walkSpeed;
+        finalSpeed = runSpeed;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
@@ -67,13 +68,14 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody.MovePosition(transform.position + moveDirection.normalized * finalSpeed * Time.deltaTime);
 
-        float percent = ((run) ? 1f : 0.5f) * moveDirection.magnitude;
-        _animator.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
+        // float percent = ((run) ? 1f : 0.5f) * moveDirection.magnitude;
+        float percent = 1f * moveDirection.magnitude;
+        _animator.SetFloat("ForwardBlend", percent, 0.1f, Time.deltaTime);
     }
 
     void InputJump()
     {
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
             _rigidbody.AddForce(Vector3.up * 200f);
             Debug.Log(isGround);
