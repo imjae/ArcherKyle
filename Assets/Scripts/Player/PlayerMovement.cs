@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
     // 걷기 기능 삭제
     // public float walkSpeed;
     public float runSpeed;
-    public float finalSpeed;
+    public float backSpeed;
+    private float finalSpeed;
 
     // alt 눌렀을때 둘러보기 기능
     public bool toggleCameraRotation;
@@ -59,18 +60,31 @@ public class PlayerMovement : MonoBehaviour
 
     void InputMovement()
     {
-        finalSpeed = runSpeed;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        Vector3 moveDirection = forward * Input.GetAxisRaw("Vertical") + right * Input.GetAxisRaw("Horizontal");
+        Vector3 moveDirection =
+                    forward * Input.GetAxisRaw("Vertical") +
+                    right * Input.GetAxisRaw("Horizontal");
+
+        float percent;
+        // float percent = ((run) ? 1f : 0.5f) * moveDirection.magnitude;
+        if (Input.GetAxisRaw("Vertical") < 0)
+        {
+            percent = -1f * moveDirection.magnitude;
+            finalSpeed = backSpeed;
+        }
+        else
+        {
+            percent = 1f * moveDirection.magnitude;
+            finalSpeed = runSpeed;
+        }
+
+        _animator.SetFloat("ForwardBlend", percent, 0.1f, Time.deltaTime);
 
         _rigidbody.MovePosition(transform.position + moveDirection.normalized * finalSpeed * Time.deltaTime);
 
-        // float percent = ((run) ? 1f : 0.5f) * moveDirection.magnitude;
-        float percent = 1f * moveDirection.magnitude;
-        _animator.SetFloat("ForwardBlend", percent, 0.1f, Time.deltaTime);
     }
 
     void InputJump()
