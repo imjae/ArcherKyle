@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public float playeTime;
-
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     private static GameManager _instance;
     // 인스턴스에 접근하기 위한 프로퍼티

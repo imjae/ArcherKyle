@@ -6,7 +6,7 @@ using UnityEngine;
 public class CommandKeyManager : MonoBehaviour
 {
     List<KeyCode> checkKeyList;
-    Queue<KeyCode> commandQueue;
+    Queue<Dictionary<KeyCode, float>> commandQueue;
 
     Dictionary<Queue<KeyCode>, Action> commandDictionary;
 
@@ -29,7 +29,7 @@ public class CommandKeyManager : MonoBehaviour
             KeyCode.LeftShift
         };
 
-        commandQueue = new Queue<KeyCode>();
+        commandQueue = new Queue<Dictionary<KeyCode, float>>();
         commandDictionary = new Dictionary<Queue<KeyCode>, Action>();
     }
 
@@ -54,7 +54,7 @@ public class CommandKeyManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+
     }
 
     private void SetKeyDownIntervalTime()
@@ -64,28 +64,19 @@ public class CommandKeyManager : MonoBehaviour
             if (Input.GetKeyDown(key))
             {
                 // Debug.Log($"큐에 {key} 입력");
-                commandQueue.Enqueue(key);
-                PrintQueue(commandQueue);
-
-                this.keyDownTime = GameManager.Instance.playeTime;
-                this.keyDownIntervalTime = keyDownTime - keyUpTime;
-            }
-
-            if (Input.GetKeyUp(key))
-            {
-                this.keyUpTime = GameManager.Instance.playeTime;
+                var dict = new Dictionary<KeyCode, float> { { key, GameManager.Instance.playeTime } };
+                commandQueue.Enqueue(dict);
             }
         }
     }
 
-    private void PrintQueue(Queue<KeyCode> q)
+    private void PrintQueue(Queue<Dictionary<KeyCode, float>> q)
     {
-        string text = "";
-        foreach (KeyCode key in q)
+        // string text = "";
+        foreach (Dictionary<KeyCode, float> dict in q)
         {
-            text += (key + ",");
-        }
 
-        // Debug.Log(text);
+            // text += (key + ",");
+        }
     }
 }

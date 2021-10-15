@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
     void InputJump()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && this.isGround)
         {
             _animator.SetTrigger("OnJumpTrigger");
             _rigidbody.AddForce(Vector3.up * 200f);
@@ -101,22 +101,5 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.DrawRay(transform.position, Vector3.down * 0.05f, Color.red);
         isGround = Physics.Raycast(transform.position, Vector3.down, 0.1f);
-    }
-
-    void InputDash()
-    {
-        float firstDown;
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            firstDown = Time.time;
-            if(Input.GetKeyDown(KeyCode.W))
-            {
-                if(Time.time - firstDown < 0.5f)
-                {
-                    Debug.Log("ww 두번눌림!");
-                }
-            }
-        }
     }
 }
