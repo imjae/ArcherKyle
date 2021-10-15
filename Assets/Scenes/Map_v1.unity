@@ -3365,11 +3365,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000010737657962, guid: aca4c3cf28c5f5a428fb19299881807f, type: 3}
   m_PrefabInstance: {fileID: 338004949}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &341084057 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9094289071207280356, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
-  m_PrefabInstance: {fileID: 1145671829}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &342574187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14661,10 +14656,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 452120410, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
-      propertyPath: backBow
-      value: 
-      objectReference: {fileID: 341084057}
     - target: {fileID: 5422110943272055445, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
       propertyPath: m_RootOrder
       value: 6

@@ -19,8 +19,19 @@ public class PlayerAction : MonoBehaviour
     private bool isSwitching;
     private WEAPON currentEquipWeapon;
 
+    public Transform hip;
+    public Transform leftWristJoint01;
+    public Transform rightWristJoint01;
+
     public GameObject backBow;
     public GameObject realBow;
+    public GameObject backSword;
+    public GameObject realSword;
+
+    private GameObject cloneBackBow;
+    private GameObject cloneRealBow;
+    private GameObject cloneBackSword;
+    private GameObject cloneRealSword;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +40,11 @@ public class PlayerAction : MonoBehaviour
         isEquipWeapon = false;
         isSwitching = false;
         _animator = GetComponent<Animator>();
+
+        cloneBackBow = Instantiate(backBow, hip);
+        cloneRealBow = Instantiate(realBow, leftWristJoint01);
+        cloneBackSword = Instantiate(backSword, hip);
+        cloneRealSword = Instantiate(realSword, rightWristJoint01);
     }
 
     // Update is called once per frame
@@ -54,23 +70,28 @@ public class PlayerAction : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && !isSwitching)
         {
+            // 무기 장착 중일때
             if (isEquipWeapon)
             {
-
+                _animator.SetTrigger("DontEquipSwordTrigger");
+                currentEquipWeapon = WEAPON.NONE;
+                isEquipWeapon = false;
+                StartCoroutine(SwitchDelay());
             }
             else
             {
-
+                _animator.SetTrigger("EquipSwordTrigger");
+                currentEquipWeapon = WEAPON.SWORD;
+                isEquipWeapon = true;
+                StartCoroutine(SwitchDelay());
             }
         }
 
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Debug.Log($"backBow : {backBow.activeSelf} / realBow : {realBow.activeSelf}");
-            backBow.SetActive(!backBow.activeSelf);
-            realBow.SetActive(!realBow.activeSelf);
-            Debug.Log($"backBow : {backBow.activeSelf} / realBow : {realBow.activeSelf}");
+            cloneBackBow.SetActive(!cloneBackBow.activeSelf);
+            cloneRealBow.SetActive(!cloneRealBow.activeSelf);
         }
     }
 
@@ -83,12 +104,22 @@ public class PlayerAction : MonoBehaviour
 
     private void ActiveRealBow()
     {
-        backBow.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false; // SetActive(false);
-        realBow.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true; // realBow.SetActive(true);
+        cloneBackBow.SetActive(false);
+        cloneRealBow.SetActive(true);
     }
     private void UnActiveRealBow()
     {
-        backBow.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true; // SetActive(false);
-        realBow.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false; // realBow.SetActive(true);
+        cloneBackBow.SetActive(true);
+        cloneRealBow.SetActive(false);
+    }
+    private void ActiveRealSword()
+    {
+        cloneBackSword.SetActive(false);
+        cloneRealSword.SetActive(true);
+    }
+    private void UnActiveRealSword()
+    {
+        cloneBackSword.SetActive(true);
+        cloneRealSword.SetActive(false);
     }
 }
