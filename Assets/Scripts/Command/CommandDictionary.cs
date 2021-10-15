@@ -5,30 +5,33 @@ using UnityEngine;
 
 public class CommendDictionary
 {
-    public List<KeyCode> commendForwardDash;
-    public List<KeyCode> commendLeftDash;
-    public List<KeyCode> commendBackdDash;
-    public List<KeyCode> commendRightDash;
-
-    Dictionary<List<KeyCode>, Action> commandDictionary;
+    private Dictionary<List<KeyCode>, Action> _commandDictionary;
+    public Dictionary<List<KeyCode>, Action> CommandDictionary { get => this._commandDictionary; }
 
     CommendDictionary()
     {
-        commendForwardDash = new List<KeyCode> { KeyCode.W, KeyCode.W };
-        commendLeftDash = new List<KeyCode> { KeyCode.A, KeyCode.A };
-        commendBackdDash = new List<KeyCode> { KeyCode.S, KeyCode.S };
-        commendRightDash = new List<KeyCode> { KeyCode.D, KeyCode.D };
-
-        commandDictionary = new Dictionary<List<KeyCode>, Action>
+        this._commandDictionary = new Dictionary<List<KeyCode>, Action>
         {
             {new List<KeyCode> { KeyCode.W, KeyCode.W }, ActionForwardDash},
-            {new List<KeyCode> { KeyCode.W, KeyCode.W }, ActionForwardDash},
-            {new List<KeyCode> { KeyCode.W, KeyCode.W }, ActionForwardDash},
-            {new List<KeyCode> { KeyCode.W, KeyCode.W }, ActionForwardDash}
+            {new List<KeyCode> { KeyCode.S, KeyCode.S }, ActionBackDash},
+            {new List<KeyCode> { KeyCode.A, KeyCode.A }, ActionLeftDash},
+            {new List<KeyCode> { KeyCode.D, KeyCode.D }, ActionRightDash}
         };
     }
 
     Action ActionForwardDash = () =>
+    {
+
+    };
+    Action ActionBackDash = () =>
+    {
+
+    };
+    Action ActionLeftDash = () =>
+    {
+
+    };
+    Action ActionRightDash = () =>
     {
 
     };

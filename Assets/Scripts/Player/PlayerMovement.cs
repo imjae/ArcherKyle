@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetTrigger("OnJumpTrigger");
             _rigidbody.AddForce(Vector3.up * 200f);
-            Debug.Log(isGround);
+            // Debug.Log(isGround);
         }
     }
 
@@ -101,5 +101,22 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.DrawRay(transform.position, Vector3.down * 0.05f, Color.red);
         isGround = Physics.Raycast(transform.position, Vector3.down, 0.1f);
+    }
+
+    void InputDash()
+    {
+        float firstDown;
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            firstDown = Time.time;
+            if(Input.GetKeyDown(KeyCode.W))
+            {
+                if(Time.time - firstDown < 0.5f)
+                {
+                    Debug.Log("ww 두번눌림!");
+                }
+            }
+        }
     }
 }
