@@ -61,7 +61,6 @@ public class PlayerAction : MonoBehaviour
     {
         InputEquipWeapons();
         InputAttackWeapons();
-
     }
 
     private void FixedUpdate()
