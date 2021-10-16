@@ -34,12 +34,19 @@ public class PlayerAction : MonoBehaviour
     private GameObject cloneRealSword;
     private List<GameObject> equipWeaponList;
 
+    // 활 당기기 시작 시간, 당기는 중간 시간, 끝 시간
+    private float drawArrowStartTime;
+    private float drawArrowTime;
+    private float drawArrowEndTime;
+
     // Start is called before the first frame update
     void Start()
     {
         // UnActiveRealBow();
         isEquipWeapon = false;
         isSwitching = false;
+        drawArrowStartTime = 0f;
+        drawArrowEndTime = 0f;
         _animator = GetComponent<Animator>();
 
         cloneBackBow = Instantiate(backBow, hip);
@@ -53,6 +60,12 @@ public class PlayerAction : MonoBehaviour
     void Update()
     {
         InputEquipWeapons();
+        InputAttackWeapons();
+
+    }
+
+    private void FixedUpdate()
+    {
 
     }
 
@@ -60,16 +73,27 @@ public class PlayerAction : MonoBehaviour
     {
         if (currentEquipWeapon.Equals(WEAPON.BOW))
         {
+            if (Input.GetButtonDown("Attack"))
+            {
+                drawArrowTime = 0f;
+                drawArrowStartTime = GameManager.Instance.playeTime;
+                _animator.SetTrigger("DrawArrowTrigger");
+            }
 
-        }
-        else if (currentEquipWeapon.Equals(WEAPON.SWORD))
-        {
+            if (Input.GetButton("Attack"))
+            {
+                drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
+                _animator.SetTrigger("AimOverdrawTrigger");
+            }
 
+            if (Input.GetButtonUp("Attack"))
+            {
+                drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
+                _animator.SetTrigger("AimRecoilTrigger");
+                Debug.Log(drawArrowEndTime - drawArrowStartTime);
+            }
         }
-        else if (currentEquipWeapon.Equals(WEAPON.NONE))
-        {
 
-        }
     }
 
 
