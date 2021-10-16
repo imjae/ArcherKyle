@@ -52,7 +52,29 @@ public class PlayerAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Ä®
+        InputEquipWeapons();
+
+    }
+
+    private void InputAttackWeapons()
+    {
+        if (currentEquipWeapon.Equals(WEAPON.BOW))
+        {
+
+        }
+        else if (currentEquipWeapon.Equals(WEAPON.SWORD))
+        {
+
+        }
+        else if (currentEquipWeapon.Equals(WEAPON.NONE))
+        {
+
+        }
+    }
+
+
+    private void InputEquipWeapons()
+    {
         if (Input.GetKeyDown(KeyCode.Alpha1) && !isSwitching)
         {
             // ¹«±â ÀåÂø ÁßÀÏ¶§
