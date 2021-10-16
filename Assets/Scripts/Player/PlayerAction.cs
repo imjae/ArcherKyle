@@ -32,6 +32,7 @@ public class PlayerAction : MonoBehaviour
     private GameObject cloneRealBow;
     private GameObject cloneBackSword;
     private GameObject cloneRealSword;
+    private List<GameObject> equipWeaponList;
 
     // Start is called before the first frame update
     void Start()
@@ -45,37 +46,30 @@ public class PlayerAction : MonoBehaviour
         cloneRealBow = Instantiate(realBow, leftWristJoint01);
         cloneBackSword = Instantiate(backSword, hip);
         cloneRealSword = Instantiate(realSword, rightWristJoint01);
+        equipWeaponList = new List<GameObject> { cloneBackBow, cloneRealBow, cloneBackSword, cloneRealSword };
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 칼
         if (Input.GetKeyDown(KeyCode.Alpha1) && !isSwitching)
         {
             // 무기 장착 중일때
             if (isEquipWeapon)
             {
-                _animator.SetTrigger("DontEquipBowTrigger");
-                currentEquipWeapon = WEAPON.NONE;
-                isEquipWeapon = false;
-                StartCoroutine(SwitchDelay());
-            }
-            else
-            {
-                _animator.SetTrigger("EquipBowTrigger");
-                currentEquipWeapon = WEAPON.BOW;
-                isEquipWeapon = true;
-                StartCoroutine(SwitchDelay());
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && !isSwitching)
-        {
-            // 무기 장착 중일때
-            if (isEquipWeapon)
-            {
-                _animator.SetTrigger("DontEquipSwordTrigger");
-                currentEquipWeapon = WEAPON.NONE;
-                isEquipWeapon = false;
+                if (currentEquipWeapon.Equals(WEAPON.SWORD))
+                {
+                    _animator.SetTrigger("DontEquipSwordTrigger");
+                    currentEquipWeapon = WEAPON.NONE;
+                    isEquipWeapon = false;
+                }
+                else if (currentEquipWeapon.Equals(WEAPON.BOW))
+                {
+                    _animator.SetTrigger("EquipBow2SwordTrigger");
+                    currentEquipWeapon = WEAPON.SWORD;
+                    isEquipWeapon = true;
+                }
                 StartCoroutine(SwitchDelay());
             }
             else
@@ -86,12 +80,33 @@ public class PlayerAction : MonoBehaviour
                 StartCoroutine(SwitchDelay());
             }
         }
-
-
-        if (Input.GetKeyDown(KeyCode.K))
+        // 활
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && !isSwitching)
         {
-            cloneBackBow.SetActive(!cloneBackBow.activeSelf);
-            cloneRealBow.SetActive(!cloneRealBow.activeSelf);
+            // 무기 장착 중일때
+            if (isEquipWeapon)
+            {
+                if (currentEquipWeapon.Equals(WEAPON.SWORD))
+                {
+                    _animator.SetTrigger("EquipSword2BowTrigger");
+                    currentEquipWeapon = WEAPON.BOW;
+                    isEquipWeapon = true;
+                }
+                else if (currentEquipWeapon.Equals(WEAPON.BOW))
+                {
+                    _animator.SetTrigger("DontEquipBowTrigger");
+                    currentEquipWeapon = WEAPON.NONE;
+                    isEquipWeapon = false;
+                }
+                StartCoroutine(SwitchDelay());
+            }
+            else
+            {
+                _animator.SetTrigger("EquipBowTrigger");
+                currentEquipWeapon = WEAPON.BOW;
+                isEquipWeapon = true;
+                StartCoroutine(SwitchDelay());
+            }
         }
     }
 
