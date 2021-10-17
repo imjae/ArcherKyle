@@ -39,6 +39,9 @@ public class PlayerAction : MonoBehaviour
     private float drawArrowTime;
     private float drawArrowEndTime;
 
+    private CameraMovement cameraMovementScript;
+    private PlayerMovement playerMovementScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +57,9 @@ public class PlayerAction : MonoBehaviour
         cloneBackSword = Instantiate(backSword, hip);
         cloneRealSword = Instantiate(realSword, rightWristJoint01);
         equipWeaponList = new List<GameObject> { cloneBackBow, cloneRealBow, cloneBackSword, cloneRealSword };
+
+        cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
+        playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -74,7 +80,12 @@ public class PlayerAction : MonoBehaviour
         {
             if (Input.GetButtonDown("Attack"))
             {
-                _animator.SetBool("IsAimed", true);
+                // 1인칭 시점 변환
+                cameraMovementScript.curView = CameraMovement.VIEW.ONE;
+                cameraMovementScript.TransCamersView();
+                playerMovementScript.isAim = true;
+
+                _animator.SetBool("IsAimed", playerMovementScript.isAim);
                 drawArrowTime = 0f;
                 drawArrowStartTime = GameManager.Instance.playeTime;
                 _animator.SetTrigger("DrawArrowTrigger");
@@ -88,10 +99,15 @@ public class PlayerAction : MonoBehaviour
 
             if (Input.GetButtonUp("Attack"))
             {
-                _animator.SetBool("IsAimed", false);
+                // 1인칭 시점 변환
+                cameraMovementScript.curView = CameraMovement.VIEW.THIRD;
+                cameraMovementScript.TransCamersView();
+                playerMovementScript.isAim = false;
+
+                _animator.SetBool("IsAimed", playerMovementScript.isAim);
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
-                Debug.Log(drawArrowEndTime - drawArrowStartTime);
+                // Debug.Log(drawArrowEndTime - drawArrowStartTime);
             }
         }
 

@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
+    public enum VIEW
+    {
+        ONE,
+        THIRD,
+        NONE
+    }
     // 카메라가 따라가야할 오브젝트의 위치
     public Transform objectToFollow;
+    // 현제 카메라 시점
+    public VIEW curView;
     // 카메라가 따라가는 속도
     public float followSpeed = 10f;
     // 마우스 감도
@@ -16,8 +24,6 @@ public class CameraMovement : MonoBehaviour
     // 마우스 인풋을 받을 변수
     private float rotX;
     private float rotY;
-    // 실제 카메라 위치
-    public Transform realCamera;
     // 카메라 방향
     public Vector3 directionNomalized;
     // 최종적으로 셋팅될 카메라 방향
@@ -31,9 +37,18 @@ public class CameraMovement : MonoBehaviour
     // 카메라 움직임의 부드러움 정도
     public float smoothness = 10f;
 
+    // 1인칭 카메라 위치
+    public Transform onePersonView;
+    // 3인칭 카메라 위치
+    public Transform thirdPersonView;
+    // 실제 카메라 위치
+    public Transform realCamera;
+
 
     void Start()
     {
+        curView = VIEW.THIRD;
+        // realCamera = thirdPersonView;
         rotX = transform.localRotation.eulerAngles.x;
         rotY = transform.localRotation.eulerAngles.y;
         // Debug.Log($"{rotX} / {rotY}");
@@ -59,21 +74,17 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        
+
     }
 
-    /// <summary>
-    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
-    /// </summary>
     void FixedUpdate()
     {
-        // 카메라의 움직임
         transform.position = Vector3.MoveTowards(transform.position, objectToFollow.position, followSpeed * Time.deltaTime);
-
         finalDirection = transform.TransformPoint(directionNomalized * maxDistance);
 
         RaycastHit hit;
 
+        // Debug.DrawRay(transform.position, finalDirection * 100f, Color.red);
         if (Physics.Linecast(transform.position, finalDirection, out hit))
         {
             finalDistance = Mathf.Clamp(hit.distance, minDistance, maxDistance);
@@ -83,5 +94,19 @@ public class CameraMovement : MonoBehaviour
             finalDistance = maxDistance;
         }
         realCamera.localPosition = Vector3.Lerp(realCamera.localPosition, directionNomalized * finalDistance, Time.deltaTime * smoothness);
+    }
+
+    public void TransCamersView()
+    {
+        if (curView.Equals(VIEW.ONE))
+        {
+            minDistance = 0f;
+            maxDistance = 0f;
+        }
+        else if (curView.Equals(VIEW.THIRD))
+        {
+            minDistance = 1f;
+            maxDistance = 3f;
+        }
     }
 }
