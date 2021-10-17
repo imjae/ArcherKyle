@@ -14702,18 +14702,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8731774229656987864, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.003
-      objectReference: {fileID: 0}
-    - target: {fileID: 8731774229656987864, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.608
-      objectReference: {fileID: 0}
-    - target: {fileID: 8731774229656987864, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.308
-      objectReference: {fileID: 0}
     - target: {fileID: 9035466547873431686, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
       propertyPath: m_Name
       value: Robot Kyle
