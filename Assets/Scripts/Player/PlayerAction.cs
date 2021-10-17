@@ -74,6 +74,7 @@ public class PlayerAction : MonoBehaviour
         {
             if (Input.GetButtonDown("Attack"))
             {
+                _animator.SetBool("IsAimed", true);
                 drawArrowTime = 0f;
                 drawArrowStartTime = GameManager.Instance.playeTime;
                 _animator.SetTrigger("DrawArrowTrigger");
@@ -82,11 +83,12 @@ public class PlayerAction : MonoBehaviour
             if (Input.GetButton("Attack"))
             {
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
-                _animator.SetTrigger("AimOverdrawTrigger");
+                // _animator.SetTrigger("AimOverdrawTrigger");
             }
 
             if (Input.GetButtonUp("Attack"))
             {
+                _animator.SetBool("IsAimed", false);
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
                 Debug.Log(drawArrowEndTime - drawArrowStartTime);
