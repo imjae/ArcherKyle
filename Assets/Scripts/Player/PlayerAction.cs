@@ -13,8 +13,6 @@ public class PlayerAction : MonoBehaviour
         SWORD
     }
 
-    public List<bool> isAttackSwordComboList;
-
     // 무기 장착 여부
     private bool isEquipWeapon;
     // 무기 교체중 여부
@@ -41,6 +39,10 @@ public class PlayerAction : MonoBehaviour
     private float drawArrowTime;
     private float drawArrowEndTime;
 
+    // 칼공격 콤보
+    private bool comboPossible;
+    int comboStep;
+
     // 카메라와 플레이어 움직임에 관련된 스크립트에 접근하기위한 변수
     private CameraMovement cameraMovementScript;
     private PlayerMovement playerMovementScript;
@@ -59,8 +61,6 @@ public class PlayerAction : MonoBehaviour
         cloneRealBow = Instantiate(realBow, leftWristJoint01);
         cloneBackSword = Instantiate(backSword, hip);
         cloneRealSword = Instantiate(realSword, rightWristJoint01);
-
-        isAttackSwordComboList = new List<bool>() { false, false, false, false };
 
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
@@ -113,6 +113,12 @@ public class PlayerAction : MonoBehaviour
                 _animator.SetTrigger("AimRecoilTrigger");
                 // Debug.Log(drawArrowEndTime - drawArrowStartTime);
             }
+        }
+
+        else if (currentEquipWeapon.Equals(WEAPON.SWORD))
+        {
+            if (Input.GetButtonDown("Attack"))
+                SwordAttack();
         }
     }
 
@@ -180,6 +186,44 @@ public class PlayerAction : MonoBehaviour
         isSwitching = true;
         yield return new WaitForSeconds(1f);
         isSwitching = false;
+    }
+
+    public void SwordAttack()
+    {
+        if (comboStep == 0)
+        {
+            _animator.Play("SwordCombo1");
+            comboStep = 1;
+            return;
+        }
+
+        if (comboStep != 0)
+        {
+            if (comboPossible)
+            {
+                comboPossible = false;
+                comboStep += 1;
+            }
+        }
+    }
+
+    public void ComboPossible()
+    {
+        comboPossible = true;
+    }
+
+    public void Combo()
+    {
+        if (comboStep == 4)
+            _animator.Play("SwordComboFinal");
+        else
+            _animator.Play($"SwordCombo{comboStep}");
+    }
+
+    public void ComboReset()
+    {
+        comboPossible = false;
+        comboStep = 0;
     }
 
     private void ActiveRealBow()
