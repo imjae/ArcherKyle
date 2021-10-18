@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isGround;
     // 활 에임 상태인지
     public bool isAim;
+    // 움직일 수 있는 상태인지
+    public bool isMovement;
 
     public float smoothness = 10f;
 
@@ -35,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         _collider = this.GetComponent<Collider>();
 
         isAim = false;
+        isMovement = true;
     }
 
     void Update()
@@ -78,11 +81,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
-
         // run = (Input.GetKey(KeyCode.LeftShift)) ? true : false;
 
-        InputMovement();
+        if (isMovement)
+        {
+            InputMovement();
+        }
     }
 
     void InputMovement()
@@ -132,5 +136,17 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.DrawRay(transform.position, Vector3.down * 0.05f, Color.red);
         isGround = Physics.Raycast(transform.position, Vector3.down, 0.1f);
+    }
+
+
+
+    public void PossibleMovement()
+    {
+        this.isMovement = true;
+    }
+
+    public void ImpossibleMovement()
+    {
+        this.isMovement = false;
     }
 }

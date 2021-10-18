@@ -13,6 +13,15 @@ public class PlayerAction : MonoBehaviour
         SWORD
     }
 
+    public enum SWORD_COMBO
+    {
+        COMBO1,
+        COMBO2,
+        COMBO3,
+        COMBOFINAL,
+        NONE
+    }
+
     // 무기 장착 여부
     private bool isEquipWeapon;
     // 무기 교체중 여부
@@ -23,22 +32,30 @@ public class PlayerAction : MonoBehaviour
     public Transform leftWristJoint01;
     public Transform rightWristJoint01;
 
+    // 실제 무기와 등에 매고 있는 무기
     public GameObject backBow;
     public GameObject realBow;
     public GameObject backSword;
     public GameObject realSword;
-
+    // 무기 Clone
     private GameObject cloneBackBow;
     private GameObject cloneRealBow;
     private GameObject cloneBackSword;
     private GameObject cloneRealSword;
-    private List<GameObject> equipWeaponList;
 
     // 활 당기기 시작 시간, 당기는 중간 시간, 끝 시간
     private float drawArrowStartTime;
     private float drawArrowTime;
     private float drawArrowEndTime;
 
+    // 칼 공격모션 체크(콤보 이어나가기 위한 코루틴)
+    private IEnumerator checkSwordCombo;
+    private float swordButtonUpTime;
+    private SWORD_COMBO currentSwordCombo;
+    private int currentCombo;
+    private bool isFirstCombo;
+
+    // 카메라와 플레이어 움직임에 관련된 스크립트에 접근하기위한 변수
     private CameraMovement cameraMovementScript;
     private PlayerMovement playerMovementScript;
 
@@ -56,7 +73,11 @@ public class PlayerAction : MonoBehaviour
         cloneRealBow = Instantiate(realBow, leftWristJoint01);
         cloneBackSword = Instantiate(backSword, hip);
         cloneRealSword = Instantiate(realSword, rightWristJoint01);
-        equipWeaponList = new List<GameObject> { cloneBackBow, cloneRealBow, cloneBackSword, cloneRealSword };
+
+        currentSwordCombo = PlayerAction.SWORD_COMBO.NONE;
+        swordButtonUpTime = 0f;
+        currentCombo = 0;
+        isFirstCombo = true;
 
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
@@ -108,6 +129,41 @@ public class PlayerAction : MonoBehaviour
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
                 // Debug.Log(drawArrowEndTime - drawArrowStartTime);
+            }
+        }
+
+        if (currentEquipWeapon.Equals(WEAPON.SWORD))
+        {
+            // 공격 버튼 클릭(마우스 왼쪽)
+            if (Input.GetButtonDown("Attack"))
+            {
+                if (GameManager.Instance.playeTime - swordButtonUpTime < 1f || currentCombo == 0)
+                {
+                    if (currentCombo == 0 && isFirstCombo)
+                    {
+                        isFirstCombo = false;
+                        _animator.SetTrigger("AttackSwordTrigger");
+                    }
+                    StartCoroutine(PlusCombo());
+
+
+                    if (currentCombo == 4)
+                    {
+                        currentCombo = 0;
+                    }
+                }
+                else
+                {
+                    isFirstCombo = true;
+                    currentCombo = 0;
+                    _animator.SetInteger("AttackSwordCombo", 0);
+                }
+            }
+
+            if (Input.GetButtonUp("Attack"))
+            {
+                swordButtonUpTime = GameManager.Instance.playeTime;
+
             }
         }
 
@@ -173,12 +229,33 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    private IEnumerator PlusCombo()
+    {
+        bool isFirst = true;
+        while (isFirst)
+        {
+            yield return new WaitForSeconds(1f);
+            if (isFirst)
+            {
+                isFirst = false;
+                Debug.Log("0.9초후 !");
+                this.currentCombo++;
+                _animator.SetInteger("AttackSwordCombo", currentCombo);
+            }
+
+        }
+        yield return null;
+    }
     private IEnumerator SwitchDelay()
     {
         isSwitching = true;
         yield return new WaitForSeconds(1f);
         isSwitching = false;
     }
+
+
+
+
 
     private void ActiveRealBow()
     {
