@@ -14,31 +14,63 @@ namespace PolygonArsenal
         [Range(0.01f, 10f)]
         public float pitchRandomMultiplier = 1f;
 
+        public bool isRecoil = false;
+
         // Use this for initialization
         void Start()
         {
             //Spawn the sound object
-            GameObject m_Sound = Instantiate(prefabSound, transform.position, Quaternion.identity);
-            AudioSource m_Source = m_Sound.GetComponent<AudioSource>();
+            // GameObject m_Sound = Instantiate(prefabSound, transform.position, Quaternion.identity);
+            // AudioSource m_Source = m_Sound.GetComponent<AudioSource>();
 
-            //Attach object to parent if true
-            if (soundPrefabIsChild)
-                m_Sound.transform.SetParent(transform);
+            // //Attach object to parent if true
+            // if (soundPrefabIsChild)
+            //     m_Sound.transform.SetParent(transform);
 
-            //Multiply pitch
-            if (pitchRandomMultiplier != 1)
+            // //Multiply pitch
+            // if (pitchRandomMultiplier != 1)
+            // {
+            //     if (Random.value < .5)
+            //         m_Source.pitch *= Random.Range(1 / pitchRandomMultiplier, 1);
+            //     else
+            //         m_Source.pitch *= Random.Range(1, pitchRandomMultiplier);
+            // }
+
+            // //Set lifespan if true
+            // if (destroyWhenDone)
+            // {
+            //     float life = m_Source.clip.length / m_Source.pitch;
+            //     Destroy(m_Sound, life);
+            // }
+        }
+
+        private void Update()
+        {
+            if (isRecoil)
             {
-                if (Random.value < .5)
-                    m_Source.pitch *= Random.Range(1 / pitchRandomMultiplier, 1);
-                else
-                    m_Source.pitch *= Random.Range(1, pitchRandomMultiplier);
-            }
+                //Spawn the sound object
+                GameObject m_Sound = Instantiate(prefabSound, transform.position, Quaternion.identity);
+                AudioSource m_Source = m_Sound.GetComponent<AudioSource>();
 
-            //Set lifespan if true
-            if (destroyWhenDone)
-            {
-                float life = m_Source.clip.length / m_Source.pitch;
-                Destroy(m_Sound, life);
+                //Attach object to parent if true
+                if (soundPrefabIsChild)
+                    m_Sound.transform.SetParent(transform);
+
+                //Multiply pitch
+                if (pitchRandomMultiplier != 1)
+                {
+                    if (Random.value < .5)
+                        m_Source.pitch *= Random.Range(1 / pitchRandomMultiplier, 1);
+                    else
+                        m_Source.pitch *= Random.Range(1, pitchRandomMultiplier);
+                }
+
+                //Set lifespan if true
+                if (destroyWhenDone)
+                {
+                    float life = m_Source.clip.length / m_Source.pitch;
+                    Destroy(m_Sound, life);
+                }
             }
         }
     }

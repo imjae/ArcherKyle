@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             rotX += -(Input.GetAxis("Mouse Y")) * 100f * Time.deltaTime;
             rotX = Mathf.Clamp(rotX, -23, 23);
 
-            Debug.Log(rotX);
+            // Debug.Log(rotX);
             // Quaternion rot = Quaternion.Euler(0, rotX, 0);
             // Debug.Log(rot);
             leftSholderJoint.localEulerAngles = new Vector3(0, rotX, 0);

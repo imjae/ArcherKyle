@@ -33,6 +33,12 @@ public class PlayerAction : MonoBehaviour
     private GameObject cloneRealBow;
     private GameObject cloneBackSword;
     private GameObject cloneRealSword;
+    // 화살 붙일 손가락
+    public Transform rightWristJoint;
+    // FIRE, ICE, PUPLE LIGHTNING 화살
+    public GameObject fireArrow;
+    // FIRE, ICE, PUPLE LIGHTNING CLONE 화살
+    private GameObject cloneFireArrow;
 
     // 활 당기기 시작 시간, 당기는 중간 시간, 끝 시간
     private float drawArrowStartTime;
@@ -111,6 +117,11 @@ public class PlayerAction : MonoBehaviour
                 _animator.SetBool("IsAimed", playerMovementScript.isAim);
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
+
+                Rigidbody rb = cloneFireArrow.GetComponent<Rigidbody>();
+                rb.useGravity = true;
+                rb.constraints = RigidbodyConstraints.None;
+                rb.AddForce(Vector3.forward * 1000f);
                 // Debug.Log(drawArrowEndTime - drawArrowStartTime);
             }
         }
@@ -245,5 +256,14 @@ public class PlayerAction : MonoBehaviour
     {
         cloneBackSword.SetActive(true);
         cloneRealSword.SetActive(false);
+    }
+
+    private void instantiateRedArrow()
+    {
+        this.cloneFireArrow = Instantiate(fireArrow);
+        this.cloneFireArrow.transform.SetParent(rightWristJoint);
+        this.cloneFireArrow.transform.localPosition = new Vector3(0.555f, -0.074f, -0.08f);
+        this.cloneFireArrow.transform.localRotation = Quaternion.Euler(new Vector3(6.052f, 90f, 0f));
+        this.cloneFireArrow.transform.localScale = new Vector3(1.1f, 1.1f, 1.7f);
     }
 }
