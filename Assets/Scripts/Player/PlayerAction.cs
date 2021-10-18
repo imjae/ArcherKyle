@@ -22,6 +22,8 @@ public class PlayerAction : MonoBehaviour
         NONE
     }
 
+    public List<bool> isAttackSwordComboList;
+
     // 무기 장착 여부
     private bool isEquipWeapon;
     // 무기 교체중 여부
@@ -53,7 +55,10 @@ public class PlayerAction : MonoBehaviour
     private float swordButtonUpTime;
     private SWORD_COMBO currentSwordCombo;
     private int currentCombo;
+    private int prevCombo;
     private bool isFirstCombo;
+
+    bool isCombo;
 
     // 카메라와 플레이어 움직임에 관련된 스크립트에 접근하기위한 변수
     private CameraMovement cameraMovementScript;
@@ -77,15 +82,22 @@ public class PlayerAction : MonoBehaviour
         currentSwordCombo = PlayerAction.SWORD_COMBO.NONE;
         swordButtonUpTime = 0f;
         currentCombo = 0;
+        prevCombo = 0;
         isFirstCombo = true;
+        isAttackSwordComboList = new List<bool>() { false, false, false, false };
 
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
+
+        StartCoroutine(SwordComboCoroutine());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButtonDown("Attack"))
+            isCombo = true;
+
         InputEquipWeapons();
         InputAttackWeapons();
     }
@@ -132,43 +144,41 @@ public class PlayerAction : MonoBehaviour
             }
         }
 
-        if (currentEquipWeapon.Equals(WEAPON.SWORD))
-        {
-            // 공격 버튼 클릭(마우스 왼쪽)
-            if (Input.GetButtonDown("Attack"))
-            {
-                if (GameManager.Instance.playeTime - swordButtonUpTime < 1f || currentCombo == 0)
-                {
-                    if (currentCombo == 0 && isFirstCombo)
-                    {
-                        isFirstCombo = false;
-                        _animator.SetTrigger("AttackSwordTrigger");
-                    }
-                    StartCoroutine(PlusCombo());
+        // if (currentEquipWeapon.Equals(WEAPON.SWORD))
+        // {
+        //     // 공격 버튼 클릭(마우스 왼쪽)
+        //     if (Input.GetButtonDown("Attack"))
+        //     {
+        //         if (GameManager.Instance.playeTime - swordButtonUpTime < 1f || currentCombo == 0)
+        //         {
+        //             if (currentCombo == 0 && isFirstCombo)
+        //             {
+        //                 isFirstCombo = false;
+        //                 _animator.SetTrigger("AttackSwordTrigger");
+        //             }
 
 
-                    if (currentCombo == 4)
-                    {
-                        currentCombo = 0;
-                    }
-                }
-                else
-                {
-                    isFirstCombo = true;
-                    currentCombo = 0;
-                    _animator.SetInteger("AttackSwordCombo", 0);
-                }
-            }
+        //             if (currentCombo == 4)
+        //             {
+        //                 currentCombo = 0;
+        //             }
+        //         }
+        //         else
+        //         {
+        //             isFirstCombo = true;
+        //             currentCombo = 0;
+        //             _animator.SetInteger("AttackSwordCombo", 0);
+        //         }
+        //     }
 
-            if (Input.GetButtonUp("Attack"))
-            {
-                swordButtonUpTime = GameManager.Instance.playeTime;
+        //     if (Input.GetButtonUp("Attack"))
+        //     {
+        //         swordButtonUpTime = GameManager.Instance.playeTime;
 
-            }
-        }
+        //     }
+        // }
 
     }
-
 
     private void InputEquipWeapons()
     {
@@ -229,23 +239,50 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
-    private IEnumerator PlusCombo()
+    private IEnumerator SwordComboCoroutine()
     {
-        bool isFirst = true;
-        while (isFirst)
-        {
-            yield return new WaitForSeconds(1f);
-            if (isFirst)
-            {
-                isFirst = false;
-                Debug.Log("0.9초후 !");
-                this.currentCombo++;
-                _animator.SetInteger("AttackSwordCombo", currentCombo);
-            }
 
+        while (true)
+        {
+            if (currentEquipWeapon.Equals(WEAPON.SWORD))
+            {
+
+                if (Input.GetButtonDown("Attack"))
+                {
+                    if (isCombo)
+                    {
+                        isCombo = false;
+                        prevCombo = this.currentCombo;
+                        if (this.currentCombo == 0)
+                            _animator.SetTrigger("AttackSwordTrigger");
+
+                        this.currentCombo++;
+
+                        if (this.currentCombo == 4)
+                        {
+                            this.currentCombo = 0;
+                            _animator.SetInteger("AttackSwordCombo", this.currentCombo);
+                        }
+                        else
+                        {
+                            _animator.SetInteger("AttackSwordCombo", this.currentCombo);
+                        }
+                        yield return new WaitForSeconds(.9f);
+
+                    }
+                    else
+                    {
+                        //초기화화
+                        this.currentCombo = 0;
+                        _animator.SetInteger("AttackSwordCombo", 4);
+                    }
+
+                }
+            }
+            yield return null;
         }
-        yield return null;
     }
+
     private IEnumerator SwitchDelay()
     {
         isSwitching = true;
@@ -253,9 +290,21 @@ public class PlayerAction : MonoBehaviour
         isSwitching = false;
     }
 
-
-
-
+    private int GetCurrentGetCombo()
+    {
+        for (int i = 0; i < isAttackSwordComboList.Count; i++)
+        {
+            if (isAttackSwordComboList[i])
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    private void SetSwordCombo(int combo)
+    {
+        _animator.SetInteger("AttackSwordCombo", combo);
+    }
 
     private void ActiveRealBow()
     {

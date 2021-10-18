@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isGround;
     // 활 에임 상태인지
     public bool isAim;
+    // 검 공격 상태인지
+    public bool isSword;
     // 움직일 수 있는 상태인지
     public bool isMovement;
 
@@ -38,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
         isAim = false;
         isMovement = true;
+        isSword = false;
     }
 
     void Update()
@@ -114,7 +117,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // finalSpeed가 에임상태이면 절반으로 줄어듬.
-        finalSpeed = (isAim) ? finalSpeed / 2 : finalSpeed;
+        if (isAim)
+            finalSpeed = finalSpeed / 2;
+        else if (isSword)
+            finalSpeed = finalSpeed / 4;
 
         _animator.SetFloat("MovementBlend", percent, 0.1f, Time.deltaTime);
 
@@ -140,13 +146,13 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    public void PossibleMovement()
+    public void SwordMovement()
     {
-        this.isMovement = true;
+        this.isSword = true;
     }
 
-    public void ImpossibleMovement()
+    public void NotSwordMovement()
     {
-        this.isMovement = false;
+        this.isSword = false;
     }
 }
