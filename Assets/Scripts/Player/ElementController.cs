@@ -15,17 +15,19 @@ public class ElementController : MonoBehaviour
 
     GameObject[] elementArr;
 
-    int childCount;
+    int count;
     int currentElementIndex;
+
+    public Transform elementPanel;
 
     // Start is called before the first frame update
     void Start()
     {
-        childCount = transform.childCount;
-        elementArr = new GameObject[childCount];
+        count = elementPanel.childCount;
+        elementArr = new GameObject[count];
 
-        for (int i = 0; i < childCount; i++)
-            elementArr[i] = transform.GetChild(i).gameObject;
+        for (int i = 0; i < count; i++)
+            elementArr[i] = elementPanel.GetChild(i).gameObject;
 
         currentElementIndex = 0;
         SwitchingElement(currentElementIndex);
@@ -56,7 +58,7 @@ public class ElementController : MonoBehaviour
 
     private void SwitchingElement(int index)
     {
-        for (int i = 0; i < childCount; i++)
+        for (int i = 0; i < count; i++)
         {
             if (i == index)
             {
@@ -66,10 +68,7 @@ public class ElementController : MonoBehaviour
             {
                 elementArr[i].SetActive(false);
             }
-
-
         }
-
     }
 }
 

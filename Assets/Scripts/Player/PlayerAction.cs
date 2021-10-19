@@ -44,6 +44,7 @@ public class PlayerAction : MonoBehaviour
     // 카메라와 플레이어 움직임에 관련된 스크립트에 접근하기위한 변수
     private CameraMovement cameraMovementScript;
     private PlayerMovement playerMovementScript;
+    private ElementController elementController;
 
     private Transform cameraTransform;
 
@@ -71,6 +72,7 @@ public class PlayerAction : MonoBehaviour
         cameraTransform = GameObject.Find("Camera").transform;
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
+        elementController = GetComponent<ElementController>();
     }
 
     // Update is called once per frame
