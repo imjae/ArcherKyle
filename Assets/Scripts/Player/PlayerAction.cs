@@ -58,12 +58,11 @@ public class PlayerAction : MonoBehaviour
         drawArrowEndTime = 0f;
         _animator = GetComponent<Animator>();
 
-        Debug.Log(hip.childCount);
-
         backBow = hip.Find("BackBow").gameObject;
         realBow = leftWristJoint.Find("RealBow").gameObject;
         backSword = hip.Find("BackSword").gameObject;
         realSword = rightWristJoint.Find("RealSword").gameObject;
+
 
         UnActiveBow();
         UnActiveSword();
@@ -240,23 +239,51 @@ public class PlayerAction : MonoBehaviour
 
     private void ActiveBow()
     {
-        backBow.SetActive(false);
-        realBow.SetActive(true);
+        Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
+        Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
+
+        realBow.transform.Find("ArrowMissileRed").GetComponent<ParticleSystem>().Play();
+        realBow.transform.Find("ArrowMissileRed").gameObject.SetActive(true);
+
+        backBowRenderer.enabled = false;
+        realBowRenderer.enabled = true;
     }
     private void UnActiveBow()
     {
-        backBow.SetActive(true);
-        realBow.SetActive(false);
+        Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
+        Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
+
+        realBow.transform.Find("ArrowMissileRed").GetComponent<ParticleSystem>().Stop();
+        realBow.transform.Find("ArrowMissileRed").gameObject.SetActive(false);
+
+        backBowRenderer.enabled = true;
+        realBowRenderer.enabled = false;
     }
     private void ActiveSword()
     {
-        backSword.SetActive(false);
-        realSword.SetActive(true);
+        Renderer backSwordRenderer = backSword.GetComponent<Renderer>();
+        Renderer realSwordRenderer = realSword.GetComponent<Renderer>();
+
+        realSword.transform.Find("FireEnchantment").GetComponent<ParticleSystem>().Play();
+        realSword.transform.Find("FireEnchantment").gameObject.SetActive(true);
+        realSword.transform.Find("SwordTrailFire").GetComponent<ParticleSystem>().Play();
+        realSword.transform.Find("SwordTrailFire").gameObject.SetActive(true);
+
+        backSwordRenderer.enabled = false;
+        realSwordRenderer.enabled = true;
     }
     private void UnActiveSword()
     {
-        backSword.SetActive(true);
-        realSword.SetActive(false);
+        Renderer backSwordRenderer = backSword.GetComponent<Renderer>();
+        Renderer realSwordRenderer = realSword.GetComponent<Renderer>();
+
+        realSword.transform.Find("FireEnchantment").GetComponent<ParticleSystem>().Stop();
+        realSword.transform.Find("FireEnchantment").gameObject.SetActive(false);
+        realSword.transform.Find("SwordTrailFire").GetComponent<ParticleSystem>().Stop();
+        realSword.transform.Find("SwordTrailFire").gameObject.SetActive(false);
+
+        backSwordRenderer.enabled = true;
+        realSwordRenderer.enabled = false;
     }
 
     private void instantiateRedArrow()
