@@ -10,6 +10,7 @@ public class CameraMovement : MonoBehaviour
         THIRD,
         NONE
     }
+
     // 카메라가 따라가야할 오브젝트의 위치
     public Transform objectToFollow;
     // 현제 카메라 시점

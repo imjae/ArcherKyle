@@ -29,11 +29,8 @@ public class PlayerAction : MonoBehaviour
     private GameObject realBow;
     private GameObject backSword;
     private GameObject realSword;
-
-    // FIRE, ICE, PUPLE LIGHTNING 화살
-    public GameObject fireArrow;
-    // FIRE, ICE, PUPLE LIGHTNING CLONE 화살
-    private GameObject cloneFireArrow;
+    // Fire Arrow
+    private GameObject fireArrow;
 
     // 활 당기기 시작 시간, 당기는 중간 시간, 끝 시간
     private float drawArrowStartTime;
@@ -47,6 +44,8 @@ public class PlayerAction : MonoBehaviour
     // 카메라와 플레이어 움직임에 관련된 스크립트에 접근하기위한 변수
     private CameraMovement cameraMovementScript;
     private PlayerMovement playerMovementScript;
+
+    private Transform cameraTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -63,10 +62,13 @@ public class PlayerAction : MonoBehaviour
         backSword = hip.Find("BackSword").gameObject;
         realSword = rightWristJoint.Find("RealSword").gameObject;
 
+        fireArrow = realBow.transform.GetChild(2).gameObject;
 
         UnActiveBow();
         UnActiveSword();
+        UnActiveFireArrow();
 
+        cameraTransform = GameObject.Find("Camera").transform;
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
     }
@@ -117,12 +119,18 @@ public class PlayerAction : MonoBehaviour
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
 
-                // Rigidbody rb = cloneFireArrow.GetComponent<Rigidbody>();
-                // rb.useGravity = true;
-                // rb.constraints = RigidbodyConstraints.None;
+                // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
 
-                // rb.velocity = transform.TransformPoint(rb.transform.forward) * 1f;
-                // Debug.Log(drawArrowEndTime - drawArrowStartTime);
+                var clone = Instantiate(fireArrow, fireArrow.transform.position, Quaternion.identity);
+                clone.transform.rotation = cameraTransform.rotation;
+
+                Debug.DrawRay(cameraTransform.position, cameraTransform.position.normalized * 1000f, Color.red);
+
+                var localScale = clone.transform.localScale;
+                clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
+
+                // 화살 UnAtive하고 클론된 화살 발싸
+                UnActiveBow();
             }
         }
 
@@ -237,13 +245,24 @@ public class PlayerAction : MonoBehaviour
         comboStep = 0;
     }
 
+    private void ActiveFireArrow()
+    {
+        fireArrow.GetComponent<ParticleSystem>().Play();
+        fireArrow.SetActive(true);
+    }
+
+    private void UnActiveFireArrow()
+    {
+        fireArrow.GetComponent<ParticleSystem>().Stop();
+        fireArrow.SetActive(false);
+    }
+
     private void ActiveBow()
     {
         Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
         Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
 
-        realBow.transform.Find("ArrowMissileRed").GetComponent<ParticleSystem>().Play();
-        realBow.transform.Find("ArrowMissileRed").gameObject.SetActive(true);
+        // ActiveFireArrow();
 
         backBowRenderer.enabled = false;
         realBowRenderer.enabled = true;
@@ -253,8 +272,7 @@ public class PlayerAction : MonoBehaviour
         Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
         Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
 
-        realBow.transform.Find("ArrowMissileRed").GetComponent<ParticleSystem>().Stop();
-        realBow.transform.Find("ArrowMissileRed").gameObject.SetActive(false);
+        UnActiveFireArrow();
 
         backBowRenderer.enabled = true;
         realBowRenderer.enabled = false;

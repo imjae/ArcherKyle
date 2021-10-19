@@ -4,29 +4,46 @@ using UnityEngine;
 
 public class FireArrowScrip : MonoBehaviour
 {
-    Vector3 localDirection;
-    Vector3 worldDirection;
+    public Transform horizontalDirection;
+    public Transform verticalDirection;
+
+    Rigidbody rigid;
+
+    Vector3 direction;
     // Start is called before the first frame update
     void Start()
     {
+        rigid = GetComponent<Rigidbody>();
 
+        // direction = Vector3.Scale(transform.position, new Vector3(1, 0, 1));
+
+        // Debug.Log($"{transform.position} / {transform.TransformPoint(transform.position)}");
+
+        // StartCoroutine(DestroyArrow());
     }
 
     // Update is called once per frame
     void Update()
     {
-        // localDirection = transform.localPosition.normalized;
-        // worldDirection = transform.TransformPoint(localDirection);
-        // transform.forward = GetComponent<Rigidbody>().velocity;
+        rigid.velocity = transform.forward * 50f;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.transform.name);
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     Debug.Log($"트리거!!! {other.transform.name}");
+    // }
 
-    private void OnCollisionEnter(Collision other)
+    // private void OnCollisionEnter(Collision other)
+    // {
+    //     Debug.Log($"콜리전 !!! !{other.transform.name}");
+    // }
+
+    IEnumerator DestroyArrow()
     {
-        Debug.Log(other.transform.name);
+        while (true)
+        {
+            yield return new WaitForSeconds(3f);
+            Destroy(this);
+        }
     }
 }

@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &652270502650601530
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7333828084374551553}
-  - component: {fileID: 7087580355722399081}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7333828084374551553
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652270502650601530}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5067612877755713825}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7087580355722399081
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652270502650601530}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0.7}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3262800513393256948
 GameObject:
   m_ObjectHideFlags: 0
@@ -9971,6 +9927,7 @@ GameObject:
   - component: {fileID: 5176411743388018245}
   - component: {fileID: 6083539138386785860}
   - component: {fileID: 7216666208488826887}
+  - component: {fileID: 5583396791252733801}
   m_Layer: 0
   m_Name: ArrowMissileRed
   m_TagString: Untagged
@@ -9993,7 +9950,6 @@ Transform:
   - {fileID: 5065618534212104731}
   - {fileID: 3468397672718076621}
   - {fileID: 1986547645455442877}
-  - {fileID: 7333828084374551553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14879,7 +14835,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 118
   m_CollisionDetection: 2
 --- !u!114 &7216666208488826887
 MonoBehaviour:
@@ -14893,6 +14849,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f676f3f830f044db486e485b8bd88f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &5583396791252733801
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064179717517247481}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.15, z: 0.65}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7732663518231742025
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -34648,7 +34648,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.55
-    functionName: instantiateRedArrow
+    functionName: ActiveFireArrow
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
