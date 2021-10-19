@@ -102,11 +102,13 @@ public class CameraMovement : MonoBehaviour
         {
             minDistance = 0f;
             maxDistance = 0f;
+            transform.GetChild(0).localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
         else if (curView.Equals(VIEW.THIRD))
         {
             minDistance = 1f;
             maxDistance = 3f;
+            transform.GetChild(0).localRotation = Quaternion.Euler(15.75f, 0f, 0f);
         }
     }
 }

@@ -48,20 +48,19 @@ public class PlayerMovement : MonoBehaviour
         // Alt로 둘러보기 활성/비활성화
         toggleCameraRotation = (Input.GetKey(KeyCode.LeftAlt)) ? true : false;
         IsGround();
+
         if (isAim)
         {
-            rotX += -(Input.GetAxis("Mouse Y")) * 100f * Time.deltaTime;
-            rotX = Mathf.Clamp(rotX, -23, 23);
+            Vector3 playerRotate = Vector3.Scale(_camera.transform.forward, new Vector3(0, 1, 0));
+            // Debug.Log($"{_camera.transform.forward} / {new Vector3(0, 1, 0)} / { Vector3.Scale(_camera.transform.forward, new Vector3(0, 1, 0))}");
+            //leftSholderJoint.rotation = Quaternion.Euler(Quaternion.LookRotation(_camera.transform.forward).eulerAngles);
+            // Debug.Log(playerRotate);
+            // Debug.Log(Quaternion.LookRotation(_camera.transform.forward));
+            // leftSholderJoint.rotation = Quaternion.Slerp(leftSholderJoint.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
 
-            // Debug.Log(rotX);
-            // Quaternion rot = Quaternion.Euler(0, rotX, 0);
-            // Debug.Log(rot);
-            leftSholderJoint.localEulerAngles = new Vector3(0, rotX, 0);
-
-            // Vector3 armRotate = Vector3.Scale(_camera.transform.forward, new Vector3(1, 0, 1));
-            // // leftSholderJoint.localRotation = Quaternion.Slerp(leftSholderJoint.localRotation, Quaternion.LookRotation(armRotate), Time.deltaTime * smoothness);
-            // Debug.Log($"{leftSholderJoint.localRotation} / {Quaternion.LookRotation(armRotate)}");
-            // leftSholderJoint.localRotation = Quaternion.Euler(_camera.transform.);
+            // float clampEulrAngles = Mathf.Clamp(_camera.transform.parent.rotation.eulerAngles.x, -30, 30);
+            leftSholderJoint.localEulerAngles = new Vector3(0, _camera.transform.parent.rotation.eulerAngles.x * 1f, 0);
+            // leftSholderJoint.Rotate(Quaternion.LookRotation(_camera.transform.forward).eulerAngles);
         }
     }
 
