@@ -19,22 +19,17 @@ public class PlayerAction : MonoBehaviour
     private bool isSwitching;
     private WEAPON currentEquipWeapon;
 
+    // 무기를 찾을 무기의 Parent 객체
     public Transform hip;
-    public Transform leftWristJoint01;
-    public Transform rightWristJoint01;
+    public Transform leftWristJoint;
+    public Transform rightWristJoint;
 
     // 실제 무기와 등에 매고 있는 무기
-    public GameObject backBow;
-    public GameObject realBow;
-    public GameObject backSword;
-    public GameObject realSword;
-    // 무기 Clone
-    private GameObject cloneBackBow;
-    private GameObject cloneRealBow;
-    private GameObject cloneBackSword;
-    private GameObject cloneRealSword;
-    // 화살 붙일 손가락
-    public Transform rightWristJoint;
+    private GameObject backBow;
+    private GameObject realBow;
+    private GameObject backSword;
+    private GameObject realSword;
+
     // FIRE, ICE, PUPLE LIGHTNING 화살
     public GameObject fireArrow;
     // FIRE, ICE, PUPLE LIGHTNING CLONE 화살
@@ -63,10 +58,15 @@ public class PlayerAction : MonoBehaviour
         drawArrowEndTime = 0f;
         _animator = GetComponent<Animator>();
 
-        cloneBackBow = Instantiate(backBow, hip);
-        cloneRealBow = Instantiate(realBow, leftWristJoint01);
-        cloneBackSword = Instantiate(backSword, hip);
-        cloneRealSword = Instantiate(realSword, rightWristJoint01);
+        Debug.Log(hip.childCount);
+
+        backBow = hip.Find("BackBow").gameObject;
+        realBow = leftWristJoint.Find("RealBow").gameObject;
+        backSword = hip.Find("BackSword").gameObject;
+        realSword = rightWristJoint.Find("RealSword").gameObject;
+
+        UnActiveBow();
+        UnActiveSword();
 
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
@@ -118,10 +118,11 @@ public class PlayerAction : MonoBehaviour
                 drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
 
-                Rigidbody rb = cloneFireArrow.GetComponent<Rigidbody>();
-                rb.useGravity = true;
-                rb.constraints = RigidbodyConstraints.None;
-                rb.AddForce(Vector3.forward * 1000f);
+                // Rigidbody rb = cloneFireArrow.GetComponent<Rigidbody>();
+                // rb.useGravity = true;
+                // rb.constraints = RigidbodyConstraints.None;
+
+                // rb.velocity = transform.TransformPoint(rb.transform.forward) * 1f;
                 // Debug.Log(drawArrowEndTime - drawArrowStartTime);
             }
         }
@@ -237,33 +238,35 @@ public class PlayerAction : MonoBehaviour
         comboStep = 0;
     }
 
-    private void ActiveRealBow()
+    private void ActiveBow()
     {
-        cloneBackBow.SetActive(false);
-        cloneRealBow.SetActive(true);
+        backBow.SetActive(false);
+        realBow.SetActive(true);
     }
-    private void UnActiveRealBow()
+    private void UnActiveBow()
     {
-        cloneBackBow.SetActive(true);
-        cloneRealBow.SetActive(false);
+        backBow.SetActive(true);
+        realBow.SetActive(false);
     }
-    private void ActiveRealSword()
+    private void ActiveSword()
     {
-        cloneBackSword.SetActive(false);
-        cloneRealSword.SetActive(true);
+        backSword.SetActive(false);
+        realSword.SetActive(true);
     }
-    private void UnActiveRealSword()
+    private void UnActiveSword()
     {
-        cloneBackSword.SetActive(true);
-        cloneRealSword.SetActive(false);
+        backSword.SetActive(true);
+        realSword.SetActive(false);
     }
 
     private void instantiateRedArrow()
     {
-        this.cloneFireArrow = Instantiate(fireArrow);
-        this.cloneFireArrow.transform.SetParent(rightWristJoint);
-        this.cloneFireArrow.transform.localPosition = new Vector3(0.555f, -0.074f, -0.08f);
-        this.cloneFireArrow.transform.localRotation = Quaternion.Euler(new Vector3(6.052f, 90f, 0f));
-        this.cloneFireArrow.transform.localScale = new Vector3(1.1f, 1.1f, 1.7f);
+        // this.cloneFireArrow = Instantiate(fireArrow);
+        // this.cloneFireArrow.transform.SetParent(rightWristJoint);
+        // this.cloneFireArrow.transform.localPosition = new Vector3(0.555f, -0.074f, -0.08f);
+        // this.cloneFireArrow.transform.localRotation = Quaternion.Euler(new Vector3(6.052f, 90f, 0f));
+        // this.cloneFireArrow.transform.localScale = new Vector3(1.1f, 1.1f, 1.7f);
     }
+
+
 }
