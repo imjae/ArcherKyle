@@ -45,11 +45,11 @@ public class CommandKeyManager : MonoBehaviour
         // 특정 키들이 눌릴때 시간 간격을 셋팅해 준다.
         SetKeyDownIntervalTime();
 
-        foreach (var dic in commandDictionary)
-        {
-            // dic.Key 커맨드 큐가 할당된다.
-            // dic.Value() 가 해당 커맨드 큐가 일치하면 동작할 함수이다.
-        }
+        // foreach (var dic in commandDictionary)
+        // {
+        //     // dic.Key 커맨드 큐가 할당된다.
+        //     // dic.Value() 가 해당 커맨드 큐가 일치하면 동작할 함수이다.
+        // }
     }
 
     void FixedUpdate()

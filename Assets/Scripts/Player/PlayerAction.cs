@@ -284,10 +284,7 @@ public class PlayerAction : MonoBehaviour
         Renderer backSwordRenderer = backSword.GetComponent<Renderer>();
         Renderer realSwordRenderer = realSword.GetComponent<Renderer>();
 
-        realSword.transform.Find("FireEnchantment").GetComponent<ParticleSystem>().Play();
-        realSword.transform.Find("FireEnchantment").gameObject.SetActive(true);
-        realSword.transform.Find("SwordTrailFire").GetComponent<ParticleSystem>().Play();
-        realSword.transform.Find("SwordTrailFire").gameObject.SetActive(true);
+        ActiveSwordFireParticle();
 
         backSwordRenderer.enabled = false;
         realSwordRenderer.enabled = true;
@@ -297,23 +294,29 @@ public class PlayerAction : MonoBehaviour
         Renderer backSwordRenderer = backSword.GetComponent<Renderer>();
         Renderer realSwordRenderer = realSword.GetComponent<Renderer>();
 
-        realSword.transform.Find("FireEnchantment").GetComponent<ParticleSystem>().Stop();
-        realSword.transform.Find("FireEnchantment").gameObject.SetActive(false);
-        realSword.transform.Find("SwordTrailFire").GetComponent<ParticleSystem>().Stop();
-        realSword.transform.Find("SwordTrailFire").gameObject.SetActive(false);
+        UnActiveSwordFireParticle();
 
         backSwordRenderer.enabled = true;
         realSwordRenderer.enabled = false;
     }
 
-    private void instantiateRedArrow()
+    private void ActiveSwordFireParticle()
     {
-        // this.cloneFireArrow = Instantiate(fireArrow);
-        // this.cloneFireArrow.transform.SetParent(rightWristJoint);
-        // this.cloneFireArrow.transform.localPosition = new Vector3(0.555f, -0.074f, -0.08f);
-        // this.cloneFireArrow.transform.localRotation = Quaternion.Euler(new Vector3(6.052f, 90f, 0f));
-        // this.cloneFireArrow.transform.localScale = new Vector3(1.1f, 1.1f, 1.7f);
+        Transform fireParticle = realSword.transform.Find("FireParticle");
+        for (int i = 0; i < fireParticle.childCount; i++)
+        {
+            fireParticle.GetChild(i).GetComponent<ParticleSystem>().Play();
+            fireParticle.GetChild(i).gameObject.SetActive(true);
+        }
     }
 
-
+    private void UnActiveSwordFireParticle()
+    {
+        Transform fireParticle = realSword.transform.Find("FireParticle");
+        for (int i = 0; i < fireParticle.childCount; i++)
+        {
+            fireParticle.GetChild(i).GetComponent<ParticleSystem>().Stop();
+            fireParticle.GetChild(i).gameObject.SetActive(false);
+        }
+    }
 }
