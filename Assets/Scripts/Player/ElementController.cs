@@ -18,7 +18,7 @@ public class ElementController : MonoBehaviour
     int count;
     int currentElementIndex;
 
-    public Transform elementPanel;
+    public RectTransform elementPanel;
 
     private PlayerAction playActionScript;
 
@@ -60,7 +60,6 @@ public class ElementController : MonoBehaviour
             SwitchingElement(currentElementIndex);
             currentElement = (ELEMENT)currentElementIndex;
 
-            Debug.Log(currentElement);
             if (playActionScript.currentEquipWeapon.Equals(PlayerAction.WEAPON.SWORD))
                 playActionScript.ActiveSwordEffect();
         }

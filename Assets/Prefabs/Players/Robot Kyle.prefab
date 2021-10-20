@@ -819,6 +819,19 @@ Transform:
   m_Father: {fileID: 455112966936753293}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 2.1450047, y: -2.36586, z: 48.228523}
+--- !u!65 &325403415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515555150692260124}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.15, z: 0.65}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &325403408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1675,6 +1688,19 @@ Transform:
   m_Father: {fileID: 1193553929158024335}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -1.263, y: 0, z: 62.175}
+--- !u!65 &170762639
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7980059542071035847}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.15, z: 0.65}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &170762632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2089,7 +2115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentElement: 0
-  elementPanel: {fileID: 0}
+  elementPanel: {fileID: 3747558173210016177, guid: 013531457fa1ae146b009c35d8b5f68b, type: 3}
 --- !u!1001 &151099823
 PrefabInstance:
   m_ObjectHideFlags: 0
