@@ -30,11 +30,6 @@ public class PlayerAction : MonoBehaviour
     private GameObject backSword;
     private GameObject realSword;
 
-    // 활 당기기 시작 시간, 당기는 중간 시간, 끝 시간
-    private float drawArrowStartTime;
-    private float drawArrowTime;
-    private float drawArrowEndTime;
-
     // 칼공격 콤보
     private bool comboPossible;
     int comboStep;
@@ -55,8 +50,6 @@ public class PlayerAction : MonoBehaviour
         // UnActiveRealBow();
         isEquipWeapon = false;
         isSwitching = false;
-        drawArrowStartTime = 0f;
-        drawArrowEndTime = 0f;
         _animator = GetComponent<Animator>();
 
         backBow = hip.Find("BackBow").gameObject;
@@ -107,15 +100,11 @@ public class PlayerAction : MonoBehaviour
                 ActiveAim();
                 aimAnimator.SetTrigger("UnScaleAim");
 
-
-                drawArrowTime = 0f;
-                drawArrowStartTime = GameManager.Instance.playeTime;
                 _animator.SetTrigger("DrawArrowTrigger");
             }
 
             if (Input.GetButton("Attack"))
             {
-                drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 // _animator.SetTrigger("AimOverdrawTrigger");
             }
 
@@ -127,21 +116,20 @@ public class PlayerAction : MonoBehaviour
                 playerMovementScript.isAim = false;
 
                 _animator.SetBool("IsAimed", playerMovementScript.isAim);
-                drawArrowTime = GameManager.Instance.playeTime - drawArrowStartTime;
                 _animator.SetTrigger("AimRecoilTrigger");
 
                 // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
 
-                var clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, Quaternion.identity);
-                clone.transform.rotation = cameraTransform.rotation;
+                GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
 
-                var localScale = clone.transform.localScale;
+                Vector3 localScale = clone.transform.localScale;
                 clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
 
                 // 화살 UnAtive하고 클론된 화살 발싸
                 UnActiveArrow();
                 // Aim 제거
                 UnActiveAim();
+                UnActiveBowEffect();
             }
         }
 
@@ -445,5 +433,69 @@ public class PlayerAction : MonoBehaviour
     private void UnActiveAim()
     {
         aim.SetActive(false);
+    }
+
+    private void ActiveBowEffect()
+    {
+        var bowEffect = realBow.transform.Find("Effect");
+
+        for (int i = 0; i < bowEffect.childCount; i++)
+        {
+            var effect = bowEffect.GetChild(i);
+
+            if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
+            {
+                if (i == (int)ElementController.ELEMENT.FIRE)
+                {
+                    effect.gameObject.SetActive(true);
+                    effect.gameObject.GetComponent<ParticleSystem>().Play();
+                }
+                else
+                {
+                    effect.gameObject.SetActive(false);
+                    effect.gameObject.GetComponent<ParticleSystem>().Stop();
+                }
+            }
+            else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+            {
+                if (i == (int)ElementController.ELEMENT.LIGHTNING)
+                {
+                    effect.gameObject.SetActive(true);
+                    effect.gameObject.GetComponent<ParticleSystem>().Play();
+                }
+                else
+                {
+                    effect.gameObject.SetActive(false);
+                    effect.gameObject.GetComponent<ParticleSystem>().Stop();
+                }
+            }
+            else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
+            {
+                if (i == (int)ElementController.ELEMENT.ICE)
+                {
+                    effect.gameObject.SetActive(true);
+                    effect.gameObject.GetComponent<ParticleSystem>().Play();
+                }
+                else
+                {
+                    effect.gameObject.SetActive(false);
+                    effect.gameObject.GetComponent<ParticleSystem>().Stop();
+                }
+            }
+
+        }
+    }
+
+    private void UnActiveBowEffect()
+    {
+        var bowEffect = realBow.transform.Find("Effect");
+
+        for (int i = 0; i < bowEffect.childCount; i++)
+        {
+            var effect = bowEffect.GetChild(i);
+
+            effect.gameObject.SetActive(false);
+            effect.gameObject.GetComponent<ParticleSystem>().Stop();
+        }
     }
 }

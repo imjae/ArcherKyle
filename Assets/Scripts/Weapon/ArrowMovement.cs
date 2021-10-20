@@ -12,11 +12,10 @@ public class ArrowMovement : MonoBehaviour
     Rigidbody rigid;
 
     Vector3 direction;
-    // Start is called before the first frame update
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-
         // direction = Vector3.Scale(transform.position, new Vector3(1, 0, 1));
 
         // Debug.Log($"{transform.position} / {transform.TransformPoint(transform.position)}");
@@ -24,10 +23,11 @@ public class ArrowMovement : MonoBehaviour
         // StartCoroutine(DestroyArrow());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        rigid.velocity = transform.forward * 50f;
+        // (Clone)으로 복제완 객체만 velocity준다 (파티클이 난리나서)
+        if (name.Contains("Clone"))
+            rigid.velocity = transform.forward * 50f;
     }
 
     // private void OnTriggerEnter(Collider other)
