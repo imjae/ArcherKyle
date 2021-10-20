@@ -4895,13 +4895,14 @@ GameObject:
   - component: {fileID: 1247910795054282837}
   - component: {fileID: 1249377625236115099}
   - component: {fileID: 1298947124332614913}
+  - component: {fileID: 3379484234613558490}
   m_Layer: 0
   m_Name: ArrowMissileBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1406039634554845797
 Transform:
   m_ObjectHideFlags: 0
@@ -9788,6 +9789,20 @@ MonoBehaviour:
   soundPrefabIsChild: 0
   pitchRandomMultiplier: 1.1
   isRecoil: 0
+--- !u!114 &3379484234613558490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411616894796656829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f676f3f830f044db486e485b8bd88f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalDirection: {fileID: 0}
+  verticalDirection: {fileID: 0}
 --- !u!1 &1411751043350593991
 GameObject:
   m_ObjectHideFlags: 0
