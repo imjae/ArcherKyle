@@ -20,6 +20,8 @@ public class ElementController : MonoBehaviour
 
     public Transform elementPanel;
 
+    private PlayerAction playActionScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +35,7 @@ public class ElementController : MonoBehaviour
         SwitchingElement(currentElementIndex);
         currentElement = (ELEMENT)currentElementIndex;
 
+        playActionScript = GetComponent<PlayerAction>();
     }
 
     private void Update()
@@ -44,6 +47,10 @@ public class ElementController : MonoBehaviour
                 currentElementIndex = elementArr.Length - 1;
             SwitchingElement(currentElementIndex);
             currentElement = (ELEMENT)currentElementIndex;
+
+
+            if (playActionScript.currentEquipWeapon.Equals(PlayerAction.WEAPON.SWORD))
+                playActionScript.ActiveSwordEffect();
         }
         else if (Input.GetButtonDown("nextElement"))
         {
@@ -53,6 +60,9 @@ public class ElementController : MonoBehaviour
                 currentElementIndex = 0;
             SwitchingElement(currentElementIndex);
             currentElement = (ELEMENT)currentElementIndex;
+
+            if (playActionScript.currentEquipWeapon.Equals(PlayerAction.WEAPON.SWORD))
+                playActionScript.ActiveSwordEffect();
         }
     }
 

@@ -17,7 +17,7 @@ public class PlayerAction : MonoBehaviour
     private bool isEquipWeapon;
     // 무기 교체중 여부
     private bool isSwitching;
-    private WEAPON currentEquipWeapon;
+    public WEAPON currentEquipWeapon;
 
     // 무기를 찾을 무기의 Parent 객체
     public Transform hip;
@@ -65,14 +65,14 @@ public class PlayerAction : MonoBehaviour
 
         fireArrow = realBow.transform.GetChild(2).gameObject;
 
-        UnActiveBow();
-        UnActiveSword();
-        UnActiveFireArrow();
-
         cameraTransform = GameObject.Find("Camera").transform;
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
         elementController = GetComponent<ElementController>();
+
+        UnActiveBow();
+        UnActiveSword();
+        UnActiveFireArrow();
     }
 
     // Update is called once per frame
@@ -279,44 +279,106 @@ public class PlayerAction : MonoBehaviour
         backBowRenderer.enabled = true;
         realBowRenderer.enabled = false;
     }
+
+    // RealSword를 보이게 하는 함수 (무기를 들었을 때)
     private void ActiveSword()
     {
         Renderer backSwordRenderer = backSword.GetComponent<Renderer>();
         Renderer realSwordRenderer = realSword.GetComponent<Renderer>();
 
-        ActiveSwordFireParticle();
-
         backSwordRenderer.enabled = false;
         realSwordRenderer.enabled = true;
+
+        ActiveSwordEffect();
     }
+    // RealSword를 감추는 함수 (무기를 해제 했을 때)
     private void UnActiveSword()
     {
         Renderer backSwordRenderer = backSword.GetComponent<Renderer>();
         Renderer realSwordRenderer = realSword.GetComponent<Renderer>();
 
-        UnActiveSwordFireParticle();
-
         backSwordRenderer.enabled = true;
         realSwordRenderer.enabled = false;
+
+        UnActiveSwordEffect();
     }
 
-    private void ActiveSwordFireParticle()
+    // 실제로 선택된 원소의 이펙트를 켜고, 나머지는 끄는 함수
+    public void ActiveSwordEffect()
     {
-        Transform fireParticle = realSword.transform.Find("FireParticle");
-        for (int i = 0; i < fireParticle.childCount; i++)
+        Transform realSwordTransform = realSword.transform;
+        string element = GetCurrentElementName();
+        for (int i = 0; i < realSwordTransform.childCount; i++)
         {
-            fireParticle.GetChild(i).GetComponent<ParticleSystem>().Play();
-            fireParticle.GetChild(i).gameObject.SetActive(true);
+            // 선택된 원소와 이름이 같은 오브젝트의 파티클을 켜고, 나머지는 끈다.
+            string name = realSwordTransform.GetChild(i).gameObject.name;
+            if (name.Equals(element))
+                ActiveSwordParticle(name);
+            else
+                UnActiveSwordParticle(name);
         }
     }
 
-    private void UnActiveSwordFireParticle()
+    // 실제로 선택된 원소의 이펙트 모두 종료
+    public void UnActiveSwordEffect()
     {
-        Transform fireParticle = realSword.transform.Find("FireParticle");
-        for (int i = 0; i < fireParticle.childCount; i++)
+        Transform realSwordTransform = realSword.transform;
+        string element = GetCurrentElementName();
+        for (int i = 0; i < realSwordTransform.childCount; i++)
         {
-            fireParticle.GetChild(i).GetComponent<ParticleSystem>().Stop();
-            fireParticle.GetChild(i).gameObject.SetActive(false);
+            // 선택된 원소와 이름이 같은 오브젝트의 파티클을 켜고, 나머지는 끈다.
+            string name = realSwordTransform.GetChild(i).gameObject.name;
+
+            UnActiveSwordParticle(name);
         }
+    }
+
+    private void ActiveSwordParticle(string particleName)
+    {
+        Transform particle = realSword.transform.Find(particleName);
+        particle.gameObject.SetActive(true);
+        for (int i = 0; i < particle.childCount; i++)
+        {
+            particle.GetChild(i).gameObject.SetActive(true);
+            if (i == particle.childCount - 1)
+                particle.GetChild(i).GetComponent<ParticleSystem>().Stop();
+            else
+                particle.GetChild(i).GetComponent<ParticleSystem>().Play();
+        }
+    }
+
+    public void ActiveSwordFinalAttackEffect()
+    {
+        string name = GetCurrentElementName();
+        Transform particle = realSword.transform.Find(name);
+
+        // 마지막 자식위치에 있는 이펙트 Play 시켜준다.(위치 지켜야함)
+        particle.GetChild(particle.childCount - 1).gameObject.SetActive(true);
+        particle.GetChild(particle.childCount - 1).GetComponent<ParticleSystem>().Play();
+    }
+
+    private void UnActiveSwordParticle(string particleName)
+    {
+        Transform particle = realSword.transform.Find(particleName);
+        particle.gameObject.SetActive(false);
+        for (int i = 0; i < particle.childCount; i++)
+        {
+            particle.GetChild(i).gameObject.SetActive(false);
+            particle.GetChild(i).GetComponent<ParticleSystem>().Stop();
+        }
+    }
+
+    // 현재 선택된 원소 이름 반환
+    private string GetCurrentElementName()
+    {
+        string result = "";
+        if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
+            result = "FireParticle";
+        else if (elementController.currentElement.Equals(ElementController.ELEMENT.ELECTRIC))
+            result = "ElectricParticle";
+        else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
+            result = "IceParticle";
+
+        return result;
     }
 }
