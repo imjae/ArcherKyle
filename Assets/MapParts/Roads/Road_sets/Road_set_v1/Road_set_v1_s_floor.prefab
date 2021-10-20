@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 64000013561810672}
   m_Layer: 0
   m_Name: Road_set_v1_s_floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4000013617410114
 Transform:

@@ -24,22 +24,25 @@ public class SwordFinalAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Vector3 createPosition = transform.position;
+        if (other.CompareTag("Ground"))
+        {
+            Vector3 createPosition = transform.position;
 
-        if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
-            createEffect = effect[0];
-        else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
-            createEffect = effect[1];
-        else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
-            createEffect = effect[2];
+            if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
+                createEffect = effect[0];
+            else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+                createEffect = effect[1];
+            else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
+                createEffect = effect[2];
 
 
-        // x축으로 -90 회전
-        // y축 0
-        Instantiate(createEffect, createPosition, Quaternion.Euler(-90f, direction.rotation.eulerAngles.y - 90, 0f), other.transform);
-        // Debug.Log("트리거" + other.gameObject.name);
-        // if (other.CompareTag("Ground"))
-        //     Debug.Log(other.gameObject.name);
+            // x축으로 -90 회전
+            // y축 0
+            Instantiate(createEffect, createPosition, Quaternion.Euler(-90f, direction.rotation.eulerAngles.y - 90, 0f), other.transform);
+            // Debug.Log("트리거" + other.gameObject.name);
+            // if (other.CompareTag("Ground"))
+            //     Debug.Log(other.gameObject.name);
+        }
     }
 
     IEnumerator DestroyEffect()

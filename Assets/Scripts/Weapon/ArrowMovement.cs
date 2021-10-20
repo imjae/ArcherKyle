@@ -11,8 +11,6 @@ public class ArrowMovement : MonoBehaviour
 
     Rigidbody rigid;
 
-    Collider collider;
-
     Vector3 direction;
 
 
@@ -24,7 +22,6 @@ public class ArrowMovement : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         isMovement = true;
-        collider = GetComponent<Collider>();
 
     }
 
