@@ -29,8 +29,6 @@ public class PlayerAction : MonoBehaviour
     private GameObject realBow;
     private GameObject backSword;
     private GameObject realSword;
-    // Fire Arrow
-    private GameObject fireArrow;
 
     // 활 당기기 시작 시간, 당기는 중간 시간, 끝 시간
     private float drawArrowStartTime;
@@ -66,8 +64,6 @@ public class PlayerAction : MonoBehaviour
         backSword = hip.Find("BackSword").gameObject;
         realSword = rightWristJoint.Find("RealSword").gameObject;
 
-        fireArrow = realBow.transform.GetChild(2).gameObject;
-
         cameraTransform = GameObject.Find("Camera").transform;
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
@@ -79,7 +75,7 @@ public class PlayerAction : MonoBehaviour
 
         UnActiveBow();
         UnActiveSword();
-        UnActiveFireArrow();
+        UnActiveArrow();
     }
 
     // Update is called once per frame
@@ -136,14 +132,14 @@ public class PlayerAction : MonoBehaviour
 
                 // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
 
-                var clone = Instantiate(fireArrow, fireArrow.transform.position, Quaternion.identity);
+                var clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, Quaternion.identity);
                 clone.transform.rotation = cameraTransform.rotation;
 
                 var localScale = clone.transform.localScale;
                 clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
 
                 // 화살 UnAtive하고 클론된 화살 발싸
-                UnActiveFireArrow();
+                UnActiveArrow();
                 // Aim 제거
                 UnActiveAim();
             }
@@ -260,24 +256,36 @@ public class PlayerAction : MonoBehaviour
         comboStep = 0;
     }
 
-    private void ActiveFireArrow()
+    private void ActiveArrow()
     {
-        fireArrow.GetComponent<ParticleSystem>().Play();
-        fireArrow.SetActive(true);
+        for (int i = 0; i < realBow.transform.childCount; i++)
+        {
+            var bowChild = realBow.transform.GetChild(i).gameObject;
+            if (bowChild.name.Equals(GetCurrentElementArrowName()))
+            {
+                bowChild.GetComponent<ParticleSystem>().Play();
+                bowChild.SetActive(true);
+            }
+        }
     }
 
-    private void UnActiveFireArrow()
+    private void UnActiveArrow()
     {
-        fireArrow.GetComponent<ParticleSystem>().Stop();
-        fireArrow.SetActive(false);
+        for (int i = 0; i < realBow.transform.childCount; i++)
+        {
+            var bowChild = realBow.transform.GetChild(i).gameObject;
+            if (bowChild.name.Contains("ArrowMissile"))
+            {
+                bowChild.GetComponent<ParticleSystem>().Stop();
+                bowChild.SetActive(false);
+            }
+        }
     }
 
     private void ActiveBow()
     {
         Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
         Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
-
-        // ActiveFireArrow();
 
         backBowRenderer.enabled = false;
         realBowRenderer.enabled = true;
@@ -287,7 +295,7 @@ public class PlayerAction : MonoBehaviour
         Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
         Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
 
-        UnActiveFireArrow();
+        UnActiveArrow();
 
         backBowRenderer.enabled = true;
         realBowRenderer.enabled = false;
@@ -398,6 +406,34 @@ public class PlayerAction : MonoBehaviour
             result = "IceParticle";
 
         return result;
+    }
+
+    // 현재 선택된 원소에 따른 화살이름 반환환
+    private string GetCurrentElementArrowName()
+    {
+        string result = "";
+        if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
+            result = "ArrowMissileRed";
+        else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+            result = "ArrowMissilePurple";
+        else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
+            result = "ArrowMissileBlue";
+
+        return result;
+    }
+
+    private GameObject GetCurrentArrow()
+    {
+        string name = GetCurrentElementArrowName();
+        for (int i = 0; i < realBow.transform.childCount; i++)
+        {
+            var bowChild = realBow.transform.GetChild(i).gameObject;
+            if (bowChild.name.Equals(name))
+            {
+                return bowChild;
+            }
+        }
+        return null;
     }
 
 

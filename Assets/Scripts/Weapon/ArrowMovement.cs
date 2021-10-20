@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireArrowScrip : MonoBehaviour
+public class ArrowMovement : MonoBehaviour
 {
+    // 수평 방향 : RobotKyle
     public Transform horizontalDirection;
+    // 수직 방향 : Camera
     public Transform verticalDirection;
 
     Rigidbody rigid;
