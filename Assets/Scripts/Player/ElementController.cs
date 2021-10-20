@@ -7,7 +7,7 @@ public class ElementController : MonoBehaviour
     public enum ELEMENT
     {
         FIRE,
-        ELECTRIC,
+        LIGHTNING,
         ICE
     };
 
@@ -48,7 +48,6 @@ public class ElementController : MonoBehaviour
             SwitchingElement(currentElementIndex);
             currentElement = (ELEMENT)currentElementIndex;
 
-
             if (playActionScript.currentEquipWeapon.Equals(PlayerAction.WEAPON.SWORD))
                 playActionScript.ActiveSwordEffect();
         }
@@ -61,6 +60,7 @@ public class ElementController : MonoBehaviour
             SwitchingElement(currentElementIndex);
             currentElement = (ELEMENT)currentElementIndex;
 
+            Debug.Log(currentElement);
             if (playActionScript.currentEquipWeapon.Equals(PlayerAction.WEAPON.SWORD))
                 playActionScript.ActiveSwordEffect();
         }

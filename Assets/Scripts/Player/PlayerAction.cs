@@ -45,6 +45,9 @@ public class PlayerAction : MonoBehaviour
     private CameraMovement cameraMovementScript;
     private PlayerMovement playerMovementScript;
     private ElementController elementController;
+    private GameObject canvas;
+    private GameObject aim;
+    private Animator aimAnimator;
 
     private Transform cameraTransform;
 
@@ -69,6 +72,10 @@ public class PlayerAction : MonoBehaviour
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
         elementController = GetComponent<ElementController>();
+        canvas = GameObject.Find("Canvas");
+        aim = canvas.transform.Find("Aim").gameObject;
+        aimAnimator = aim.GetComponent<Animator>();
+
 
         UnActiveBow();
         UnActiveSword();
@@ -99,6 +106,12 @@ public class PlayerAction : MonoBehaviour
                 playerMovementScript.isAim = true;
 
                 _animator.SetBool("IsAimed", playerMovementScript.isAim);
+
+                // Aim 생성
+                ActiveAim();
+                aimAnimator.SetTrigger("UnScaleAim");
+
+
                 drawArrowTime = 0f;
                 drawArrowStartTime = GameManager.Instance.playeTime;
                 _animator.SetTrigger("DrawArrowTrigger");
@@ -133,6 +146,8 @@ public class PlayerAction : MonoBehaviour
 
                 // 화살 UnAtive하고 클론된 화살 발싸
                 UnActiveBow();
+                // Aim 제거
+                UnActiveAim();
             }
         }
 
@@ -312,10 +327,16 @@ public class PlayerAction : MonoBehaviour
         {
             // 선택된 원소와 이름이 같은 오브젝트의 파티클을 켜고, 나머지는 끈다.
             string name = realSwordTransform.GetChild(i).gameObject.name;
-            if (name.Equals(element))
-                ActiveSwordParticle(name);
-            else
-                UnActiveSwordParticle(name);
+
+            // 파티클 관련 오브젝트에만 적용
+            if (name.Contains("Particle"))
+            {
+                if (name.Equals(element))
+                    ActiveSwordParticle(name);
+                else
+                    UnActiveSwordParticle(name);
+            }
+
         }
     }
 
@@ -328,22 +349,9 @@ public class PlayerAction : MonoBehaviour
         {
             // 선택된 원소와 이름이 같은 오브젝트의 파티클을 켜고, 나머지는 끈다.
             string name = realSwordTransform.GetChild(i).gameObject.name;
-
-            UnActiveSwordParticle(name);
-        }
-    }
-
-    private void ActiveSwordParticle(string particleName)
-    {
-        Transform particle = realSword.transform.Find(particleName);
-        particle.gameObject.SetActive(true);
-        for (int i = 0; i < particle.childCount; i++)
-        {
-            particle.GetChild(i).gameObject.SetActive(true);
-            if (i == particle.childCount - 1)
-                particle.GetChild(i).GetComponent<ParticleSystem>().Stop();
-            else
-                particle.GetChild(i).GetComponent<ParticleSystem>().Play();
+            // 파티클 관련 오브젝트에만 적용
+            if (name.Contains("Particle"))
+                UnActiveSwordParticle(name);
         }
     }
 
@@ -356,6 +364,18 @@ public class PlayerAction : MonoBehaviour
         particle.GetChild(particle.childCount - 1).gameObject.SetActive(true);
         particle.GetChild(particle.childCount - 1).GetComponent<ParticleSystem>().Play();
     }
+
+    private void ActiveSwordParticle(string particleName)
+    {
+        Transform particle = realSword.transform.Find(particleName);
+        particle.gameObject.SetActive(true);
+        for (int i = 0; i < particle.childCount; i++)
+        {
+            particle.GetChild(i).gameObject.SetActive(true);
+            particle.GetChild(i).GetComponent<ParticleSystem>().Play();
+        }
+    }
+
 
     private void UnActiveSwordParticle(string particleName)
     {
@@ -374,11 +394,22 @@ public class PlayerAction : MonoBehaviour
         string result = "";
         if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
             result = "FireParticle";
-        else if (elementController.currentElement.Equals(ElementController.ELEMENT.ELECTRIC))
-            result = "ElectricParticle";
+        else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+            result = "LightningParticle";
         else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
             result = "IceParticle";
 
         return result;
+    }
+
+
+    private void ActiveAim()
+    {
+        aim.SetActive(true);
+    }
+
+    private void UnActiveAim()
+    {
+        aim.SetActive(false);
     }
 }
