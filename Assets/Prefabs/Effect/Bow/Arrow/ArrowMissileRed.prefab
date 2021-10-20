@@ -9929,6 +9929,7 @@ GameObject:
   - component: {fileID: 7216666208488826887}
   - component: {fileID: 5583396791252733801}
   - component: {fileID: 1013166433609407592}
+  - component: {fileID: 2498492618722270511}
   m_Layer: 0
   m_Name: ArrowMissileRed
   m_TagString: Untagged
@@ -14879,6 +14880,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalDirection: {fileID: 0}
   verticalDirection: {fileID: 0}
+--- !u!114 &2498492618722270511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064179717517247481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01e958d76279d44992b90442b704c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &118327119104247423
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16558,6 +16558,14 @@ PrefabInstance:
       propertyPath: elementPanel
       value: 
       objectReference: {fileID: 1287248600}
+    - target: {fileID: 1770043230062512766, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770043230062512766, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5422110943272055445, guid: 14a77f530757cce4290c5d30ca0eaaba, type: 3}
       propertyPath: m_RootOrder
       value: 6
