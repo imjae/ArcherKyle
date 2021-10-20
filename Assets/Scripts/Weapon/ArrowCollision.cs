@@ -6,15 +6,18 @@ public class ArrowCollision : MonoBehaviour
 {
 
     Rigidbody rigid;
-    Collider collider;
+    Collider col;
 
     ArrowMovement arrowMovement;
+
+    [SerializeField]
+    private GameObject arrowExplosion;
 
 
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        col = GetComponent<Collider>();
         arrowMovement = GetComponent<ArrowMovement>();
     }
 
@@ -23,11 +26,15 @@ public class ArrowCollision : MonoBehaviour
     {
         if (!other.CompareTag("Player"))
         {
+
             arrowMovement.isMovement = false;
             rigid.velocity = Vector3.zero;
 
             Destroy(rigid);
-            Destroy(collider);
+            Destroy(col);
+
+            Instantiate(arrowExplosion, transform.position, Quaternion.identity);
+
         }
 
     }
