@@ -2143,6 +2143,14 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 6217567547508885470, guid: 64e235cf4753f974fbd530d76353abec, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6570320414257417937, guid: 64e235cf4753f974fbd530d76353abec, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6883612394209270562, guid: 64e235cf4753f974fbd530d76353abec, type: 3}
       propertyPath: m_Name
       value: RealBow
@@ -2271,7 +2279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8847601247342458232, guid: 67b139d0cd3a3f34bb08dc7bdfa77d7a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67b139d0cd3a3f34bb08dc7bdfa77d7a, type: 3}

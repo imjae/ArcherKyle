@@ -139,13 +139,11 @@ public class PlayerAction : MonoBehaviour
                 var clone = Instantiate(fireArrow, fireArrow.transform.position, Quaternion.identity);
                 clone.transform.rotation = cameraTransform.rotation;
 
-                Debug.DrawRay(cameraTransform.position, cameraTransform.position.normalized * 1000f, Color.red);
-
                 var localScale = clone.transform.localScale;
                 clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
 
                 // 화살 UnAtive하고 클론된 화살 발싸
-                UnActiveBow();
+                UnActiveFireArrow();
                 // Aim 제거
                 UnActiveAim();
             }
