@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     private void LateUpdate()
     {
         InputJump();
+        InputDash();
     }
 
     // 마우스 인풋을 받을 변수
@@ -115,7 +116,8 @@ public class PlayerMovement : MonoBehaviour
 
         _animator.SetFloat("MovementBlend", percent, 0.1f, Time.deltaTime);
 
-        _rigidbody.MovePosition(transform.position + moveDirection.normalized * finalSpeed * Time.deltaTime);
+        _rigidbody.AddForce(moveDirection.normalized * 200f);
+        // _rigidbody.velocity = moveDirection.normalized * finalSpeed;
 
     }
 
@@ -128,6 +130,71 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log(isGround);
         }
     }
+
+    public float m_DoubleClickSecond = 0.25f;
+    private bool m_IsOneClick = false;
+    private double m_Timer = 0;
+
+    void InputDash()
+    {
+        if (m_IsOneClick && ((Time.time - m_Timer) > m_DoubleClickSecond))
+        {
+            m_IsOneClick = false;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (!m_IsOneClick) { m_Timer = Time.time; m_IsOneClick = true; }
+            else if (m_IsOneClick && ((Time.time - m_Timer) < m_DoubleClickSecond))
+            {
+                m_IsOneClick = false;
+                //아래에 더블클릭에서 처리하고싶은 이벤트 작성
+                _animator.Play("Standing Dodge Forward");
+                transform.Find("Dash").Find("Forward").GetChild(0).GetComponent<ParticleSystem>().Play();
+                _rigidbody.AddForce(transform.forward * 2000f);
+            }
+
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (!m_IsOneClick) { m_Timer = Time.time; m_IsOneClick = true; }
+            else if (m_IsOneClick && ((Time.time - m_Timer) < m_DoubleClickSecond))
+            {
+                m_IsOneClick = false;
+                //아래에 더블클릭에서 처리하고싶은 이벤트 작성
+                _animator.Play("Standing Dodge Left");
+                transform.Find("Dash").Find("Left").GetChild(0).GetComponent<ParticleSystem>().Play();
+                _rigidbody.AddForce(transform.right * -2000f);
+            }
+
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (!m_IsOneClick) { m_Timer = Time.time; m_IsOneClick = true; }
+            else if (m_IsOneClick && ((Time.time - m_Timer) < m_DoubleClickSecond))
+            {
+                m_IsOneClick = false;
+                //아래에 더블클릭에서 처리하고싶은 이벤트 작성
+                _animator.Play("Standing Dodge Back");
+                transform.Find("Dash").Find("Back").GetChild(0).GetComponent<ParticleSystem>().Play();
+                _rigidbody.AddForce(transform.forward * -2000f);
+            }
+
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (!m_IsOneClick) { m_Timer = Time.time; m_IsOneClick = true; }
+            else if (m_IsOneClick && ((Time.time - m_Timer) < m_DoubleClickSecond))
+            {
+                m_IsOneClick = false;
+                //아래에 더블클릭에서 처리하고싶은 이벤트 작성
+                _animator.Play("Standing Dodge Right");
+                transform.Find("Dash").Find("Right").GetChild(0).GetComponent<ParticleSystem>().Play();
+                _rigidbody.AddForce(transform.right * 2000f);
+            }
+
+        }
+    }
+
 
     void IsGround()
     {

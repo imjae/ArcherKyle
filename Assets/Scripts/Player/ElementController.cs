@@ -13,12 +13,13 @@ public class ElementController : MonoBehaviour
 
     public ELEMENT currentElement;
 
+    // 원소 배열
     GameObject[] elementArr;
 
     int count;
     int currentElementIndex;
 
-    public RectTransform elementPanel;
+    public Transform elementPanel;
 
     private PlayerAction playActionScript;
 
@@ -47,7 +48,6 @@ public class ElementController : MonoBehaviour
                 currentElementIndex = elementArr.Length - 1;
             SwitchingElement(currentElementIndex);
             currentElement = (ELEMENT)currentElementIndex;
-
             if (playActionScript.currentEquipWeapon.Equals(PlayerAction.WEAPON.SWORD))
                 playActionScript.ActiveSwordEffect();
         }
