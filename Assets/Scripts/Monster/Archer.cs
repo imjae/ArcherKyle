@@ -10,13 +10,10 @@ public class Archer : Chaser
     [SerializeField]
     private GameObject arrow;
 
-    // 공격중 플래그
-    private bool isAttacking;
     private GameObject target;
 
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
-    private Rigidbody _rigid;
 
     private void Awake()
     {
@@ -34,14 +31,13 @@ public class Archer : Chaser
         isAttacking = false;
 
         _animator = this.GetComponent<Animator>();
-        _rigid = this.GetComponent<Rigidbody>();
         healthSystem = this.GetComponent<HealthSystem>();
         player = GameObject.Find("Robot Kyle").transform;
 
         healthSystem.hitPoint = 200f;
         healthSystem.maxHitPoint = 200f;
         healthSystem.regenerate = true;
-        healthSystem.regen = 0.1f;
+        healthSystem.regen = 0.5f;
         healthSystem.isDecrease = false;
         healthSystem.regenUpdateInterval = 1f;
         healthSystem.GodMode = false;
@@ -52,7 +48,7 @@ public class Archer : Chaser
 
         _agent.speed = this.speedValue;
 
-        // StartCoroutine(DetectionRoutine());
+        StartCoroutine(DetectionRoutine());
     }
 
     void Update()
@@ -66,15 +62,17 @@ public class Archer : Chaser
         // Debug.DrawLine(transform.position, Vector3.back * 5f, Color.cyan);
         // Debug.DrawLine(transform.position, Vector3.left * 5f, Color.blue);
         // Debug.DrawLine(transform.position, Vector3.right * 5f, Color.green);
-        // DetectionInRange(attackRange, (detectObject) =>
-        // {
-        //     if (detectObject.CompareTag("Player") && !isAttacking)
-        //     {
-        //         target = detectObject.gameObject;
-        //         Debug.Log("멈춤 !");
-        //         Attack();
-        //     }
-        // });
+
+
+        DetectionInRange(attackRange, (detectObject) =>
+        {
+            if (detectObject.CompareTag("Player") && !isAttacking)
+            {
+                target = detectObject.gameObject;
+                Debug.Log("멈춤 !");
+                Attack();
+            }
+        });
     }
 
     IEnumerator DetectionRoutine()
@@ -90,39 +88,6 @@ public class Archer : Chaser
             }
             yield return null;
         }
-    }
-
-    private void OnRunStatus()
-    {
-        _agent.enabled = true;
-        DetectionLocationTarget(player);
-        _animator.SetTrigger("RunTrigger");
-    }
-
-    private void OnIdleStatus()
-    {
-        _animator.Play("Skeleton_Crossbowman_Idle_Loop");
-        _agent.enabled = false;
-        _agent.velocity = Vector3.zero;
-    }
-
-    protected override void Attack()
-    {
-        // ShotTrigger 이벤트에서 isAttacking 변수 토글해주면 살짝 늦게 실행됨.
-        this.isAttacking = true;
-        // 공격 실행 후 캐릭터 위치를 보게함.
-        this.transform.LookAt(ArrowTargetVertor());
-
-        _agent.enabled = false;
-        _agent.velocity = Vector3.zero;
-        _animator.SetTrigger("ShotTrigger");
-    }
-
-    public void ToggleIsAttacking()
-    {
-        // Debug.Log("전 : " + this.isAttacking);
-        this.isAttacking = !this.isAttacking;
-        // Debug.Log("후 : " + this.isAttacking);
     }
 
     private void CloneArrow()
@@ -143,19 +108,14 @@ public class Archer : Chaser
         return new Vector3(position.x, position.y + 1f, position.z);
     }
 
-    protected override void Die()
-    {
-        monsterStatusController.UnActiveMonsterStatus();
-        base.Die();
-    }
-
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PlayerArrow"))
         {
             var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
-            _rigid.AddForce(transform.TransformVector(a) * 1000f);
+
+            // TODO 몬스터가 화살에 맞았을때 동작 정의
 
 
             // var b = transform.forward;
@@ -168,8 +128,36 @@ public class Archer : Chaser
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    protected override void OnRunStatus()
     {
+        _agent.enabled = true;
+        DetectionLocationTarget(player);
+        _animator.SetTrigger("RunTrigger");
+    }
 
+    protected override void OnIdleStatus()
+    {
+        _animator.Play("Skeleton_Crossbowman_Idle_Loop");
+        _agent.enabled = false;
+        _agent.velocity = Vector3.zero;
+    }
+
+
+    protected override void Die()
+    {
+        monsterStatusController.UnActiveMonsterStatus();
+        base.Die();
+    }
+
+    protected override void Attack()
+    {
+        // ShotTrigger 이벤트에서 isAttacking 변수 토글해주면 살짝 늦게 실행됨.
+        this.isAttacking = true;
+        // 공격 실행 후 캐릭터 위치를 보게함.
+        this.transform.LookAt(ArrowTargetVertor());
+
+        _agent.enabled = false;
+        _agent.velocity = Vector3.zero;
+        _animator.SetTrigger("ShotTrigger");
     }
 }

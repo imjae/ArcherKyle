@@ -10,6 +10,7 @@ public abstract class Monster : Character
     protected Animator _animator { get; set; }
     protected Transform player { get; set; }
     protected NavMeshAgent _agent { get; set; }
+    protected bool isAttacking { get; set; }
 
     protected virtual void DetectionLocationTarget(Transform target)
     {
@@ -27,11 +28,12 @@ public abstract class Monster : Character
         }
     }
 
+    // 달리기 상태일때 동작
+    protected virtual void OnRunStatus() { }
+    // IDLE 상태일때 동작
+    protected virtual void OnIdleStatus() { }
     // 공격
-    protected virtual void Attack()
-    {
-
-    }
+    protected virtual void Attack() { }
 
     // 죽음. 델리게이트로 받은 동작 실행 후 스스로 Destory()
     protected virtual void Die()
@@ -43,5 +45,11 @@ public abstract class Monster : Character
     protected virtual Vector3 GetHitDiretion(Transform target)
     {
         return (transform.position - target.position).normalized;
+    }
+
+    // 공격 플래그 변수 토글
+    public virtual void ToggleIsAttacking()
+    {
+        isAttacking = isAttacking;
     }
 }
