@@ -31,6 +31,9 @@ public class PlayerMovement : MonoBehaviour
 
     // 활든 왼쪽발 어깨 관절
     public Transform leftSholderJoint;
+
+    // 원소 컨트롤러
+    private ElementController elementController;
     void Start()
     {
         _animator = this.GetComponent<Animator>();
@@ -41,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
         isAim = false;
         isMovement = true;
         isSword = false;
+
+        elementController = this.GetComponent<ElementController>();
     }
 
     void Update()
@@ -131,16 +136,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public float m_DoubleClickSecond = 0.25f;
-    private bool m_IsOneClick = false;
-    private double m_Timer = 0;
+    float m_DoubleClickSecond = 0.25f;
+    bool m_IsOneClick = false;
+    double m_Timer = 0;
 
     void InputDash()
     {
+
         if (m_IsOneClick && ((Time.time - m_Timer) > m_DoubleClickSecond))
         {
             m_IsOneClick = false;
         }
+
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (!m_IsOneClick) { m_Timer = Time.time; m_IsOneClick = true; }
@@ -149,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
                 m_IsOneClick = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Forward");
-                transform.Find("Dash").Find("Forward").GetChild(0).GetComponent<ParticleSystem>().Play();
+                GetDashEffect("Forward").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.forward * 2000f);
             }
 
@@ -162,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
                 m_IsOneClick = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Left");
-                transform.Find("Dash").Find("Left").GetChild(0).GetComponent<ParticleSystem>().Play();
+                GetDashEffect("Left").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.right * -2000f);
             }
 
@@ -175,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
                 m_IsOneClick = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Back");
-                transform.Find("Dash").Find("Back").GetChild(0).GetComponent<ParticleSystem>().Play();
+                GetDashEffect("Back").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.forward * -2000f);
             }
 
@@ -188,11 +195,30 @@ public class PlayerMovement : MonoBehaviour
                 m_IsOneClick = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Right");
-                transform.Find("Dash").Find("Right").GetChild(0).GetComponent<ParticleSystem>().Play();
+                GetDashEffect("Right").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.right * 2000f);
             }
 
         }
+    }
+
+    // 현재 선택된 원소에 맞는 대쉬 이펙트 반환
+    // 인자로 대쉬의 방향을 받는다. (Foward, Back, Left, Right)
+    private GameObject GetDashEffect(string direction)
+    {
+        GameObject result = null;
+        Transform dashObject = transform.Find("Dash");
+        Transform dashObjectOfDirection = dashObject.Find(direction);
+
+        // 0 : FIRE
+        // 1 : LIGHTNING
+        // 2 : ICE
+        int currentElementIndex = (int)elementController.currentElement;
+
+        // 위 주석의 Enum의 인덱스에 맞게 유니티의 Hierarchy에 정렬되어 있음
+        result = dashObjectOfDirection.GetChild(currentElementIndex).gameObject;
+
+        return result;
     }
 
 
@@ -201,8 +227,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down * 0.05f, Color.red);
         isGround = Physics.Raycast(transform.position, Vector3.down, 0.1f);
     }
-
-
 
     public void SwordMovement()
     {
