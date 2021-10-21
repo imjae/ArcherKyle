@@ -11,7 +11,6 @@ public abstract class Monster : Character
     protected Transform player { get; set; }
     protected NavMeshAgent _agent { get; set; }
 
-
     protected virtual void DetectionLocationTarget(Transform target)
     {
         _agent.SetDestination(target.position);
@@ -31,5 +30,10 @@ public abstract class Monster : Character
     protected virtual void Attack()
     {
 
+    }
+
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
     }
 }

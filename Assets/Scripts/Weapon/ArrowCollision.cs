@@ -28,7 +28,6 @@ public class ArrowCollision : MonoBehaviour
         col = GetComponent<Collider>();
         arrowMovement = GetComponent<ArrowMovement>();
 
-
         arrowScript = GetComponent<Arrow>();
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
@@ -57,13 +56,14 @@ public class ArrowCollision : MonoBehaviour
 
             if (other.CompareTag("MonsterCriticalZone"))
             {
-                Debug.Log("农府萍拿!!");
                 var monster = other.transform.root;
                 var health = monster.gameObject.GetComponent<HealthSystem>();
+                Debug.Log("农府萍拿!! : " + health.maxHitPoint);
                 health.TakeDamage(health.maxHitPoint);
             }
-            else
+            else if (other.CompareTag("Monster"))
             {
+                Debug.Log("个烹! : " + arrowScript.attackPoint);
                 var monster = other.transform.root;
                 var health = monster.gameObject.GetComponent<HealthSystem>();
                 health.TakeDamage(arrowScript.attackPoint);

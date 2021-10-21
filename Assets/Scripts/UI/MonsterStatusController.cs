@@ -12,7 +12,6 @@ public class MonsterStatusController : MonoBehaviour
     public void ActiveMonsterStatus()
     {
         gameObject.SetActive(true);
-        Debug.Log(gameObject.activeSelf);
     }
 
     public void UnActiveMonsterStatus()

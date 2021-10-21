@@ -109,7 +109,7 @@ public class HealthSystem : MonoBehaviour
     private void UpdateHealthBar()
     {
         var slider = healthBar.GetComponent<Slider>();
-        slider.value = hitPoint / 100f;
+        slider.value = hitPoint / maxHitPoint;
         // healthBar.transform.localScale = new VectohitPoint / 100f3(hitPoint / 100f, 1, 1);
     }
 

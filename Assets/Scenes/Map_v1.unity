@@ -3774,70 +3774,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1398378669, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.165
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378669, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.327
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378670, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_TargetTexture
-      value: 
-      objectReference: {fileID: 8400000, guid: 2e9555b7a1484844b80021d09549f93b, type: 2}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_BackGroundColor.a
-      value: 0.74509805
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.12032752
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.12032752
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.1509434
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398378671, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
     - target: {fileID: 1452885603, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1368685424}
-    - target: {fileID: 1452885603, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: isDecrease
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1452885603, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: regenerate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1452885603, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: decreaseHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 603626950496667961, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
-      propertyPath: m_Layer
-      value: 31
-      objectReference: {fileID: 0}
     - target: {fileID: 6029852194063565088, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
       propertyPath: m_RootOrder
       value: 1

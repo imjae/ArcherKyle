@@ -14,6 +14,9 @@ public class Archer : Chaser
     private bool isAttacking;
     private GameObject target;
 
+    private GameObject canvas;
+    private MonsterStatusController monsterStatusController;
+
     private void Awake()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
@@ -23,6 +26,9 @@ public class Archer : Chaser
 
     private void Start()
     {
+        canvas = GameObject.Find("Canvas");
+        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
+
         monsterName = "Skeleton Archer";
         isAttacking = false;
 
@@ -30,10 +36,11 @@ public class Archer : Chaser
         healthSystem = this.GetComponent<HealthSystem>();
         player = GameObject.Find("Robot Kyle").transform;
 
-        healthSystem.hitPoint = 100f;
-        healthSystem.maxHitPoint = 100f;
+        healthSystem.hitPoint = 200f;
+        healthSystem.maxHitPoint = 200f;
         healthSystem.regenerate = true;
         healthSystem.regen = 0.1f;
+        healthSystem.isDecrease = false;
         healthSystem.regenUpdateInterval = 1f;
         healthSystem.GodMode = false;
 
@@ -43,12 +50,17 @@ public class Archer : Chaser
 
         _agent.speed = this.speedValue;
 
-
         StartCoroutine(DetectionRoutine());
     }
 
     void Update()
     {
+        if (healthSystem.hitPoint <= 0)
+        {
+            _animator.SetTrigger("DieTrigger");
+        }
+
+
         DetectionInRange(attackRange, (detectObject) =>
         {
             if (detectObject.CompareTag("Player") && !isAttacking)
@@ -103,9 +115,9 @@ public class Archer : Chaser
 
     public void ToggleIsAttacking()
     {
-        Debug.Log("전 : " + this.isAttacking);
+        // Debug.Log("전 : " + this.isAttacking);
         this.isAttacking = !this.isAttacking;
-        Debug.Log("후 : " + this.isAttacking);
+        // Debug.Log("후 : " + this.isAttacking);
     }
 
     private void CloneArrow()
@@ -124,5 +136,11 @@ public class Archer : Chaser
     {
         Vector3 position = target.transform.position;
         return new Vector3(position.x, position.y + 1f, position.z);
+    }
+
+    protected override void Die()
+    {
+        monsterStatusController.UnActiveMonsterStatus();
+        base.Die();
     }
 }
