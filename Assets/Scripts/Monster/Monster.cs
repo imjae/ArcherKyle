@@ -6,12 +6,7 @@ public abstract class Monster : Character
 {
     protected HealthSystem healthSystem { get; set; }
 
-    protected virtual void PlayerDetection()
-    {
-
-    }
-
-    protected virtual void CrystalDetection()
+    protected virtual void TargetDetection(Transform target)
     {
 
     }

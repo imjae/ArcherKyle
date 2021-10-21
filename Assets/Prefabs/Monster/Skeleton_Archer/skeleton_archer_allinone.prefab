@@ -1349,9 +1349,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6029852194063565088}
   - component: {fileID: 7636985841604734139}
-  - component: {fileID: 1601599584091428855}
   - component: {fileID: 465964123070132072}
+  - component: {fileID: 1601599584091428855}
   - component: {fileID: 7858664982925156884}
+  - component: {fileID: 5607492700008112953}
   m_Layer: 0
   m_Name: skeleton_archer_allinone
   m_TagString: Monster
@@ -1396,18 +1397,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1601599584091428855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6405673602396756890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbaa7845c3276834dad9464580f9df81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &465964123070132072
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1430,6 +1419,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1601599584091428855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6405673602396756890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbaa7845c3276834dad9464580f9df81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7858664982925156884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1442,6 +1443,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d687c82aaeef92e4bacf184336a6e72b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  target: {fileID: 0}
+--- !u!136 &5607492700008112953
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6405673602396756890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.4946261
+  m_Height: 1.8376285
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.66881424, z: -0.32085007}
 --- !u!1 &6653889642098693141
 GameObject:
   m_ObjectHideFlags: 0

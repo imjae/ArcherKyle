@@ -81,8 +81,7 @@ AnimatorState:
   m_Name: Skeleton_Crossbowman_Spawn
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -1288933981880919926}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -112,7 +111,7 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2181773155275078756}
-    m_Position: {x: 30, y: 210, z: 0}
+    m_Position: {x: 320, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2593883088065398739}
     m_Position: {x: 30, y: 810, z: 0}
@@ -148,7 +147,7 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: 710, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3391508946118530963}
-    m_Position: {x: 290, y: 130, z: 0}
+    m_Position: {x: 320, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 40212981956346336}
     m_Position: {x: 30, y: 760, z: 0}
@@ -179,7 +178,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 3391508946118530963}
+  m_DefaultState: {fileID: 2181773155275078756}
 --- !u!1101 &-5475032279095088112
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -322,28 +321,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &-3343634164256534873
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 8924356660640176211}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.74137926
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1102 &-2525917273686555570
 AnimatorState:
   serializedVersion: 6
@@ -370,28 +347,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &-1288933981880919926
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 2181773155275078756}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.91573036
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1102 &-714643613789469302
 AnimatorState:
   serializedVersion: 6
@@ -630,8 +585,7 @@ AnimatorState:
   m_Name: Skeleton_Crossbowman_Idle_Loop
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -3343634164256534873}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

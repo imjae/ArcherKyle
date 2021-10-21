@@ -26,17 +26,15 @@ public class ArrowCollision : MonoBehaviour
     {
         if (!other.CompareTag("Player"))
         {
-
             arrowMovement.isMovement = false;
             rigid.velocity = Vector3.zero;
 
             Destroy(rigid);
             Destroy(col);
 
+            transform.SetParent(other.transform);
+
             Instantiate(arrowExplosion, transform.position, Quaternion.identity);
-
         }
-
     }
-
 }
