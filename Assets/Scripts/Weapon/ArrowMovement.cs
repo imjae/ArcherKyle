@@ -18,15 +18,12 @@ public class ArrowMovement : MonoBehaviour
     public Vector3 prevVelocity;
 
     public bool isMovement;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
         isMovement = true;
 
-    }
-
-    void Update()
-    {
     }
 
     private void FixedUpdate()
