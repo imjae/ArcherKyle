@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// ÇÃ·¹ÀÌ¾î¸¦ ÂÑ´Â Ãß°Ý²Û
+public class Chaser : Monster
+{
+    public enum Type
+    {
+        Archer,
+        Swordsman,
+        Mage,
+        Grunt,
+        King
+    }
+}
