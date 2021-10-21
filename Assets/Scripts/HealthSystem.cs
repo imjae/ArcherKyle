@@ -34,16 +34,13 @@ public class HealthSystem : MonoBehaviour
 
     public bool GodMode;
 
-    private GameObject realObject;
-
+    public GameObject healthBar;
 
     //==============================================================
     // Awake
     //==============================================================
     void Start()
     {
-        realObject = transform.parent.parent.gameObject;
-
         UpdateGraphics();
         timeleft = regenUpdateInterval;
     }
@@ -111,7 +108,9 @@ public class HealthSystem : MonoBehaviour
     //==============================================================
     private void UpdateHealthBar()
     {
-        transform.localScale = new Vector3(hitPoint / 100f, 1, 1);
+        var slider = healthBar.GetComponent<Slider>();
+        slider.value = hitPoint / 100f;
+        // healthBar.transform.localScale = new VectohitPoint / 100f3(hitPoint / 100f, 1, 1);
     }
 
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,37 +6,29 @@ using UnityEngine.AI;
 
 public class Archer : Chaser
 {
-    // protected float healthPoint { get; set; }
-    // protected float maxHealthPoint { get; set; }
-    // protected float energyPoint { get; set; }
-    // protected float maxEnergyPoint { get; set; }
-    // protected float attackValue { get; set; }
-    // protected float speedValue { get; set; }
-    // protected Vector3 currentPosition { get; set; }
-
-    // 길을 찾아서 이동할 에이전트
+    private HealthSystem healthSystem;
     [SerializeField]
-    NavMeshAgent _agent;
+    private GameObject arrow;
 
-    // 에이전트의 목적지
-    [SerializeField]
-    Transform player;
-
-    Animator _animator;
+    // 공격중 플래그
+    private bool isAttacking;
+    private GameObject target;
 
     private void Awake()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
         _agent = this.GetComponent<NavMeshAgent>();
-        _animator = this.GetComponent<Animator>();
 
-        StartCoroutine(DetectionRoutine());
     }
 
     private void Start()
     {
+        isAttacking = false;
 
-        healthSystem = gameObject.AddComponent<HealthSystem>();
+        _animator = this.GetComponent<Animator>();
+        healthSystem = this.GetComponent<HealthSystem>();
+        player = GameObject.Find("Robot Kyle").transform;
+
         healthSystem.hitPoint = 100f;
         healthSystem.maxHitPoint = 100f;
         healthSystem.regenerate = true;
@@ -44,40 +37,91 @@ public class Archer : Chaser
         healthSystem.GodMode = false;
 
         attackValue = 10f;
-        attackRange = 10f;
-        speedValue = 10f;
+        attackRange = 7f;
+        speedValue = 8f;
 
-        _agent = this.GetComponent<NavMeshAgent>();
         _agent.speed = this.speedValue;
+
+
+        StartCoroutine(DetectionRoutine());
     }
 
-
-
-
-
-
-
-
-
-
-
+    void Update()
+    {
+        DetectionInRange(attackRange, (detectObject) =>
+        {
+            if (detectObject.CompareTag("Player") && !isAttacking)
+            {
+                target = detectObject.gameObject;
+                Debug.Log("멈춤 !");
+                Attack();
+            }
+        });
+    }
 
     IEnumerator DetectionRoutine()
     {
         while (true)
         {
-            _animator.Play("Skeleton_Crossbowman_Idle_Loop");
-            yield return new WaitForSeconds(2f);
-            _animator.Play("Skeleton_Crossbowman_Run_Loop");
-            TargetDetection(player);
-            yield return new WaitForSeconds(5f);
+            if (!isAttacking)
+            {
+                OnIdleStatus();
+                yield return new WaitForSeconds(1f);
+                OnRunStatus();
+                yield return new WaitForSeconds(6f);
+            }
+            yield return null;
         }
     }
 
-    protected override void TargetDetection(Transform target)
+    private void OnRunStatus()
     {
-        Debug.Log(target.gameObject.name);
-        _agent.SetDestination(target.position);
+        _agent.enabled = true;
+        DetectionLocationTarget(player);
+        _animator.SetTrigger("RunTrigger");
     }
 
+    private void OnIdleStatus()
+    {
+        _animator.Play("Skeleton_Crossbowman_Idle_Loop");
+        _agent.enabled = false;
+        _agent.velocity = Vector3.zero;
+    }
+
+    protected override void Attack()
+    {
+        // ShotTrigger 이벤트에서 isAttacking 변수 토글해주면 살짝 늦게 실행됨.
+        this.isAttacking = true;
+        // 공격 실행 후 캐릭터 위치를 보게함.
+        this.transform.LookAt(ArrowTargetVertor());
+
+        _agent.enabled = false;
+        _agent.velocity = Vector3.zero;
+        _animator.SetTrigger("ShotTrigger");
+    }
+
+    public void ToggleIsAttacking()
+    {
+        Debug.Log("전 : " + this.isAttacking);
+        this.isAttacking = !this.isAttacking;
+        Debug.Log("후 : " + this.isAttacking);
+    }
+
+    private void CloneArrow()
+    {
+        // 생성위치
+        // arrow 오브젝트 자식으로
+        // position : 0, 0.7, 0
+        var clone = Instantiate(arrow);
+        clone.transform.SetParent(transform.Find("arrow"));
+        clone.transform.localPosition = new Vector3(0f, 0.7f, 0f);
+
+        clone.transform.LookAt(ArrowTargetVertor());
+    }
+
+    private Vector3 ArrowTargetVertor()
+    {
+        Vector3 position = target.transform.position;
+        return new Vector3(position.x, position.y + 1f, position.z);
+    }
 }

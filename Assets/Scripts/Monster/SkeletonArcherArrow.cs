@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowMovement : MonoBehaviour
+public class SkeletonArcherArrow : MonoBehaviour
 {
     Rigidbody rigid;
     Vector3 direction;
@@ -20,5 +20,6 @@ public class ArrowMovement : MonoBehaviour
     {
         if (name.Contains("Clone") && isMovement)
             rigid.velocity = transform.forward * 20f;
+
     }
 }

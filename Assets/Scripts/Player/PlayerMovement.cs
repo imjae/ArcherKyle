@@ -205,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 m_IsOneClick_back = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
-                _animator.Play("Standing Dodge Back");
+                _animator.Play("Standing Dodge Backward");
                 GetDashEffect("Back").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.forward * -2000f);
             }
