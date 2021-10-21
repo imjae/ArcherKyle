@@ -23,6 +23,7 @@ public class Archer : Chaser
 
     private void Start()
     {
+        monsterName = "Skeleton Archer";
         isAttacking = false;
 
         _animator = this.GetComponent<Animator>();
