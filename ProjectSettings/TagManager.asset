@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Monster
   - MonsterCriticalZone
+  - PlayerAttack
+  - PlayerArrow
   layers:
   - Default
   - TransparentFX

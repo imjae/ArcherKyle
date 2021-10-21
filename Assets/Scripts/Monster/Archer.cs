@@ -16,6 +16,7 @@ public class Archer : Chaser
 
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
+    private Rigidbody _rigid;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class Archer : Chaser
         isAttacking = false;
 
         _animator = this.GetComponent<Animator>();
+        _rigid = this.GetComponent<Rigidbody>();
         healthSystem = this.GetComponent<HealthSystem>();
         player = GameObject.Find("Robot Kyle").transform;
 
@@ -50,7 +52,7 @@ public class Archer : Chaser
 
         _agent.speed = this.speedValue;
 
-        StartCoroutine(DetectionRoutine());
+        // StartCoroutine(DetectionRoutine());
     }
 
     void Update()
@@ -59,17 +61,20 @@ public class Archer : Chaser
         {
             _animator.SetTrigger("DieTrigger");
         }
-
-
-        DetectionInRange(attackRange, (detectObject) =>
-        {
-            if (detectObject.CompareTag("Player") && !isAttacking)
-            {
-                target = detectObject.gameObject;
-                Debug.Log("∏ÿ√„ !");
-                Attack();
-            }
-        });
+        Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
+        // Debug.DrawLine(transform.position, Vector3.forward * 5f, Color.red);
+        // Debug.DrawLine(transform.position, Vector3.back * 5f, Color.cyan);
+        // Debug.DrawLine(transform.position, Vector3.left * 5f, Color.blue);
+        // Debug.DrawLine(transform.position, Vector3.right * 5f, Color.green);
+        // DetectionInRange(attackRange, (detectObject) =>
+        // {
+        //     if (detectObject.CompareTag("Player") && !isAttacking)
+        //     {
+        //         target = detectObject.gameObject;
+        //         Debug.Log("∏ÿ√„ !");
+        //         Attack();
+        //     }
+        // });
     }
 
     IEnumerator DetectionRoutine()
@@ -142,5 +147,29 @@ public class Archer : Chaser
     {
         monsterStatusController.UnActiveMonsterStatus();
         base.Die();
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerArrow"))
+        {
+            var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
+            _rigid.AddForce(transform.TransformVector(a) * 1000f);
+
+
+            // var b = transform.forward;
+
+            // float cos = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
+            // float cos_to_angles = Mathf.Acos(cos) * Mathf.Rad2Deg;
+
+            // var angle = Vector3.Angle(a, transform.forward);
+            // Debug.Log(angle + " / " + cos_to_angles);
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+
     }
 }

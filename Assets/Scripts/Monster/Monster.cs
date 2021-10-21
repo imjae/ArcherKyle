@@ -27,13 +27,21 @@ public abstract class Monster : Character
         }
     }
 
+    // 공격
     protected virtual void Attack()
     {
 
     }
 
+    // 죽음. 델리게이트로 받은 동작 실행 후 스스로 Destory()
     protected virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    // 피격당한 방향
+    protected virtual Vector3 GetHitDiretion(Transform target)
+    {
+        return (transform.position - target.position).normalized;
     }
 }
