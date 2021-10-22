@@ -40,7 +40,7 @@ public class Grunt : Chaser
         AttackRange = 3f;
         SpeedValue = 5f;
 
-        DetectionTime = 1.5f;
+        DetectionTime = 1f;
         DetectionIntervalTime = 5f;
 
         Agent.speed = SpeedValue;
@@ -56,6 +56,7 @@ public class Grunt : Chaser
             AnimationCompleteToAction("Skeleton_Grunt_Hit_Back", () =>
             {
                 IsDie = true;
+                Agent.enabled = false;
                 Animator.SetTrigger("DieTrigger");
             });
         }
@@ -77,11 +78,6 @@ public class Grunt : Chaser
         }
     }
 
-    private void LateUpdate()
-    {
-
-    }
-
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
     private void AnimationCompleteToAction(string animationName, Action action)
     {
@@ -94,7 +90,7 @@ public class Grunt : Chaser
 
     IEnumerator DetectionRoutine()
     {
-        while (true)
+        while (!IsDie)
         {
             if (!IsAttacking)
             {

@@ -11,6 +11,7 @@ public abstract class Monster : Character
     private Transform _player;
     private NavMeshAgent _agent;
     private HealthSystem _healthSystem;
+    private Camera _faceCamera;
 
     private float _detectionTime;
     private float _detectionIntervalTime;
@@ -66,6 +67,11 @@ public abstract class Monster : Character
     {
         get { return _isDie; }
         set { _isDie = value; }
+    }
+    protected Camera FaceCamera
+    {
+        get { return _faceCamera; }
+        set { _faceCamera = value; }
     }
 
     protected virtual void DetectionLocationTarget(Transform target)

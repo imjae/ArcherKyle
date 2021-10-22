@@ -52,6 +52,11 @@ public class ArrowCollision : MonoBehaviour
             if (other.CompareTag("Monster"))
             {
                 monsterStatusController.ActiveMonsterStatus();
+
+                // 몬스터 카메라 전부 OFF
+                CameraManagement.Instance.AllFaceCameraOff();
+                other.transform.Find("FaceCamera").GetComponent<Camera>().enabled = true;
+
                 Monster monster = other.GetComponent<Monster>();
                 monsterStatusController.SetMonsterName(monster.MonsterName);
             }

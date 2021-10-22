@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 676414519}
   - component: {fileID: 676414521}
   - component: {fileID: 676414520}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: FaceCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}

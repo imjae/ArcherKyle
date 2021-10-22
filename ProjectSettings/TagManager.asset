@@ -18,16 +18,16 @@ TagManager:
   - UI
   - Player
   - FinalAttackCollider
-  - MonsterCamera
+  - Monster
   - 
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - ArcherCamera
+  - GruntCamera
+  - KingCamera
   - 
   - 
   - 

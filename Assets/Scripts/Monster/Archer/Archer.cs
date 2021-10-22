@@ -22,6 +22,10 @@ public class Archer : Chaser
 
     private void Start()
     {
+        // 몬스터 생성시 해당 몬스터의 Face 카메라 등록
+        FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
+        CameraManagement.Instance.EnrollFaceCamera(FaceCamera);
+
 
         MonsterName = "Skeleton Archer(해골 궁수)";
         IsAttacking = false;
@@ -55,6 +59,7 @@ public class Archer : Chaser
             AnimationCompleteToAction("Skeleton_Crossbowman_Hit_Back", () =>
             {
                 IsDie = true;
+                Agent.enabled = false;
                 Animator.SetTrigger("DieTrigger");
             });
         }
@@ -80,6 +85,11 @@ public class Archer : Chaser
         }
     }
 
+    private void OnDestroy()
+    {
+        CameraManagement.Instance.RemoveCamera(FaceCamera);
+    }
+
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
     private void AnimationCompleteToAction(string animationName, Action action)
     {
@@ -93,7 +103,7 @@ public class Archer : Chaser
     IEnumerator DetectionRoutine()
     {
         // 죽지 않았을 때만 플레이어 감지
-        while (true)
+        while (!IsDie)
         {
             if (!IsAttacking)
             {

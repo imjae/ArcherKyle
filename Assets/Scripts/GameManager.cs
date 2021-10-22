@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public float playeTime;
-    // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
+    private float _playtime;
     private static GameManager _instance;
+    public float PlayeTime { get { return _playtime; } set { _playtime = value; } }
+    // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     // 인스턴스에 접근하기 위한 프로퍼티
     public static GameManager Instance
     {
@@ -45,6 +46,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playeTime = Time.time;
+        PlayeTime = Time.time;
     }
 }
