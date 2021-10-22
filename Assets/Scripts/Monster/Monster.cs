@@ -32,6 +32,8 @@ public abstract class Monster : Character
     protected virtual void OnRunStatus() { }
     // IDLE 상태일때 동작
     protected virtual void OnIdleStatus() { }
+    // IDLE 상태일때 동작
+    protected virtual void OnHitStatus() { }
     // 공격
     protected virtual void Attack() { }
 

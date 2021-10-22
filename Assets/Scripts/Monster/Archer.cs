@@ -57,11 +57,12 @@ public class Archer : Chaser
         {
             _animator.SetTrigger("DieTrigger");
         }
+
         // Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
-        Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
-        Debug.DrawLine(transform.position, -transform.forward * 5f, Color.cyan);
-        Debug.DrawLine(transform.position, transform.right * 5f, Color.blue);
-        Debug.DrawLine(transform.position, -transform.right * 5f, Color.green);
+        Debug.DrawRay(transform.position, transform.forward * 5f, Color.red);
+        Debug.DrawRay(transform.position, -transform.forward * 5f, Color.cyan);
+        Debug.DrawRay(transform.position, transform.right * 5f, Color.blue);
+        Debug.DrawRay(transform.position, -transform.right * 5f, Color.green);
 
 
         DetectionInRange(attackRange, (detectObject) =>
@@ -116,17 +117,33 @@ public class Archer : Chaser
             var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
 
             // TODO 몬스터가 화살에 맞았을때 동작 정의
-
+            OnHitStatus();
 
             // var b = transform.forward;
 
             // float cos = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
             // float cos_to_angles = Mathf.Acos(cos) * Mathf.Rad2Deg;
 
-            // var angle = Vector3.Angle(a, transform.forward);
-            // Debug.Log(angle + " / " + cos_to_angles);
+            // var angle = Vector3.Angle(transform.forward, a);
+
+            // if (angle < 90)
+            // {
+
+            //     Debug.Log(angle);
+            //     Debug.Log("앞");
+            // }
+            // else if (angle < 180)
+            // {
+
+            //     Debug.Log(angle);
+            //     Debug.Log("뒤");
+            // }
         }
     }
+
+
+
+    // 아래부터 재정의 함수
 
     protected override void OnRunStatus()
     {
@@ -138,6 +155,13 @@ public class Archer : Chaser
     protected override void OnIdleStatus()
     {
         _animator.Play("Skeleton_Crossbowman_Idle_Loop");
+        _agent.enabled = false;
+        _agent.velocity = Vector3.zero;
+    }
+
+    protected override void OnHitStatus()
+    {
+        _animator.SetTrigger("HitTrigger");
         _agent.enabled = false;
         _agent.velocity = Vector3.zero;
     }
