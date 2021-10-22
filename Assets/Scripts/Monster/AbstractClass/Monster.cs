@@ -98,9 +98,22 @@ public abstract class Monster : Character
     protected virtual void OnHitStatus() { }
     // 공격
     protected virtual void Attack() { }
-
-    // 죽음. 델리게이트로 받은 동작 실행 후 스스로 Destory()
+    // 죽음
     protected virtual void Die()
+    { // 실행중이던 애니메이션 트리거 전부 종료
+        Animator.ResetTrigger("AttackTrigger");
+        Animator.ResetTrigger("RunTrigger");
+        Animator.ResetTrigger("IdleTrigger");
+        Animator.ResetTrigger("HitTrigger");
+        Animator.SetTrigger("DieTrigger");
+
+        IsDie = true;
+        Agent.velocity = Vector3.zero;
+        Agent.enabled = false;
+        IsAttacking = false;
+    }
+
+    protected virtual void SelfDestroy()
     {
         Destroy(gameObject);
     }

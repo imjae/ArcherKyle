@@ -12,6 +12,8 @@ public class Archer : Chaser
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
+    private IEnumerator detection;
+
     private void Awake()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
@@ -24,7 +26,7 @@ public class Archer : Chaser
     {
         // 몬스터 생성시 해당 몬스터의 Face 카메라 등록
         FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
-        CameraManagement.Instance.EnrollFaceCamera(FaceCamera);
+        CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
 
         MonsterName = "Skeleton Archer(해골 궁수)";
@@ -58,9 +60,7 @@ public class Archer : Chaser
         {
             AnimationCompleteToAction("Skeleton_Crossbowman_Hit_Back", () =>
             {
-                IsDie = true;
-                Agent.enabled = false;
-                Animator.SetTrigger("DieTrigger");
+                Die();
             });
         }
     }
@@ -79,15 +79,26 @@ public class Archer : Chaser
                     // Debug.Log("멈춤 !");
 
                     Attack();
-
                 }
             });
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerArrow"))
+        {
+            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
+
+            // TODO 몬스터가 화살에 맞았을때 동작 정의
+            if (!IsDie)
+                OnHitStatus();
+        }
+    }
+
     private void OnDestroy()
     {
-        CameraManagement.Instance.RemoveCamera(FaceCamera);
+        CameraManagement.Camera.RemoveCamera(FaceCamera);
     }
 
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
@@ -135,21 +146,7 @@ public class Archer : Chaser
     }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("PlayerArrow"))
-        {
-            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
-
-            // TODO 몬스터가 화살에 맞았을때 동작 정의
-            if (!IsDie)
-                OnHitStatus();
-
-        }
-    }
-
     // 아래부터 재정의 함수
-
     protected override void OnRunStatus()
     {
         Agent.enabled = true;
@@ -174,8 +171,10 @@ public class Archer : Chaser
 
     protected override void Die()
     {
-        monsterStatusController.UnActiveMonsterStatus();
         base.Die();
+
+        StopCoroutine(detection);
+        monsterStatusController.UnActiveMonsterStatus();
     }
 
     protected override void Attack()
@@ -185,6 +184,6 @@ public class Archer : Chaser
 
         Agent.enabled = false;
         Agent.velocity = Vector3.zero;
-        Animator.SetTrigger("ShotTrigger");
+        Animator.SetTrigger("AttackTrigger");
     }
 }

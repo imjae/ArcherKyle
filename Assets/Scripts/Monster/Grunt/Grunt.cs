@@ -11,17 +11,21 @@ public class Grunt : Chaser
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
+    private IEnumerator detection;
+
     private void Awake()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
         Agent = this.GetComponent<NavMeshAgent>();
-
+        canvas = GameObject.Find("Canvas");
+        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
     void Start()
     {
-        canvas = GameObject.Find("Canvas");
-        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
+        // 몬스터 생성시 해당 몬스터의 Face 카메라 등록
+        FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
+        CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
         MonsterName = "Skeleton Grunt(해골 거인)";
         IsAttacking = false;
@@ -45,7 +49,8 @@ public class Grunt : Chaser
 
         Agent.speed = SpeedValue;
 
-        StartCoroutine(DetectionRoutine());
+        detection = DetectionRoutine();
+        StartCoroutine(detection);
     }
 
     // Update is called once per frame
@@ -53,20 +58,19 @@ public class Grunt : Chaser
     {
         if (Health.hitPoint <= 0 && !IsDie)
         {
-            AnimationCompleteToAction("Skeleton_Grunt_Hit_Back", () =>
-            {
-                IsDie = true;
-                Agent.enabled = false;
-                Animator.SetTrigger("DieTrigger");
-            });
+            Die();
         }
+    }
 
+    private void LateUpdate()
+    {
         if (!IsDie)
         {
             DetectionInRange(AttackRange, (detectObject) =>
             {
                 if (detectObject.CompareTag("Player") && !IsAttacking)
                 {
+                    // Debug.Log("감지 성공!!!");
                     // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
                     IsAttackingTrue();
                     target = detectObject.gameObject;
@@ -76,6 +80,24 @@ public class Grunt : Chaser
                 }
             });
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerArrow"))
+        {
+            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
+
+            // TODO 몬스터가 화살에 맞았을때 동작 정의
+            if (!IsDie)
+                OnHitStatus();
+
+        }
+    }
+
+    private void OnDestroy()
+    {
+        CameraManagement.Camera.RemoveCamera(FaceCamera);
     }
 
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
@@ -103,18 +125,6 @@ public class Grunt : Chaser
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("PlayerArrow"))
-        {
-            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
-
-            // TODO 몬스터가 화살에 맞았을때 동작 정의
-            if (!IsDie)
-                OnHitStatus();
-
-        }
-    }
 
 
 
@@ -144,8 +154,10 @@ public class Grunt : Chaser
 
     protected override void Die()
     {
-        monsterStatusController.UnActiveMonsterStatus();
         base.Die();
+
+        StopCoroutine(detection);
+        monsterStatusController.UnActiveMonsterStatus();
     }
 
     protected override void Attack()
