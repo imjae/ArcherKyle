@@ -1568,7 +1568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6029852194063565088
 Transform:
   m_ObjectHideFlags: 0
@@ -1678,7 +1678,6 @@ MonoBehaviour:
   decreaseHealth: 10
   regenUpdateInterval: 1
   GodMode: 0
-  healthBar: {fileID: 3812405277050528921, guid: 38310d0d25613de4384357accc9787e4, type: 3}
 --- !u!1 &6653889642098693141
 GameObject:
   m_ObjectHideFlags: 0

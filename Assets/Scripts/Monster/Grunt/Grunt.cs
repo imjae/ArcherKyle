@@ -40,8 +40,8 @@ public class Grunt : Chaser
         AttackRange = 3f;
         SpeedValue = 5f;
 
-        DetectionTime = 1f;
-        DetectionIntervalTime = 3f;
+        DetectionTime = 1.5f;
+        DetectionIntervalTime = 5f;
 
         Agent.speed = SpeedValue;
 
@@ -53,12 +53,11 @@ public class Grunt : Chaser
     {
         if (Health.hitPoint <= 0 && !IsDie)
         {
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Skeleton_Grunt_Hit_Back") &&
-                Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            AnimationCompleteToAction("Skeleton_Grunt_Hit_Back", () =>
             {
                 IsDie = true;
                 Animator.SetTrigger("DieTrigger");
-            }
+            });
         }
 
         if (!IsDie)
@@ -68,9 +67,10 @@ public class Grunt : Chaser
                 if (detectObject.CompareTag("Player") && !IsAttacking)
                 {
                     // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
-                    IsAttacking = true;
+                    IsAttackingTrue();
                     target = detectObject.gameObject;
-                    Debug.Log("멈춤 !");
+                    // Debug.Log("멈춤 !");
+
                     Attack();
                 }
             });
@@ -82,9 +82,19 @@ public class Grunt : Chaser
 
     }
 
+    // 해당 애니메이션이 끝나고나서 동작할 행위 정의
+    private void AnimationCompleteToAction(string animationName, Action action)
+    {
+        if (Animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
+                              Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4)
+        {
+            action();
+        }
+    }
+
     IEnumerator DetectionRoutine()
     {
-        while (!IsDie)
+        while (true)
         {
             if (!IsAttacking)
             {

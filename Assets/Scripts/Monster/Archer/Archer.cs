@@ -58,8 +58,6 @@ public class Archer : Chaser
                 Animator.SetTrigger("DieTrigger");
             });
         }
-
-
     }
 
     private void LateUpdate()
@@ -73,7 +71,7 @@ public class Archer : Chaser
                     // ShotTrigger ¿Ã∫•∆Æø°º≠ IsAttacking ∫Øºˆ ≈‰±€«ÿ¡÷∏È ªÏ¬¶ ¥ ∞‘ Ω««‡µ .
                     IsAttackingTrue();
                     target = detectObject.gameObject;
-                    Debug.Log("∏ÿ√„ !");
+                    // Debug.Log("∏ÿ√„ !");
 
                     Attack();
 

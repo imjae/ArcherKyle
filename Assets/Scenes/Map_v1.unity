@@ -6821,10 +6821,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonGrunt
       objectReference: {fileID: 0}
-    - target: {fileID: 1119075221016671429, guid: 5f13b5dd5e25b466bac79bae12d7ca55, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f13b5dd5e25b466bac79bae12d7ca55, type: 3}
 --- !u!1001 &610120998
@@ -8141,6 +8137,10 @@ PrefabInstance:
     - target: {fileID: 6405673602396756890, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
       propertyPath: m_Name
       value: SkeletonArcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 6405673602396756890, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
