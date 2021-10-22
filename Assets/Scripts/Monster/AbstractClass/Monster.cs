@@ -6,11 +6,13 @@ using UnityEngine.AI;
 
 public abstract class Monster : Character
 {
+
     public string monsterName { get; set; }
     protected Animator _animator { get; set; }
     protected Transform player { get; set; }
     protected NavMeshAgent _agent { get; set; }
     protected bool isAttacking { get; set; }
+    protected bool isDie { get; set; }
 
     protected virtual void DetectionLocationTarget(Transform target)
     {

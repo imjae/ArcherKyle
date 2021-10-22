@@ -27,15 +27,15 @@ public class Archer : Chaser
         canvas = GameObject.Find("Canvas");
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
 
-        monsterName = "Skeleton Archer";
+        monsterName = "Skeleton Archer(ÇØ°ñ ±Ã¼ö)";
         isAttacking = false;
 
         _animator = this.GetComponent<Animator>();
         healthSystem = this.GetComponent<HealthSystem>();
         player = GameObject.Find("Robot Kyle").transform;
 
-        healthSystem.hitPoint = 200f;
-        healthSystem.maxHitPoint = 200f;
+        healthSystem.hitPoint = 150f;
+        healthSystem.maxHitPoint = 150f;
         healthSystem.regenerate = true;
         healthSystem.regen = 0.5f;
         healthSystem.isDecrease = false;
@@ -59,10 +59,10 @@ public class Archer : Chaser
         }
 
         // Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
-        Debug.DrawRay(transform.position, transform.forward * 5f, Color.red);
-        Debug.DrawRay(transform.position, -transform.forward * 5f, Color.cyan);
-        Debug.DrawRay(transform.position, transform.right * 5f, Color.blue);
-        Debug.DrawRay(transform.position, -transform.right * 5f, Color.green);
+        // Debug.DrawRay(transform.position, transform.forward * 5f, Color.red);
+        // Debug.DrawRay(transform.position, -transform.forward * 5f, Color.cyan);
+        // Debug.DrawRay(transform.position, transform.right * 5f, Color.blue);
+        // Debug.DrawRay(transform.position, -transform.right * 5f, Color.green);
 
 
         DetectionInRange(attackRange, (detectObject) =>

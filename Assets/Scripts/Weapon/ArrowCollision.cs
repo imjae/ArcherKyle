@@ -50,7 +50,7 @@ public class ArrowCollision : MonoBehaviour
             if (other.CompareTag("Monster"))
             {
                 monsterStatusController.ActiveMonsterStatus();
-                Monster monster = other.GetComponent<Archer>();
+                Monster monster = other.GetComponent<Monster>();
                 monsterStatusController.SetMonsterName(monster.monsterName);
             }
 
