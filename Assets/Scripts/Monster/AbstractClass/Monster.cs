@@ -19,6 +19,7 @@ public abstract class Monster : Character
     private bool _isAttacking;
     private bool _isDie;
 
+    private IEnumerator _detection;
 
     public string MonsterName
     {
@@ -73,14 +74,21 @@ public abstract class Monster : Character
         get { return _faceCamera; }
         set { _faceCamera = value; }
     }
+    protected IEnumerator Detection
+    {
+        get { return _detection; }
+        set { _detection = value; }
+    }
 
-    protected virtual void DetectionLocationTarget(Transform target)
+    // 추가 정의가 필요 없는 경우 virtual 키워드 붙이지 않음.
+    protected void DetectionLocationTarget(Transform target)
     {
         _agent.SetDestination(target.position);
     }
 
+    // TODO 영상 삽입 코드
     // 몬스터에 설정된 Range값 범위 안에 충돌일어 났을 경우에 취할 행동 정의
-    protected virtual void DetectionInRange(float radius, Action<Collider> action)
+    protected void DetectionInRange(float radius, Action<Collider> action)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         for (int i = 0; i < hitColliders.Length; i++)
@@ -90,14 +98,51 @@ public abstract class Monster : Character
         }
     }
 
+    // 몬스터의 플레이어 감지 동작 루틴
+    protected IEnumerator DetectionRoutine()
+    {
+        // 죽지 않았을 때만 플레이어 감지
+        while (!IsDie)
+        {
+            if (!IsAttacking)
+            {
+                OnIdleStatus();
+                yield return new WaitForSeconds(DetectionTime);
+                OnRunStatus();
+                yield return new WaitForSeconds(DetectionIntervalTime);
+            }
+            yield return null;
+        }
+    }
+
     // 달리기 상태일때 동작
-    protected virtual void OnRunStatus() { }
+    protected virtual void OnRunStatus()
+    {
+        Agent.enabled = true;
+        DetectionLocationTarget(Player);
+        Animator.SetTrigger("RunTrigger");
+    }
     // IDLE 상태일때 동작
-    protected virtual void OnIdleStatus() { }
+    protected virtual void OnIdleStatus()
+    {
+        Animator.Play("Skeleton_Mage_Idle_Loop");
+        Agent.enabled = false;
+        Agent.velocity = Vector3.zero;
+    }
     // IDLE 상태일때 동작
-    protected virtual void OnHitStatus() { }
+    protected virtual void OnHitStatus()
+    {
+        Animator.SetTrigger("HitTrigger");
+        Agent.enabled = false;
+        Agent.velocity = Vector3.zero;
+    }
     // 공격
-    protected virtual void Attack() { }
+    protected virtual void Attack()
+    {
+        Agent.enabled = false;
+        Agent.velocity = Vector3.zero;
+        Animator.SetTrigger("AttackTrigger");
+    }
     // 죽음
     protected virtual void Die()
     { // 실행중이던 애니메이션 트리거 전부 종료
@@ -111,6 +156,8 @@ public abstract class Monster : Character
         Agent.velocity = Vector3.zero;
         Agent.enabled = false;
         IsAttacking = false;
+
+        StopCoroutine(Detection);
     }
 
     protected virtual void SelfDestroy()

@@ -12,15 +12,16 @@ public class Mage : Chaser
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
-    private IEnumerator detection;
-
     private void Awake()
+    {
+        canvas = GameObject.Find("Canvas");
+    }
+
+    private void OnEnable()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
         Agent = this.GetComponent<NavMeshAgent>();
-        canvas = GameObject.Find("Canvas");
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
-
     }
 
     private void Start()
@@ -51,8 +52,8 @@ public class Mage : Chaser
 
         Agent.speed = SpeedValue;
 
-        detection = DetectionRoutine();
-        StartCoroutine(detection);
+        Detection = DetectionRoutine();
+        StartCoroutine(Detection);
     }
 
     void Update()
@@ -86,12 +87,9 @@ public class Mage : Chaser
     {
         if (other.CompareTag("PlayerArrow"))
         {
-            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
-
             // TODO 몬스터가 화살에 맞았을때 동작 정의
             if (!IsDie)
                 OnHitStatus();
-
         }
     }
 
@@ -100,6 +98,7 @@ public class Mage : Chaser
         CameraManagement.Camera.RemoveCamera(FaceCamera);
     }
 
+
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
     private void AnimationCompleteToAction(string animationName, Action action)
     {
@@ -107,22 +106,6 @@ public class Mage : Chaser
                               Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4)
         {
             action();
-        }
-    }
-
-    IEnumerator DetectionRoutine()
-    {
-        // 죽지 않았을 때만 플레이어 감지
-        while (!IsDie)
-        {
-            if (!IsAttacking)
-            {
-                OnIdleStatus();
-                yield return new WaitForSeconds(DetectionTime);
-                OnRunStatus();
-                yield return new WaitForSeconds(DetectionIntervalTime);
-            }
-            yield return null;
         }
     }
 
@@ -149,31 +132,23 @@ public class Mage : Chaser
 
     protected override void OnRunStatus()
     {
-        Agent.enabled = true;
-        DetectionLocationTarget(Player);
-        Animator.SetTrigger("RunTrigger");
+        base.OnRunStatus();
     }
 
     protected override void OnIdleStatus()
     {
-        Animator.Play("Skeleton_Mage_Idle_Loop");
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
+        base.OnIdleStatus();
     }
 
     protected override void OnHitStatus()
     {
-        Animator.SetTrigger("HitTrigger");
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
+        base.OnHitStatus();
     }
-
 
     protected override void Die()
     {
         base.Die();
 
-        StopCoroutine(detection);
         monsterStatusController.UnActiveMonsterStatus();
     }
 
@@ -182,8 +157,6 @@ public class Mage : Chaser
         // 공격 실행 후 캐릭터 위치를 보게함.
         transform.LookAt(ArrowTargetVertor());
 
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
-        Animator.SetTrigger("AttackTrigger");
+        base.Attack();
     }
 }

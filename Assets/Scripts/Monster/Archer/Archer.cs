@@ -12,13 +12,15 @@ public class Archer : Chaser
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
-    private IEnumerator detection;
-
     private void Awake()
+    {
+        canvas = GameObject.Find("Canvas");
+    }
+
+    private void OnEnable()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
         Agent = this.GetComponent<NavMeshAgent>();
-        canvas = GameObject.Find("Canvas");
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
@@ -27,7 +29,6 @@ public class Archer : Chaser
         // 몬스터 생성시 해당 몬스터의 Face 카메라 등록
         FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
-
 
         MonsterName = "Skeleton Archer(해골 궁수)";
         IsAttacking = false;
@@ -58,10 +59,7 @@ public class Archer : Chaser
     {
         if (Health.hitPoint <= 0 && !IsDie)
         {
-            AnimationCompleteToAction("Skeleton_Crossbowman_Hit_Back", () =>
-            {
-                Die();
-            });
+            Die();
         }
     }
 
@@ -111,22 +109,6 @@ public class Archer : Chaser
         }
     }
 
-    IEnumerator DetectionRoutine()
-    {
-        // 죽지 않았을 때만 플레이어 감지
-        while (!IsDie)
-        {
-            if (!IsAttacking)
-            {
-                OnIdleStatus();
-                yield return new WaitForSeconds(DetectionTime);
-                OnRunStatus();
-                yield return new WaitForSeconds(DetectionIntervalTime);
-            }
-            yield return null;
-        }
-    }
-
     private void CloneArrow()
     {
         // 생성위치
@@ -147,33 +129,26 @@ public class Archer : Chaser
 
 
     // 아래부터 재정의 함수
+
     protected override void OnRunStatus()
     {
-        Agent.enabled = true;
-        DetectionLocationTarget(Player);
-        Animator.SetTrigger("RunTrigger");
+        base.OnRunStatus();
     }
 
     protected override void OnIdleStatus()
     {
-        Animator.Play("Skeleton_Crossbowman_Idle_Loop");
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
+        base.OnIdleStatus();
     }
 
     protected override void OnHitStatus()
     {
-        Animator.SetTrigger("HitTrigger");
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
+        base.OnHitStatus();
     }
-
 
     protected override void Die()
     {
         base.Die();
 
-        StopCoroutine(detection);
         monsterStatusController.UnActiveMonsterStatus();
     }
 
@@ -182,8 +157,6 @@ public class Archer : Chaser
         // 공격 실행 후 캐릭터 위치를 보게함.
         transform.LookAt(ArrowTargetVertor());
 
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
-        Animator.SetTrigger("AttackTrigger");
+        base.Attack();
     }
 }

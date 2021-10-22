@@ -10,13 +10,15 @@ public class King : Chaser
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
-    private IEnumerator detection;
-
     private void Awake()
+    {
+        canvas = GameObject.Find("Canvas");
+    }
+
+    private void OnEnable()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
         Agent = this.GetComponent<NavMeshAgent>();
-        canvas = GameObject.Find("Canvas");
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
@@ -48,8 +50,8 @@ public class King : Chaser
 
         Agent.speed = SpeedValue;
 
-        detection = DetectionRoutine();
-        StartCoroutine(detection);
+        Detection = DetectionRoutine();
+        StartCoroutine(Detection);
     }
 
     // Update is called once per frame
@@ -93,7 +95,6 @@ public class King : Chaser
         }
     }
 
-
     private void OnDestroy()
     {
         CameraManagement.Camera.RemoveCamera(FaceCamera);
@@ -109,50 +110,27 @@ public class King : Chaser
         }
     }
 
-    IEnumerator DetectionRoutine()
-    {
-        while (!IsDie)
-        {
-            if (!IsAttacking)
-            {
-                OnIdleStatus();
-                yield return new WaitForSeconds(DetectionTime);
-                OnRunStatus();
-                yield return new WaitForSeconds(DetectionIntervalTime);
-            }
-            yield return null;
-        }
-    }
-
-
     // 아래부터 재정의 함수
+
     protected override void OnRunStatus()
     {
-        Agent.enabled = true;
-        DetectionLocationTarget(Player);
-        Animator.SetTrigger("RunTrigger");
+        base.OnRunStatus();
     }
 
     protected override void OnIdleStatus()
     {
-        Animator.SetTrigger("IdleTrigger");
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
+        base.OnIdleStatus();
     }
 
     protected override void OnHitStatus()
     {
-        Animator.SetTrigger("HitTrigger");
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
+        base.OnHitStatus();
     }
-
 
     protected override void Die()
     {
         base.Die();
 
-        StopCoroutine(detection);
         monsterStatusController.UnActiveMonsterStatus();
     }
 
@@ -161,8 +139,6 @@ public class King : Chaser
         // 공격 실행 후 캐릭터 위치를 보게함.
         transform.LookAt(target.transform.position);
 
-        Agent.enabled = false;
-        Agent.velocity = Vector3.zero;
-        Animator.SetTrigger("AttackTrigger");
+        base.Attack();
     }
 }
