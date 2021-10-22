@@ -7,7 +7,6 @@ public class MonsterStatusController : MonoBehaviour
 {
     public GameObject monsterFace;
     public GameObject monsterName;
-    public GameObject healthBar;
 
     public void ActiveMonsterStatus()
     {

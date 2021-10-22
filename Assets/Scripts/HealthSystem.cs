@@ -19,8 +19,8 @@ public class HealthSystem : MonoBehaviour
     // regenerate Health & Mana
     //==============================================================
 
-    public float hitPoint = 0.0f;
-    public float maxHitPoint = 0.0f;
+    public float hitPoint = 100f;
+    public float maxHitPoint = 100f;
 
     public bool regenerate = true;
     public float regen = 0.1f;
@@ -34,15 +34,26 @@ public class HealthSystem : MonoBehaviour
 
     public bool GodMode;
 
-    public GameObject healthBar;
+
+    private GameObject canvas;
+    private Transform monsterStatus;
+    private Slider slider;
+
 
     //==============================================================
     // Awake
     //==============================================================
-    void Awake()
+    private void Awake()
     {
-        UpdateGraphics();
+        hitPoint = 100f;
+        maxHitPoint = 100f;
         timeleft = regenUpdateInterval;
+
+        canvas = GameObject.Find("Canvas");
+        monsterStatus = canvas.transform.Find("MonsterStatus");
+        slider = monsterStatus.Find("StatusRightPanel").Find("MonsterHealthBar").GetComponent<Slider>();
+
+        UpdateGraphics();
     }
 
     //==============================================================
@@ -108,10 +119,7 @@ public class HealthSystem : MonoBehaviour
     //==============================================================
     private void UpdateHealthBar()
     {
-        var slider = healthBar.GetComponent<Slider>();
         slider.value = hitPoint / maxHitPoint;
-        Debug.Log(slider.value);
-        // healthBar.transform.localScale = new VectohitPoint / 100f3(hitPoint / 100f, 1, 1);
     }
 
 

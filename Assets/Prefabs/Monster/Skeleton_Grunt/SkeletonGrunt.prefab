@@ -566,7 +566,7 @@ MonoBehaviour:
   decreaseHealth: 0.1
   regenUpdateInterval: 1
   GodMode: 0
-  healthBar: {fileID: 3812405277050528921, guid: 38310d0d25613de4384357accc9787e4, type: 3}
+  healthBar: {fileID: 0}
 --- !u!95 &933789509
 Animator:
   serializedVersion: 3

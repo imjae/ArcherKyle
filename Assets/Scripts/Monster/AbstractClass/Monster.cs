@@ -105,9 +105,14 @@ public abstract class Monster : Character
         return (transform.position - target.position).normalized;
     }
 
-    // 공격 플래그 변수 토글
-    public virtual void ToggleIsAttacking()
+    // 공격 플래그 변수 TRUE
+    public virtual void IsAttackingTrue()
     {
-        IsAttacking = !IsAttacking;
+        IsAttacking = true;
+    }
+    // 공격 플래그 변수 FALSE
+    public virtual void IsAttackingFalse()
+    {
+        IsAttacking = false;
     }
 }

@@ -19,13 +19,17 @@ public class ElementController : MonoBehaviour
     int count;
     int currentElementIndex;
 
-    public Transform elementPanel;
 
     private PlayerAction playActionScript;
+    private GameObject canvas;
+    private RectTransform elementPanel;
 
     // Start is called before the first frame update
     void Start()
     {
+        canvas = GameObject.Find("Canvas");
+        elementPanel = canvas.transform.Find("StatusPanel").Find("CurrentElementPanel").GetComponent<RectTransform>();
+
         count = elementPanel.childCount;
         elementArr = new GameObject[count];
 

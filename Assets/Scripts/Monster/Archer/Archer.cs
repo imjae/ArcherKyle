@@ -16,13 +16,12 @@ public class Archer : Chaser
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
         Agent = this.GetComponent<NavMeshAgent>();
-
+        canvas = GameObject.Find("Canvas");
+        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
     private void Start()
     {
-        canvas = GameObject.Find("Canvas");
-        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
 
         MonsterName = "Skeleton Archer(해골 궁수)";
         IsAttacking = false;
@@ -53,15 +52,18 @@ public class Archer : Chaser
     {
         if (Health.hitPoint <= 0 && !IsDie)
         {
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Skeleton_Crossbowman_Hit_Back") &&
-               Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            AnimationCompleteToAction("Skeleton_Crossbowman_Hit_Back", () =>
             {
                 IsDie = true;
                 Animator.SetTrigger("DieTrigger");
-            }
-
+            });
         }
 
+
+    }
+
+    private void LateUpdate()
+    {
         if (!IsDie)
         {
             DetectionInRange(AttackRange, (detectObject) =>
@@ -69,24 +71,31 @@ public class Archer : Chaser
                 if (detectObject.CompareTag("Player") && !IsAttacking)
                 {
                     // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
-                    IsAttacking = true;
+                    IsAttackingTrue();
                     target = detectObject.gameObject;
                     Debug.Log("멈춤 !");
+
                     Attack();
+
                 }
             });
         }
     }
 
-    private void LateUpdate()
+    // 해당 애니메이션이 끝나고나서 동작할 행위 정의
+    private void AnimationCompleteToAction(string animationName, Action action)
     {
-
+        if (Animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
+                              Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4)
+        {
+            action();
+        }
     }
 
     IEnumerator DetectionRoutine()
     {
         // 죽지 않았을 때만 플레이어 감지
-        while (!IsDie)
+        while (true)
         {
             if (!IsAttacking)
             {

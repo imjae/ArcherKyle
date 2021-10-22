@@ -2306,7 +2306,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentElement: 0
-  elementPanel: {fileID: 0}
 --- !u!1001 &151099823
 PrefabInstance:
   m_ObjectHideFlags: 0

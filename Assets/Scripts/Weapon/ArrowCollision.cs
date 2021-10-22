@@ -20,16 +20,18 @@ public class ArrowCollision : MonoBehaviour
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
-    private void Start()
+    private void Awake()
     {
         canvas = GameObject.Find("Canvas");
+        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
+    }
 
+    private void Start()
+    {
         rigid = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
         arrowMovement = GetComponent<ArrowMovement>();
-
         arrowScript = GetComponent<Arrow>();
-        monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
 
