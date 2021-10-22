@@ -51,7 +51,7 @@ public class ArrowCollision : MonoBehaviour
             {
                 monsterStatusController.ActiveMonsterStatus();
                 Monster monster = other.GetComponent<Monster>();
-                monsterStatusController.SetMonsterName(monster.monsterName);
+                monsterStatusController.SetMonsterName(monster.MonsterName);
             }
 
             if (other.CompareTag("MonsterCriticalZone"))

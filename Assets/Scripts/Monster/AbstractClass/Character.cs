@@ -4,8 +4,23 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    protected float attackValue { get; set; }
-    protected float attackRange { get; set; }
-    protected float speedValue { get; set; }
-    protected Vector3 currentPosition { get; set; }
+    private float _attackValue;
+    private float _attackRange;
+    private float _speedValue;
+
+    protected float AttackValue
+    {
+        get { return _attackValue; }
+        set { _attackValue = value; }
+    }
+    protected float AttackRange
+    {
+        get { return _attackRange; }
+        set { _attackRange = value; }
+    }
+    protected float SpeedValue
+    {
+        get { return _speedValue; }
+        set { _speedValue = value; }
+    }
 }

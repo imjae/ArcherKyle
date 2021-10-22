@@ -6,13 +6,61 @@ using UnityEngine.AI;
 
 public abstract class Monster : Character
 {
+    private string _monsterName;
+    private Animator _animator;
+    private Transform _player;
+    private NavMeshAgent _agent;
 
-    public string monsterName { get; set; }
-    protected Animator _animator { get; set; }
-    protected Transform player { get; set; }
-    protected NavMeshAgent _agent { get; set; }
-    protected bool isAttacking { get; set; }
-    protected bool isDie { get; set; }
+    private float _detectionTime;
+    private float _detectionIntervalTime;
+
+    private bool _isAttacking;
+    private bool _isDie;
+
+
+    public string MonsterName
+    {
+        get { return _monsterName; }
+        set { _monsterName = value; }
+    }
+    protected Animator Animator
+    {
+        get { return _animator; }
+        set { _animator = value; }
+    }
+    protected Transform Player
+    {
+        get { return _player; }
+        set { _player = value; }
+    }
+    protected NavMeshAgent Agent
+    {
+        get { return _agent; }
+        set { _agent = value; }
+    }
+
+    protected float DetectionTime
+    {
+        get { return _detectionTime; }
+        set { _detectionTime = value; }
+    }
+
+    protected float DetectionIntervalTime
+    {
+        get { return _detectionIntervalTime; }
+        set { _detectionIntervalTime = value; }
+    }
+
+    protected bool IsAttacking
+    {
+        get { return _isAttacking; }
+        set { _isAttacking = false; }
+    }
+    protected bool IsDie
+    {
+        get { return _isDie; }
+        set { _isDie = false; }
+    }
 
     protected virtual void DetectionLocationTarget(Transform target)
     {
@@ -54,6 +102,6 @@ public abstract class Monster : Character
     // 공격 플래그 변수 토글
     public virtual void ToggleIsAttacking()
     {
-        isAttacking = !isAttacking;
+        IsAttacking = !IsAttacking;
     }
 }

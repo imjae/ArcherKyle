@@ -18,7 +18,7 @@ public class Archer : Chaser
     private void Awake()
     {
         // 게임이 시작되면 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 가져와서 저장
-        _agent = this.GetComponent<NavMeshAgent>();
+        Agent = this.GetComponent<NavMeshAgent>();
 
     }
 
@@ -27,12 +27,12 @@ public class Archer : Chaser
         canvas = GameObject.Find("Canvas");
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
 
-        monsterName = "Skeleton Archer(해골 궁수)";
-        isAttacking = false;
+        MonsterName = "Skeleton Archer(해골 궁수)";
+        IsAttacking = false;
 
-        _animator = this.GetComponent<Animator>();
+        Animator = this.GetComponent<Animator>();
         healthSystem = this.GetComponent<HealthSystem>();
-        player = GameObject.Find("Robot Kyle").transform;
+        Player = GameObject.Find("Robot Kyle").transform;
 
         healthSystem.hitPoint = 150f;
         healthSystem.maxHitPoint = 150f;
@@ -42,50 +42,56 @@ public class Archer : Chaser
         healthSystem.regenUpdateInterval = 1f;
         healthSystem.GodMode = false;
 
-        attackValue = 10f;
-        attackRange = 7f;
-        speedValue = 8f;
+        AttackValue = 10f;
+        AttackRange = 7f;
+        SpeedValue = 8f;
 
-        _agent.speed = this.speedValue;
+        DetectionTime = 0.5f;
+        DetectionIntervalTime = 4f;
+
+        Agent.speed = SpeedValue;
 
         StartCoroutine(DetectionRoutine());
     }
 
     void Update()
     {
-        if (healthSystem.hitPoint <= 0)
+        if (healthSystem.hitPoint <= 0 && !IsDie)
         {
-            _animator.SetTrigger("DieTrigger");
+            IsDie = true;
+            Animator.SetTrigger("DieTrigger");
         }
+    }
 
-        // Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
-        // Debug.DrawRay(transform.position, transform.forward * 5f, Color.red);
-        // Debug.DrawRay(transform.position, -transform.forward * 5f, Color.cyan);
-        // Debug.DrawRay(transform.position, transform.right * 5f, Color.blue);
-        // Debug.DrawRay(transform.position, -transform.right * 5f, Color.green);
-
-
-        DetectionInRange(attackRange, (detectObject) =>
+    private void LateUpdate()
+    {
+        if (!IsDie)
         {
-            if (detectObject.CompareTag("Player") && !isAttacking)
+            DetectionInRange(AttackRange, (detectObject) =>
             {
-                target = detectObject.gameObject;
-                Debug.Log("멈춤 !");
-                Attack();
-            }
-        });
+                if (detectObject.CompareTag("Player") && !IsAttacking)
+                {
+                    // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
+                    IsAttacking = true;
+                    target = detectObject.gameObject;
+                    Debug.Log("멈춤 !");
+                    Attack();
+                }
+            });
+        }
     }
 
     IEnumerator DetectionRoutine()
     {
-        while (true)
+        // 죽지 않았을 때만 플레이어 감지
+        while (!IsDie)
         {
-            if (!isAttacking)
+            if (!IsAttacking)
             {
                 OnIdleStatus();
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(DetectionTime);
                 OnRunStatus();
-                yield return new WaitForSeconds(6f);
+                yield return new WaitForSeconds(DetectionIntervalTime);
             }
             yield return null;
         }
@@ -117,7 +123,9 @@ public class Archer : Chaser
             var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
 
             // TODO 몬스터가 화살에 맞았을때 동작 정의
-            OnHitStatus();
+            // if (!IsDie)
+            //     OnHitStatus();
+
 
             // var b = transform.forward;
 
@@ -147,23 +155,23 @@ public class Archer : Chaser
 
     protected override void OnRunStatus()
     {
-        _agent.enabled = true;
-        DetectionLocationTarget(player);
-        _animator.SetTrigger("RunTrigger");
+        Agent.enabled = true;
+        DetectionLocationTarget(Player);
+        Animator.SetTrigger("RunTrigger");
     }
 
     protected override void OnIdleStatus()
     {
-        _animator.Play("Skeleton_Crossbowman_Idle_Loop");
-        _agent.enabled = false;
-        _agent.velocity = Vector3.zero;
+        Animator.Play("Skeleton_Crossbowman_Idle_Loop");
+        Agent.enabled = false;
+        Agent.velocity = Vector3.zero;
     }
 
     protected override void OnHitStatus()
     {
-        _animator.SetTrigger("HitTrigger");
-        _agent.enabled = false;
-        _agent.velocity = Vector3.zero;
+        Animator.SetTrigger("HitTrigger");
+        Agent.enabled = false;
+        Agent.velocity = Vector3.zero;
     }
 
 
@@ -175,13 +183,11 @@ public class Archer : Chaser
 
     protected override void Attack()
     {
-        // ShotTrigger 이벤트에서 isAttacking 변수 토글해주면 살짝 늦게 실행됨.
-        isAttacking = true;
         // 공격 실행 후 캐릭터 위치를 보게함.
         transform.LookAt(ArrowTargetVertor());
 
-        _agent.enabled = false;
-        _agent.velocity = Vector3.zero;
-        _animator.SetTrigger("ShotTrigger");
+        Agent.enabled = false;
+        Agent.velocity = Vector3.zero;
+        Animator.SetTrigger("ShotTrigger");
     }
 }
