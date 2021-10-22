@@ -8,6 +8,9 @@ public class Mage : Chaser
 {
     [SerializeField]
     private GameObject magic;
+    [SerializeField]
+    private Transform attackPosition;
+
     private GameObject target;
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
@@ -109,19 +112,20 @@ public class Mage : Chaser
         }
     }
 
-    private void CloneArrow()
+    private void CloneMagic()
     {
         // 생성위치
         // arrow 오브젝트 자식으로
         // position : 0, 0.7, 0
         var clone = Instantiate(magic);
-        clone.transform.SetParent(transform.Find("arrow"));
-        clone.transform.localPosition = new Vector3(0f, 0.7f, 0f);
+        clone.transform.SetParent(transform);
+        clone.transform.localPosition = attackPosition.localPosition;
+        clone.transform.localScale = attackPosition.localScale;
 
-        clone.transform.LookAt(ArrowTargetVertor());
+        clone.transform.LookAt(MagicTargetVertor());
     }
 
-    private Vector3 ArrowTargetVertor()
+    private Vector3 MagicTargetVertor()
     {
         Vector3 position = target.transform.position;
         return new Vector3(position.x, position.y + 1f, position.z);
@@ -155,7 +159,7 @@ public class Mage : Chaser
     protected override void Attack()
     {
         // 공격 실행 후 캐릭터 위치를 보게함.
-        transform.LookAt(ArrowTargetVertor());
+        transform.LookAt(MagicTargetVertor());
 
         base.Attack();
     }
