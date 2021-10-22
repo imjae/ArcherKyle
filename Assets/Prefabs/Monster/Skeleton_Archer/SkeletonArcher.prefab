@@ -1678,7 +1678,7 @@ MonoBehaviour:
   decreaseHealth: 10
   regenUpdateInterval: 1
   GodMode: 0
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 3812405277050528921, guid: 38310d0d25613de4384357accc9787e4, type: 3}
 --- !u!1 &6653889642098693141
 GameObject:
   m_ObjectHideFlags: 0

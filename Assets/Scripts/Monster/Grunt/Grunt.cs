@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class Grunt : Chaser
 {
-    private HealthSystem healthSystem;
     private GameObject target;
 
     private GameObject canvas;
@@ -28,20 +27,18 @@ public class Grunt : Chaser
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();
-        healthSystem = this.GetComponent<HealthSystem>();
+        Health = this.GetComponent<HealthSystem>();
         Player = GameObject.Find("Robot Kyle").transform;
 
-        healthSystem.hitPoint = 300f;
-        healthSystem.maxHitPoint = 300f;
-        healthSystem.regenerate = true;
-        healthSystem.regen = 2f;
-        healthSystem.isDecrease = false;
-        healthSystem.regenUpdateInterval = 1f;
-        healthSystem.GodMode = false;
+        Health.hitPoint = 300f;
+        Health.maxHitPoint = 300f;
+        Health.regenerate = false;
+        Health.isDecrease = false;
+        Health.GodMode = false;
 
         AttackValue = 20f;
         AttackRange = 3f;
-        SpeedValue = 5.5f;
+        SpeedValue = 5f;
 
         DetectionTime = 1f;
         DetectionIntervalTime = 3f;
@@ -54,15 +51,16 @@ public class Grunt : Chaser
     // Update is called once per frame
     void Update()
     {
-        if (healthSystem.hitPoint <= 0 && !IsDie)
+        if (Health.hitPoint <= 0 && !IsDie)
         {
-            IsDie = true;
-            Animator.SetTrigger("DieTrigger");
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Skeleton_Grunt_Hit_Back") &&
+                Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            {
+                IsDie = true;
+                Animator.SetTrigger("DieTrigger");
+            }
         }
-    }
 
-    private void LateUpdate()
-    {
         if (!IsDie)
         {
             DetectionInRange(AttackRange, (detectObject) =>
@@ -79,6 +77,11 @@ public class Grunt : Chaser
         }
     }
 
+    private void LateUpdate()
+    {
+
+    }
+
     IEnumerator DetectionRoutine()
     {
         while (!IsDie)
@@ -91,6 +94,19 @@ public class Grunt : Chaser
                 yield return new WaitForSeconds(DetectionIntervalTime);
             }
             yield return null;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerArrow"))
+        {
+            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
+
+            // TODO 몬스터가 화살에 맞았을때 동작 정의
+            if (!IsDie)
+                OnHitStatus();
+
         }
     }
 

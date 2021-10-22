@@ -10,6 +10,7 @@ public abstract class Monster : Character
     private Animator _animator;
     private Transform _player;
     private NavMeshAgent _agent;
+    private HealthSystem _healthSystem;
 
     private float _detectionTime;
     private float _detectionIntervalTime;
@@ -38,6 +39,11 @@ public abstract class Monster : Character
         get { return _agent; }
         set { _agent = value; }
     }
+    protected HealthSystem Health
+    {
+        get { return _healthSystem; }
+        set { _healthSystem = value; }
+    }
 
     protected float DetectionTime
     {
@@ -54,12 +60,12 @@ public abstract class Monster : Character
     protected bool IsAttacking
     {
         get { return _isAttacking; }
-        set { _isAttacking = false; }
+        set { _isAttacking = value; }
     }
     protected bool IsDie
     {
         get { return _isDie; }
-        set { _isDie = false; }
+        set { _isDie = value; }
     }
 
     protected virtual void DetectionLocationTarget(Transform target)

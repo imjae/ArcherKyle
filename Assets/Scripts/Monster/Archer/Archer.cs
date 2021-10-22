@@ -6,12 +6,9 @@ using UnityEngine.AI;
 
 public class Archer : Chaser
 {
-    private HealthSystem healthSystem;
     [SerializeField]
     private GameObject arrow;
-
     private GameObject target;
-
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
@@ -31,20 +28,18 @@ public class Archer : Chaser
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();
-        healthSystem = this.GetComponent<HealthSystem>();
+        Health = this.GetComponent<HealthSystem>();
         Player = GameObject.Find("Robot Kyle").transform;
 
-        healthSystem.hitPoint = 150f;
-        healthSystem.maxHitPoint = 150f;
-        healthSystem.regenerate = true;
-        healthSystem.regen = 0.5f;
-        healthSystem.isDecrease = false;
-        healthSystem.regenUpdateInterval = 1f;
-        healthSystem.GodMode = false;
+        Health.hitPoint = 150f;
+        Health.maxHitPoint = 150f;
+        Health.regenerate = false;
+        Health.isDecrease = false;
+        Health.GodMode = false;
 
         AttackValue = 10f;
         AttackRange = 7f;
-        SpeedValue = 8f;
+        SpeedValue = 7f;
 
         DetectionTime = 0.5f;
         DetectionIntervalTime = 4f;
@@ -56,15 +51,17 @@ public class Archer : Chaser
 
     void Update()
     {
-        if (healthSystem.hitPoint <= 0 && !IsDie)
+        if (Health.hitPoint <= 0 && !IsDie)
         {
-            IsDie = true;
-            Animator.SetTrigger("DieTrigger");
-        }
-    }
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Skeleton_Crossbowman_Hit_Back") &&
+               Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            {
+                IsDie = true;
+                Animator.SetTrigger("DieTrigger");
+            }
 
-    private void LateUpdate()
-    {
+        }
+
         if (!IsDie)
         {
             DetectionInRange(AttackRange, (detectObject) =>
@@ -79,6 +76,11 @@ public class Archer : Chaser
                 }
             });
         }
+    }
+
+    private void LateUpdate()
+    {
+
     }
 
     IEnumerator DetectionRoutine()
@@ -120,36 +122,14 @@ public class Archer : Chaser
     {
         if (other.CompareTag("PlayerArrow"))
         {
-            var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
+            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
 
             // TODO 몬스터가 화살에 맞았을때 동작 정의
-            // if (!IsDie)
-            //     OnHitStatus();
+            if (!IsDie)
+                OnHitStatus();
 
-
-            // var b = transform.forward;
-
-            // float cos = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
-            // float cos_to_angles = Mathf.Acos(cos) * Mathf.Rad2Deg;
-
-            // var angle = Vector3.Angle(transform.forward, a);
-
-            // if (angle < 90)
-            // {
-
-            //     Debug.Log(angle);
-            //     Debug.Log("앞");
-            // }
-            // else if (angle < 180)
-            // {
-
-            //     Debug.Log(angle);
-            //     Debug.Log("뒤");
-            // }
         }
     }
-
-
 
     // 아래부터 재정의 함수
 

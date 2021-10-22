@@ -39,7 +39,7 @@ public class HealthSystem : MonoBehaviour
     //==============================================================
     // Awake
     //==============================================================
-    void Start()
+    void Awake()
     {
         UpdateGraphics();
         timeleft = regenUpdateInterval;
@@ -110,6 +110,7 @@ public class HealthSystem : MonoBehaviour
     {
         var slider = healthBar.GetComponent<Slider>();
         slider.value = hitPoint / maxHitPoint;
+        Debug.Log(slider.value);
         // healthBar.transform.localScale = new VectohitPoint / 100f3(hitPoint / 100f, 1, 1);
     }
 
