@@ -1978,7 +1978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8161665895324185975}
   m_Layer: 0
-  m_Name: Skeleton_Swordsman_allinone
+  m_Name: SkeletonSwordsman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

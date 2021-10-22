@@ -125,7 +125,7 @@ public abstract class Monster : Character
     // IDLE 상태일때 동작
     protected virtual void OnIdleStatus()
     {
-        Animator.Play("Skeleton_Mage_Idle_Loop");
+        Animator.SetTrigger("IdleTrigger");
         Agent.enabled = false;
         Agent.velocity = Vector3.zero;
     }
