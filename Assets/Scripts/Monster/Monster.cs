@@ -50,6 +50,6 @@ public abstract class Monster : Character
     // 공격 플래그 변수 토글
     public virtual void ToggleIsAttacking()
     {
-        isAttacking = isAttacking;
+        isAttacking = !isAttacking;
     }
 }

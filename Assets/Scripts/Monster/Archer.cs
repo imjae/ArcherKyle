@@ -57,11 +57,11 @@ public class Archer : Chaser
         {
             _animator.SetTrigger("DieTrigger");
         }
+        // Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
         Debug.DrawLine(transform.position, transform.forward * 5f, Color.red);
-        // Debug.DrawLine(transform.position, Vector3.forward * 5f, Color.red);
-        // Debug.DrawLine(transform.position, Vector3.back * 5f, Color.cyan);
-        // Debug.DrawLine(transform.position, Vector3.left * 5f, Color.blue);
-        // Debug.DrawLine(transform.position, Vector3.right * 5f, Color.green);
+        Debug.DrawLine(transform.position, -transform.forward * 5f, Color.cyan);
+        Debug.DrawLine(transform.position, transform.right * 5f, Color.blue);
+        Debug.DrawLine(transform.position, -transform.right * 5f, Color.green);
 
 
         DetectionInRange(attackRange, (detectObject) =>
@@ -152,9 +152,9 @@ public class Archer : Chaser
     protected override void Attack()
     {
         // ShotTrigger 이벤트에서 isAttacking 변수 토글해주면 살짝 늦게 실행됨.
-        this.isAttacking = true;
+        isAttacking = true;
         // 공격 실행 후 캐릭터 위치를 보게함.
-        this.transform.LookAt(ArrowTargetVertor());
+        transform.LookAt(ArrowTargetVertor());
 
         _agent.enabled = false;
         _agent.velocity = Vector3.zero;

@@ -3826,6 +3826,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonArcher
       objectReference: {fileID: 0}
+    - target: {fileID: 7636985841604734139, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1628717369, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2d350cbad538f4dc4af4331b367ccca2, type: 3}
