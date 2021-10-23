@@ -30,6 +30,7 @@ public class Grunt : Chaser
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
         MonsterName = "Skeleton Grunt(«ÿ∞Ò ∞≈¿Œ)";
+        MonsterWeak = "CHEST";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();

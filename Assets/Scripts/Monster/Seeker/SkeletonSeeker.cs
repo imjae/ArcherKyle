@@ -4,13 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mage : Chaser
+public class SkeletonSeeker : Seeker
 {
     [SerializeField]
-    private GameObject magic;
-    [SerializeField]
-    private Transform attackPosition;
-
     private GameObject target;
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
@@ -27,38 +23,39 @@ public class Mage : Chaser
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
-    private void Start()
+    void Start()
     {
         // 몬스터 생성시 해당 몬스터의 Face 카메라 등록
         FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
-        MonsterName = "Skeleton Mage(해골 마법사)";
+        MonsterName = "SEEKER";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();
         Health = this.GetComponent<HealthSystem>();
-        Player = GameObject.Find("Robot Kyle").transform;
+        // Player = GameObject.Find("Robot Kyle").transform;
 
-        Health.hitPoint = 100f;
-        Health.maxHitPoint = 100f;
+        Health.hitPoint = 5000f;
+        Health.maxHitPoint = 5000f;
         Health.regenerate = false;
         Health.isDecrease = false;
         Health.GodMode = false;
 
-        AttackValue = 20f;
-        AttackRange = 9f;
-        SpeedValue = 5f;
+        AttackValue = 30f;
+        AttackRange = 6f;
+        SpeedValue = 2f;
 
-        DetectionTime = 0f;
-        DetectionIntervalTime = 2f;
+        DetectionTime = 1f;
+        DetectionIntervalTime = 7f;
 
         Agent.speed = SpeedValue;
 
-        Detection = DetectionRoutine();
+        Detection = DetectionRoutine(target.transform);
         StartCoroutine(Detection);
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (Health.hitPoint <= 0 && !IsDie)
@@ -75,9 +72,10 @@ public class Mage : Chaser
             {
                 if (detectObject.CompareTag("Player") && !IsAttacking)
                 {
+                    // Debug.Log("감지 성공!!!");
                     // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
                     IsAttackingTrue();
-                    target = detectObject.gameObject;
+                    // target = detectObject.gameObject;
                     // Debug.Log("멈춤 !");
 
                     Attack();
@@ -90,6 +88,8 @@ public class Mage : Chaser
     {
         if (other.CompareTag("PlayerArrow"))
         {
+            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
+
             // TODO 몬스터가 화살에 맞았을때 동작 정의
             if (!IsDie)
                 OnHitStatus();
@@ -101,7 +101,6 @@ public class Mage : Chaser
         CameraManagement.Camera.RemoveCamera(FaceCamera);
     }
 
-
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
     private void AnimationCompleteToAction(string animationName, Action action)
     {
@@ -112,31 +111,11 @@ public class Mage : Chaser
         }
     }
 
-    private void CloneMagic()
-    {
-        // 생성위치
-        // arrow 오브젝트 자식으로
-        // position : 0, 0.7, 0
-        var clone = Instantiate(magic);
-        clone.transform.SetParent(transform);
-        clone.transform.localPosition = attackPosition.localPosition;
-        clone.transform.localScale = attackPosition.localScale;
-
-        clone.transform.LookAt(MagicTargetVertor());
-    }
-
-    private Vector3 MagicTargetVertor()
-    {
-        Vector3 position = target.transform.position;
-        return new Vector3(position.x, position.y + 1f, position.z);
-    }
-
-
     // 아래부터 재정의 함수
 
-    protected override void OnRunStatus()
+    protected override void OnRunStatus(Transform target)
     {
-        base.OnRunStatus();
+        base.OnRunStatus(target);
     }
 
     protected override void OnIdleStatus()
@@ -159,7 +138,7 @@ public class Mage : Chaser
     protected override void Attack()
     {
         // 공격 실행 후 캐릭터 위치를 보게함.
-        transform.LookAt(MagicTargetVertor());
+        transform.LookAt(target.transform.position);
 
         base.Attack();
     }

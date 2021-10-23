@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Archer : Chaser
+public class Mage : Chaser
 {
     [SerializeField]
-    private GameObject arrow;
+    private GameObject magic;
+    [SerializeField]
+    private Transform attackPosition;
+
     private GameObject target;
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
@@ -30,30 +33,31 @@ public class Archer : Chaser
         FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
-        MonsterName = "Skeleton Archer(해골 궁수)";
-        MonsterWeak = "LEG";
+        MonsterName = "Skeleton Mage(해골 마법사)";
+        MonsterWeak = "Head";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();
         Health = this.GetComponent<HealthSystem>();
         Player = GameObject.Find("Robot Kyle").transform;
 
-        Health.hitPoint = 150f;
-        Health.maxHitPoint = 150f;
+        Health.hitPoint = 100f;
+        Health.maxHitPoint = 100f;
         Health.regenerate = false;
         Health.isDecrease = false;
         Health.GodMode = false;
 
-        AttackValue = 10f;
-        AttackRange = 7f;
-        SpeedValue = 7f;
+        AttackValue = 20f;
+        AttackRange = 9f;
+        SpeedValue = 5f;
 
-        DetectionTime = 0.5f;
-        DetectionIntervalTime = 4f;
+        DetectionTime = 0f;
+        DetectionIntervalTime = 2f;
 
         Agent.speed = SpeedValue;
 
-        StartCoroutine(DetectionRoutine());
+        Detection = DetectionRoutine();
+        StartCoroutine(Detection);
     }
 
     void Update()
@@ -87,8 +91,6 @@ public class Archer : Chaser
     {
         if (other.CompareTag("PlayerArrow"))
         {
-            // var a = Vector3.Scale(GetHitDiretion(other.transform), new Vector3(1, 0, 1));
-
             // TODO 몬스터가 화살에 맞았을때 동작 정의
             if (!IsDie)
                 OnHitStatus();
@@ -100,6 +102,7 @@ public class Archer : Chaser
         CameraManagement.Camera.RemoveCamera(FaceCamera);
     }
 
+
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
     private void AnimationCompleteToAction(string animationName, Action action)
     {
@@ -110,19 +113,20 @@ public class Archer : Chaser
         }
     }
 
-    private void CloneArrow()
+    private void CloneMagic()
     {
         // 생성위치
         // arrow 오브젝트 자식으로
         // position : 0, 0.7, 0
-        var clone = Instantiate(arrow);
-        clone.transform.SetParent(transform.Find("arrow"));
-        clone.transform.localPosition = new Vector3(0f, 0.7f, 0f);
+        var clone = Instantiate(magic);
+        clone.transform.SetParent(transform);
+        clone.transform.localPosition = attackPosition.localPosition;
+        clone.transform.localScale = attackPosition.localScale;
 
-        clone.transform.LookAt(ArrowTargetVertor());
+        clone.transform.LookAt(MagicTargetVertor());
     }
 
-    private Vector3 ArrowTargetVertor()
+    private Vector3 MagicTargetVertor()
     {
         Vector3 position = target.transform.position;
         return new Vector3(position.x, position.y + 1f, position.z);
@@ -156,7 +160,7 @@ public class Archer : Chaser
     protected override void Attack()
     {
         // 공격 실행 후 캐릭터 위치를 보게함.
-        transform.LookAt(ArrowTargetVertor());
+        transform.LookAt(MagicTargetVertor());
 
         base.Attack();
     }

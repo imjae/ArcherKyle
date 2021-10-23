@@ -7,6 +7,8 @@ using UnityEngine.AI;
 public abstract class Monster : Character
 {
     private string _monsterName;
+    private string _monsterWeak;
+
     private Animator _animator;
     private Transform _player;
     private NavMeshAgent _agent;
@@ -26,6 +28,11 @@ public abstract class Monster : Character
         get { return _monsterName; }
         set { _monsterName = value; }
     }
+    public string MonsterWeak
+    {
+        get { return _monsterWeak; }
+        set { _monsterWeak = value; }
+    }
     protected Animator Animator
     {
         get { return _animator; }
@@ -41,7 +48,7 @@ public abstract class Monster : Character
         get { return _agent; }
         set { _agent = value; }
     }
-    protected HealthSystem Health
+    public HealthSystem Health
     {
         get { return _healthSystem; }
         set { _healthSystem = value; }
@@ -98,28 +105,18 @@ public abstract class Monster : Character
         }
     }
 
-    // 몬스터의 플레이어 감지 동작 루틴
-    protected IEnumerator DetectionRoutine()
-    {
-        // 죽지 않았을 때만 플레이어 감지
-        while (!IsDie)
-        {
-            if (!IsAttacking)
-            {
-                OnIdleStatus();
-                yield return new WaitForSeconds(DetectionTime);
-                OnRunStatus();
-                yield return new WaitForSeconds(DetectionIntervalTime);
-            }
-            yield return null;
-        }
-    }
-
     // 달리기 상태일때 동작
     protected virtual void OnRunStatus()
     {
         Agent.enabled = true;
         DetectionLocationTarget(Player);
+        Animator.SetTrigger("RunTrigger");
+    }
+    // 달리기 상태일때 동작
+    protected virtual void OnRunStatus(Transform target)
+    {
+        Agent.enabled = true;
+        DetectionLocationTarget(target);
         Animator.SetTrigger("RunTrigger");
     }
     // IDLE 상태일때 동작

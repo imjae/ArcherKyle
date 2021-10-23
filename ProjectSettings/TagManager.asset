@@ -9,6 +9,8 @@ TagManager:
   - MonsterCriticalZone
   - PlayerAttack
   - PlayerArrow
+  - Crystal
+  - SkeletonSeekerHitzon
   layers:
   - Default
   - TransparentFX
@@ -30,7 +32,7 @@ TagManager:
   - KingCamera
   - MageCamera
   - SwordsmanCamera
-  - 
+  - SeekerCamera
   - 
   - 
   - 

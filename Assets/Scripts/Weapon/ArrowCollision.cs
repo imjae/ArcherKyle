@@ -58,7 +58,11 @@ public class ArrowCollision : MonoBehaviour
                 other.transform.Find("FaceCamera").GetComponent<Camera>().enabled = true;
 
                 Monster monster = other.GetComponent<Monster>();
-                monsterStatusController.SetMonsterName(monster.MonsterName);
+                monsterStatusController.MonsterName = monster.MonsterName;
+                monsterStatusController.MonsterHealth = $"{monster.Health.maxHitPoint}";
+                monsterStatusController.MonsterAttackPoint = $"{monster.AttackValue}";
+                monsterStatusController.MonsterRange = $"{monster.AttackRange}";
+                monsterStatusController.MonsterWeak = monster.MonsterWeak;
             }
 
             if (other.CompareTag("MonsterCriticalZone"))
