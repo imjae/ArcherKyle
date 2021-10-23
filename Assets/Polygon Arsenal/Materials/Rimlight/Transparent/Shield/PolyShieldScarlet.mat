@@ -13,7 +13,7 @@ Material:
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -68,8 +68,8 @@ Material:
     - _Mode: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RimGlow: 3.41
-    - _RimWidth: 7.4
+    - _RimGlow: 9
+    - _RimWidth: 2.32
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -79,6 +79,7 @@ Material:
     - _Color: {r: 0.61764705, g: 0.8734281, b: 1, a: 0.103}
     - _EmisColor: {r: 0.66176474, g: 0.66176474, b: 0.66176474, a: 0}
     - _EmissionColor: {r: 0.2506488, g: 0.42396495, b: 0.44852942, a: 1}
-    - _InnerColor: {r: 0.13333334, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 0, b: 0, a: 0}
+    - _InnerColor: {r: 1, g: 0.22772029, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 0.29309174, b: 0, a: 0.7372549}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+  m_BuildTextureStacks: []
