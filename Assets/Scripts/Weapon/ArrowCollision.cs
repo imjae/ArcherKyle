@@ -67,18 +67,32 @@ public class ArrowCollision : MonoBehaviour
 
             if (other.CompareTag("MonsterCriticalZone"))
             {
-                var monster = other.transform.root;
-                var health = monster.gameObject.GetComponent<HealthSystem>();
+                Monster monster = GetRootObject(other.transform).GetComponent<Monster>();
+                HealthSystem health = monster.gameObject.GetComponent<HealthSystem>();
                 Debug.Log("크리티컬!! : " + health.maxHitPoint);
                 health.TakeDamage(health.maxHitPoint);
             }
             else if (other.CompareTag("Monster"))
             {
                 Debug.Log("몸통! : " + arrowScript.attackPoint);
-                var monster = other.transform.root;
-                var health = monster.gameObject.GetComponent<HealthSystem>();
+                GameObject monster = other.gameObject;
+                HealthSystem health = monster.GetComponent<HealthSystem>();
                 health.TakeDamage(arrowScript.attackPoint);
             }
+        }
+    }
+
+    private GameObject GetRootObject(Transform transform)
+    {
+        Debug.Log(transform.name);
+        if (transform.name.Equals("root"))
+        {
+            Debug.Log(transform.parent.name);
+            return transform.parent.gameObject;
+        }
+        else
+        {
+            return GetRootObject(transform.parent);
         }
     }
 }

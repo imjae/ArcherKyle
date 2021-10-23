@@ -98,11 +98,6 @@ public class Grunt : Chaser
         }
     }
 
-    private void OnDestroy()
-    {
-        CameraManagement.Camera.RemoveCamera(FaceCamera);
-    }
-
     // 해당 애니메이션이 끝나고나서 동작할 행위 정의
     private void AnimationCompleteToAction(string animationName, Action action)
     {

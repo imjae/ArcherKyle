@@ -142,7 +142,12 @@ public abstract class Monster : Character
     }
     // 죽음
     protected virtual void Die()
-    { // 실행중이던 애니메이션 트리거 전부 종료
+    {
+        // Face Camera 리스크에서 제거
+        CameraManagement.Camera.RemoveCamera(FaceCamera);
+        StopCoroutine(Detection);
+
+        // 실행중이던 애니메이션 트리거 전부 종료
         Animator.ResetTrigger("AttackTrigger");
         Animator.ResetTrigger("RunTrigger");
         Animator.ResetTrigger("IdleTrigger");
@@ -154,7 +159,6 @@ public abstract class Monster : Character
         Agent.enabled = false;
         IsAttacking = false;
 
-        StopCoroutine(Detection);
     }
 
     protected virtual void SelfDestroy()

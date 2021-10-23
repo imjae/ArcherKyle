@@ -38,10 +38,6 @@ public class CameraMovement : MonoBehaviour
     // 카메라 움직임의 부드러움 정도
     public float smoothness = 10f;
 
-    // 1인칭 카메라 위치
-    public Transform onePersonView;
-    // 3인칭 카메라 위치
-    public Transform thirdPersonView;
     // 실제 카메라 위치
     public Transform realCamera;
 
@@ -49,7 +45,6 @@ public class CameraMovement : MonoBehaviour
     void Start()
     {
         curView = VIEW.THIRD;
-        // realCamera = thirdPersonView;
         rotX = transform.localRotation.eulerAngles.x;
         rotY = transform.localRotation.eulerAngles.y;
         // Debug.Log($"{rotX} / {rotY}");
