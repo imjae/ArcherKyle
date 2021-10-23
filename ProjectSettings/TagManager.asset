@@ -11,6 +11,7 @@ TagManager:
   - PlayerArrow
   - Crystal
   - SkeletonSeekerHitzon
+  - WeakPoint
   layers:
   - Default
   - TransparentFX

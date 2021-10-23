@@ -44,7 +44,10 @@ public class PlayerAction : MonoBehaviour
 
     private Transform cameraTransform;
 
-    // Start is called before the first frame update
+    private float aimTime;
+    private bool isWeak;
+    GameObject[] weakPointArr;
+
     void Start()
     {
         // UnActiveRealBow();
@@ -65,6 +68,9 @@ public class PlayerAction : MonoBehaviour
         aim = canvas.transform.Find("Aim").gameObject;
         aimAnimator = aim.GetComponent<Animator>();
 
+        aimTime = 0f;
+        isWeak = false;
+        weakPointArr = null;
 
         UnActiveBow();
         UnActiveSword();
@@ -89,6 +95,9 @@ public class PlayerAction : MonoBehaviour
         {
             if (Input.GetButtonDown("Attack"))
             {
+                // 줌 시간 0으로 초기화
+                aimTime = 0f;
+
                 // 1인칭 시점 변환
                 cameraMovementScript.curView = CameraMovement.VIEW.ONE;
                 cameraMovementScript.TransCamersView();
@@ -105,11 +114,38 @@ public class PlayerAction : MonoBehaviour
 
             if (Input.GetButton("Attack"))
             {
-                // _animator.SetTrigger("AimOverdrawTrigger");
+                // 보라 번개 속성일때만 약점이 표시되어야 한다.
+                if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+                {
+                    aimTime += Time.deltaTime;
+                    if (aimTime > 3f && !isWeak)
+                    {
+                        isWeak = true;
+                        weakPointArr = GameObject.FindGameObjectsWithTag("WeakPoint");
+                        foreach (var o in weakPointArr)
+                        {
+                            if (o != null)
+                                o.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
+                }
+
             }
 
             if (Input.GetButtonUp("Attack"))
             {
+
+                if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+                {
+                    isWeak = false;
+                    foreach (var o in weakPointArr)
+                    {
+                        if (o != null)
+                            o.GetComponent<ParticleSystem>().Stop();
+                    }
+                }
+
+
                 // 1인칭 시점 변환
                 cameraMovementScript.curView = CameraMovement.VIEW.THIRD;
                 cameraMovementScript.TransCamersView();
