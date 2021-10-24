@@ -41,10 +41,9 @@ public class ArrowCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("Player") || !other.CompareTag("Player"))
         {
             Debug.Log(name + " -> " + other.name);
-
 
             arrowMovement.isMovement = false;
             rigid.velocity = Vector3.zero;
@@ -54,35 +53,18 @@ public class ArrowCollision : MonoBehaviour
             // 맞은 대상 자식 오브젝트로 변경
             transform.SetParent(other.transform);
 
+            // 공통적으로 화살이 터지는 이펙트는 존재한다.
             Instantiate(arrowExplosion, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), Quaternion.identity);
+
             // 얼음, 불은 속성 범위공격
             // 번개 속성만 치명타, 기본공격 느낌
             if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
             {
-                Debug.Log("불!");
-                if (other.CompareTag("MonsterCriticalZone"))
-                {
-                    MonsterCollisionBasicAction(GetRootObject(other.transform));
-
-                    Monster monster = GetRootObject(other.transform).GetComponent<Monster>();
-                    HealthSystem health = monster.gameObject.GetComponent<HealthSystem>();
-                    // Debug.Log("크리티컬!! : " + health.maxHitPoint);
-                    health.TakeDamage(health.maxHitPoint);
-
-                }
-                if (other.CompareTag("Monster"))
-                {
-                    MonsterCollisionBasicAction(other.gameObject);
-
-                    // Debug.Log("몸통! : " + arrowScript.attackPoint);
-                    GameObject monster = other.gameObject;
-                    HealthSystem health = monster.GetComponent<HealthSystem>();
-                    health.TakeDamage(arrowScript.attackPoint);
-                }
+                // Debug.Log("불!");
             }
             else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
             {
-                Debug.Log("전기! => " + other.tag);
+                // Debug.Log("전기! => " + other.tag);
 
                 if (other.CompareTag("MonsterCriticalZone"))
                 {
@@ -106,8 +88,15 @@ public class ArrowCollision : MonoBehaviour
             }
             else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
             {
-                Debug.Log("얼음!");
-                Instantiate(iceFieldEffect, transform.position, Quaternion.Euler(-90f, 0f, 90f));
+                if (other.CompareTag("Monster") || other.CompareTag("MonsterCriticalZone"))
+                {
+                    Vector3 genePoint = other.transform.position;
+                    // 크리티컬존에 맞았을 때 실제 몬스터의 아래에 생성
+                    if (other.CompareTag("MonsterCriticalZone"))
+                        genePoint = GetRootObject(other.transform).transform.position;
+
+                    Instantiate(iceFieldEffect, genePoint, Quaternion.Euler(-90f, 0f, 90f));
+                }
 
             }
         }
