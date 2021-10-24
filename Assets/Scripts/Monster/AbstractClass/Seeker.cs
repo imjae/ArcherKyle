@@ -17,6 +17,7 @@ public class Seeker : Monster
         Animator.SetTrigger("RunTrigger");
     }
 
+    protected virtual IEnumerator DetectionRoutine() { return null; }
     // 몬스터의 플레이어 감지 동작 루틴
     protected virtual IEnumerator DetectionRoutine(Transform target)
     {

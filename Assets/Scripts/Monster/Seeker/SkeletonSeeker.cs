@@ -11,9 +11,15 @@ public class SkeletonSeeker : Seeker
     private GameObject canvas;
     private MonsterStatusController monsterStatusController;
 
+    public Transform currentTarget;
+    public Queue<Transform> targetQueue;
+
+    public GameObject crystal;
+
     private void Awake()
     {
         canvas = GameObject.Find("Canvas");
+
     }
 
     private void OnEnable()
@@ -25,6 +31,16 @@ public class SkeletonSeeker : Seeker
 
     void Start()
     {
+        crystal = GameObject.Find("Crystal");
+
+        targetQueue = new Queue<Transform>();
+        for (int i = 0; i < 5; i++)
+        {
+            targetQueue.Enqueue(crystal.transform.GetChild(i));
+        }
+
+        currentTarget = targetQueue.Dequeue();
+
         // 몬스터 생성시 해당 몬스터의 Face 카메라 등록
         FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
@@ -52,7 +68,7 @@ public class SkeletonSeeker : Seeker
 
         Agent.speed = SpeedValue;
 
-        Detection = DetectionRoutine(target.transform);
+        Detection = DetectionRoutine();
         StartCoroutine(Detection);
     }
 
@@ -110,6 +126,23 @@ public class SkeletonSeeker : Seeker
                               Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4)
         {
             action();
+        }
+    }
+
+    // 몬스터의 플레이어 감지 동작 루틴
+    protected override IEnumerator DetectionRoutine()
+    {
+        // 죽지 않았을 때만 플레이어 감지
+        while (!IsDie)
+        {
+            if (!IsAttacking)
+            {
+                OnIdleStatus();
+                yield return new WaitForSeconds(DetectionTime);
+                OnRunStatus(currentTarget);
+                yield return new WaitForSeconds(DetectionIntervalTime);
+            }
+            yield return null;
         }
     }
 

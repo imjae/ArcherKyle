@@ -35,6 +35,8 @@ public class CrystalCollision : MonoBehaviour
                {
                    Destroy(this.gameObject);
                    var seeker = GetRootObject(other.transform);
+                   var seekerScript = seeker.GetComponent<SkeletonSeeker>();
+                   seekerScript.currentTarget = seekerScript.targetQueue.Dequeue();
                }));
 
             }
