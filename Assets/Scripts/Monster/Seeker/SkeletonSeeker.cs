@@ -65,13 +65,14 @@ public class SkeletonSeeker : Seeker
         }
     }
 
+
     private void LateUpdate()
     {
         if (!IsDie)
         {
             DetectionInRange(AttackRange, (detectObject) =>
             {
-                if (detectObject.CompareTag("Player") && !IsAttacking)
+                if ((detectObject.CompareTag("Crystal") || detectObject.CompareTag("Player")) && !IsAttacking)
                 {
                     // Debug.Log("감지 성공!!!");
                     // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
@@ -139,7 +140,7 @@ public class SkeletonSeeker : Seeker
     protected override void Attack()
     {
         // 공격 실행 후 캐릭터 위치를 보게함.
-        transform.LookAt(target.transform.position);
+        transform.rotation = Quaternion.LookRotation(currentTarget.transform.position);
 
         base.Attack();
     }

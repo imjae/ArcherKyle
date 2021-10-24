@@ -18,8 +18,7 @@ public class PlayerMovement : MonoBehaviour
     // alt 눌렀을때 둘러보기 기능
     public bool toggleCameraRotation;
     public bool run;
-    // 땅에 닿아있는지
-    private bool isGround;
+
     // 활 에임 상태인지
     public bool isAim;
     // 검 공격 상태인지
@@ -33,8 +32,9 @@ public class PlayerMovement : MonoBehaviour
     public Transform leftSholderJoint;
 
     // 2단점프 콤보
-    private bool jumpComboPossible;
-    int jumpComboStep;
+    public bool isGrounded = false;
+    public int jumpCount = 2; //점프횟수    2를 3으로 바꾸면 3단 점프
+
 
 
     // 원소 컨트롤러
@@ -55,9 +55,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        IsGround();
+
         // Alt로 둘러보기 활성/비활성화
         toggleCameraRotation = (Input.GetKey(KeyCode.LeftAlt)) ? true : false;
-        IsGround();
 
         if (isAim)
         {
@@ -94,13 +95,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     void InputJump()
     {
-        if (Input.GetButtonDown("Jump") && isGround)
+        if (jumpCount > 0)
         {
-            _animator.SetTrigger("OnJumpTrigger");
-            _rigidbody.AddForce(Vector3.up * 200f);
-            // Debug.Log(isGround);
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (isGrounded)
+                {
+                    _animator.SetTrigger("OnJumpTrigger");
+                    _rigidbody.AddForce(Vector3.up * 200f);
+                }
+                else if (!isGrounded)
+                {
+                    _animator.SetTrigger("FlipJumpTrigger");
+                    _rigidbody.AddForce(Vector3.up * 250f);
+                }
+                jumpCount--;
+                // Debug.Log(isGround);
+            }
         }
     }
 
@@ -253,8 +267,10 @@ public class PlayerMovement : MonoBehaviour
 
     void IsGround()
     {
-        Debug.DrawRay(transform.position, Vector3.down * 0.05f, Color.red);
-        isGround = Physics.Raycast(transform.position, Vector3.down, 0.1f);
+        bool result = Physics.Raycast(transform.position, Vector3.down, 0.1f);
+        isGrounded = result;
+        if (isGrounded)
+            jumpCount = 2;
     }
 
     public void SwordMovement()

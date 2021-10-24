@@ -19,7 +19,8 @@ public class Spawn : MonoBehaviour
         seekerPoint = transform.GetChild(0);
         chaserPoint = transform.GetChild(1);
 
-        StartCoroutine(SpawnRoutine());
+        // StartCoroutine(SpawnRoutine());
+        StartCoroutine(SeekerSpawnRoutine());
     }
 
     IEnumerator SpawnRoutine()
@@ -29,8 +30,21 @@ public class Spawn : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(90f);
+            yield return new WaitForSeconds(60f);
+            RandomSpawn();
+        }
+    }
 
+    IEnumerator SeekerSpawnRoutine()
+    {
+
+        Monster seeker = generator.Spawn(MONSTER_TYPE.Seeker, monsterGenerator.transform);
+        seeker.transform.position = seekerPoint.position;
+        while (true)
+        {
+            yield return new WaitForSeconds(180f);
+            var cloneSeeker = generator.Spawn(MONSTER_TYPE.Seeker, monsterGenerator.transform);
+            cloneSeeker.transform.position = seekerPoint.position;
         }
     }
 
@@ -64,8 +78,6 @@ public class Spawn : MonoBehaviour
 
         return resultList;
     }
-
-
 
     private int[] GetRandomInt(int length, int min, int max)
     {

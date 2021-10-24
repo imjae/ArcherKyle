@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class PlayerAction : MonoBehaviour
     private float aimTime;
     private bool isWeak;
     private bool isEnergy;
+    private bool isDie;
     GameObject[] weakPointArr;
 
     void Start()
@@ -60,6 +62,7 @@ public class PlayerAction : MonoBehaviour
         isEquipWeapon = false;
         isSwitching = false;
         isEnergy = false;
+        isDie = false;
         _animator = GetComponent<Animator>();
 
         backBow = hip.Find("BackBow").gameObject;
@@ -89,6 +92,24 @@ public class PlayerAction : MonoBehaviour
     {
         InputEquipWeapons();
         InputAttackWeapons();
+        ObserveDie();
+    }
+
+    private void ObserveDie()
+    {
+        if (this.GetComponent<PlayerHealthSystem>().hitPoint <= 0 && !isDie)
+        {
+            isDie = true;
+            // GameManager.Instance.SetTimeScale(0.5f);
+            _animator.SetTrigger("DieTrigger");
+            StartCoroutine(LoadGameoverScene());
+        }
+    }
+
+    IEnumerator LoadGameoverScene()
+    {
+        yield return new WaitForSecondsRealtime(5f);
+        SceneManager.LoadScene("Gameover");
     }
 
     private void InputAttackWeapons()

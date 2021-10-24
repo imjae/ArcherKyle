@@ -60,8 +60,8 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         // 카메라의 회전
-        rotX += -(Input.GetAxis("Mouse Y")) * sensitivity * Time.deltaTime;
-        rotY += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+        rotX += -(Input.GetAxis("Mouse Y")) * sensitivity * Time.unscaledDeltaTime;
+        rotY += Input.GetAxis("Mouse X") * sensitivity * Time.unscaledDeltaTime;
 
         rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
         Quaternion rot = Quaternion.Euler(rotX, rotY, 0);
@@ -75,7 +75,7 @@ public class CameraMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, objectToFollow.position, followSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, objectToFollow.position, followSpeed * Time.unscaledDeltaTime);
         finalDirection = transform.TransformPoint(directionNomalized * maxDistance);
 
         RaycastHit hit;
@@ -89,7 +89,7 @@ public class CameraMovement : MonoBehaviour
         {
             finalDistance = maxDistance;
         }
-        realCamera.localPosition = Vector3.Lerp(realCamera.localPosition, directionNomalized * finalDistance, Time.deltaTime * smoothness);
+        realCamera.localPosition = Vector3.Lerp(realCamera.localPosition, directionNomalized * finalDistance, Time.unscaledDeltaTime * smoothness);
     }
 
     public void TransCamersView()

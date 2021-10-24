@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     public GameObject warningHit;
 
     public Text timeText;
+
+    float _sec;
+    int _min;
+
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     // 인스턴스에 접근하기 위한 프로퍼티
     public static GameManager Instance
@@ -56,8 +60,6 @@ public class GameManager : MonoBehaviour
         Timer();
     }
 
-    float _sec;
-    int _min;
 
     private void Timer()
     {
@@ -93,5 +95,11 @@ public class GameManager : MonoBehaviour
             this.warningHit.SetActive(false);
             count++;
         }
+    }
+
+    public void SetTimeScale(float time)
+    {
+        Time.timeScale = time;
+        Time.fixedDeltaTime = 0.02f * time;
     }
 }
