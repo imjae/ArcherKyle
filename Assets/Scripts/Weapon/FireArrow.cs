@@ -7,5 +7,11 @@ public class FireArrow : Arrow
     FireArrow()
     {
         attackPoint = 30f;
+        currentArrowType = ARROW_TYPE.FIRE;
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+    }
+
 }

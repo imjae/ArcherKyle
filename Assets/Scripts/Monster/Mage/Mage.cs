@@ -57,7 +57,7 @@ public class Mage : Chaser
         Agent.speed = SpeedValue;
 
         Detection = DetectionRoutine();
-        StartCoroutine(Detection);
+        // StartCoroutine(Detection);
     }
 
     void Update()

@@ -9926,13 +9926,13 @@ GameObject:
   - component: {fileID: 4937678973905993183}
   - component: {fileID: 5176411743388018245}
   - component: {fileID: 6083539138386785860}
-  - component: {fileID: 7216666208488826887}
   - component: {fileID: 5583396791252733801}
-  - component: {fileID: 1013166433609407592}
   - component: {fileID: 2498492618722270511}
+  - component: {fileID: 2918562625156226807}
+  - component: {fileID: 1498976242}
   m_Layer: 0
   m_Name: ArrowMissileRed
-  m_TagString: Untagged
+  m_TagString: PlayerArrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14837,22 +14837,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 118
-  m_CollisionDetection: 2
---- !u!114 &7216666208488826887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5064179717517247481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0f676f3f830f044db486e485b8bd88f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontalDirection: {fileID: 0}
-  verticalDirection: {fileID: 0}
+  m_Constraints: 112
+  m_CollisionDetection: 3
 --- !u!65 &5583396791252733801
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14866,20 +14852,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 0.15, z: 0.65}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1013166433609407592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5064179717517247481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0f676f3f830f044db486e485b8bd88f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontalDirection: {fileID: 0}
-  verticalDirection: {fileID: 0}
 --- !u!114 &2498492618722270511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14892,6 +14864,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01e958d76279d44992b90442b704c33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arrowExplosion: {fileID: 5326525268750621901, guid: 6f0dc91e1fd9e70409f0fb25c911beab, type: 3}
+  iceFieldEffect: {fileID: 0}
+--- !u!114 &2918562625156226807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064179717517247481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f676f3f830f044db486e485b8bd88f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMovement: 0
+--- !u!114 &1498976242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064179717517247481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618d562210fdc434194f55b86e333d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentArrowType: 0
 --- !u!1001 &118327119104247423
 PrefabInstance:
   m_ObjectHideFlags: 0

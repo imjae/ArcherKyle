@@ -143,10 +143,6 @@ public abstract class Monster : Character
     // 죽음
     protected virtual void Die()
     {
-        // Face Camera 리스크에서 제거
-        CameraManagement.Camera.RemoveCamera(FaceCamera);
-        StopCoroutine(Detection);
-
         // 실행중이던 애니메이션 트리거 전부 종료
         Animator.ResetTrigger("AttackTrigger");
         Animator.ResetTrigger("RunTrigger");
@@ -159,6 +155,10 @@ public abstract class Monster : Character
         Agent.enabled = false;
         IsAttacking = false;
 
+        StopCoroutine(Detection);
+
+        // Face Camera 리스크에서 제거
+        CameraManagement.Camera.RemoveCamera(FaceCamera);
     }
 
     protected virtual void SelfDestroy()
@@ -181,5 +181,38 @@ public abstract class Monster : Character
     public virtual void IsAttackingFalse()
     {
         IsAttacking = false;
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        // if (other.name.Equals("FireballExplosionRed(Clone)"))
+        // {
+        //     Debug.Log(name);
+        //     if (!IsDie)
+        //     {
+        //         OnHitStatus();
+        //         Health.TakeDamage(70);
+        //     }
+        // }
+
+        // if (other.name.Equals("IceBigExplosion(Clone)"))
+        // {
+        //     Vector3 originVelocity = Agent.velocity;
+        //     Debug.Log(name);
+        //     if (!IsDie)
+        //     {
+        //         Health.TakeDamage(50);
+        //         Agent.enabled = false;
+        //         Agent.velocity = Vector3.zero;
+        //         StartCoroutine(SwitchDelay(originVelocity));
+        //     }
+        // }
+    }
+
+    private IEnumerator SwitchDelay(Vector3 originSpeed)
+    {
+        yield return new WaitForSeconds(3f);
+        Agent.enabled = true;
+        Agent.velocity = originSpeed;
     }
 }

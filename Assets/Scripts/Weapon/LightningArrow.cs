@@ -7,5 +7,6 @@ public class LightningArrow : Arrow
     LightningArrow()
     {
         attackPoint = 40f;
+        currentArrowType = ARROW_TYPE.LIGHTNING;
     }
 }

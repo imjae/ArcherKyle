@@ -7,5 +7,6 @@ public class IceArrow : Arrow
     IceArrow()
     {
         attackPoint = 50f;
+        currentArrowType = ARROW_TYPE.ICE;
     }
 }

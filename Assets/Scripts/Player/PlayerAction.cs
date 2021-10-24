@@ -135,7 +135,7 @@ public class PlayerAction : MonoBehaviour
             if (Input.GetButtonUp("Attack"))
             {
 
-                if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+                if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING) && weakPointArr != null)
                 {
                     isWeak = false;
                     foreach (var o in weakPointArr)

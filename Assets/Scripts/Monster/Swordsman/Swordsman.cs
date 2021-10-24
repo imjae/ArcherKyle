@@ -52,7 +52,7 @@ public class Swordsman : Chaser
         Agent.speed = SpeedValue;
 
         Detection = DetectionRoutine();
-        StartCoroutine(Detection);
+        // StartCoroutine(Detection);
     }
 
     // Update is called once per frame

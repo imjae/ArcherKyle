@@ -53,7 +53,8 @@ public class Archer : Chaser
 
         Agent.speed = SpeedValue;
 
-        StartCoroutine(DetectionRoutine());
+        Detection = DetectionRoutine();
+        // StartCoroutine(Detection);
     }
 
     void Update()
