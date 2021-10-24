@@ -183,36 +183,47 @@ public abstract class Monster : Character
         IsAttacking = false;
     }
 
-    private void OnParticleCollision(GameObject other)
+    private void OnTriggerEnter(Collider other)
     {
-        // if (other.name.Equals("FireballExplosionRed(Clone)"))
-        // {
-        //     Debug.Log(name);
-        //     if (!IsDie)
-        //     {
-        //         OnHitStatus();
-        //         Health.TakeDamage(70);
-        //     }
-        // }
-
-        // if (other.name.Equals("IceBigExplosion(Clone)"))
-        // {
-        //     Vector3 originVelocity = Agent.velocity;
-        //     Debug.Log(name);
-        //     if (!IsDie)
-        //     {
-        //         Health.TakeDamage(50);
-        //         Agent.enabled = false;
-        //         Agent.velocity = Vector3.zero;
-        //         StartCoroutine(SwitchDelay(originVelocity));
-        //     }
-        // }
+        if (other.CompareTag("FireArrowExplosion"))
+        {
+            Debug.Log($"{name} 폭 발 !");
+        }
     }
 
-    private IEnumerator SwitchDelay(Vector3 originSpeed)
+
+    private bool isIceParticleFirst = true;
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.CompareTag("FireArrowExplosion"))
+        {
+            if (!IsDie)
+            {
+                OnHitStatus();
+                Health.TakeDamage(70);
+            }
+        }
+        else if (other.CompareTag("IceArrowExplosion"))
+        {
+
+            if (!IsDie)
+            {
+                isIceParticleFirst = false;
+                Debug.Log("얼음");
+                // Debug.Log($"이전 속도 {Agent.velocity}");
+                Agent.enabled = false;
+                Agent.velocity = Vector3.zero;
+                // Debug.Log($"느려진 속도 {Agent.velocity}");
+                StartCoroutine(SwitchDelay());
+            }
+        }
+    }
+
+    private IEnumerator SwitchDelay()
     {
         yield return new WaitForSeconds(3f);
         Agent.enabled = true;
-        Agent.velocity = originSpeed;
+        isIceParticleFirst = true;
+        // Debug.Log($"회복 속도 {Agent.velocity}");
     }
 }

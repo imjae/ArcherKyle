@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,9 +10,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public float PlayeTime { get { return _playtime; } set { _playtime = value; } }
 
-    public GameObject mage;
-
-
+    public Text timeText;
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     // 인스턴스에 접근하기 위한 프로퍼티
     public static GameManager Instance
@@ -50,13 +49,29 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayeTime = Time.time;
+        PlayeTime += Time.deltaTime;
+        Timer();
+    }
 
+    float _sec;
+    int _min;
 
-        if (Input.GetKeyDown(KeyCode.U))
+    private void Timer()
+    {
+        _sec = PlayeTime;
+        timeText.text = string.Format("{0:D2}:{1:D2}", _min, (int)_sec);
+        if ((int)_sec > 59)
         {
-            Instantiate(mage);
+            _sec = 0;
+            _min++;
         }
+    }
+    private void OnGUI()
+    {
+        string timeString;
+        timeString = "" + PlayeTime.ToString("00.00");
+        timeString = timeString.Replace(".", ":");
+        timeText.text = timeString;
     }
 
 

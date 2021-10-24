@@ -12,6 +12,8 @@ TagManager:
   - Crystal
   - SkeletonSeekerHitzon
   - WeakPoint
+  - FireArrowExplosion
+  - IceArrowExplosion
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Player
   - FinalAttackCollider
   - Monster
-  - 
+  - Ground
   - 
   - 
   - 
