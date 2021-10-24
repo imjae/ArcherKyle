@@ -192,15 +192,23 @@ public abstract class Monster : Character
     }
 
 
+    // TODO OnParticleCollision 에서 delegate 활용
     private bool isIceParticleFirst = true;
     private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("FireArrowExplosion"))
         {
-            if (!IsDie)
+            if (!IsDie && isIceParticleFirst)
             {
+                isIceParticleFirst = false;
                 OnHitStatus();
                 Health.TakeDamage(70);
+                Debug.Log(isIceParticleFirst);
+                StartCoroutine(SwitchDelayIntoAction(.3f, () =>
+                {
+                    isIceParticleFirst = true;
+                    Debug.Log(isIceParticleFirst);
+                }));
             }
         }
         else if (other.CompareTag("IceArrowExplosion"))
@@ -214,16 +222,18 @@ public abstract class Monster : Character
                 Agent.enabled = false;
                 Agent.velocity = Vector3.zero;
                 // Debug.Log($"느려진 속도 {Agent.velocity}");
-                StartCoroutine(SwitchDelay());
+                StartCoroutine(SwitchDelayIntoAction(3f, () =>
+                {
+                    Agent.enabled = true;
+                    isIceParticleFirst = true;
+                }));
             }
         }
     }
 
-    private IEnumerator SwitchDelay()
+    private IEnumerator SwitchDelayIntoAction(float time, Action action)
     {
-        yield return new WaitForSeconds(3f);
-        Agent.enabled = true;
-        isIceParticleFirst = true;
-        // Debug.Log($"회복 속도 {Agent.velocity}");
+        yield return new WaitForSeconds(time);
+        action();
     }
 }

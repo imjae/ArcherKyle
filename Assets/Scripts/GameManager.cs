@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     private void Timer()
     {
-        _sec = PlayeTime;
+        _sec += Time.deltaTime;
         timeText.text = string.Format("{0:D2}:{1:D2}", _min, (int)_sec);
         if ((int)_sec > 59)
         {

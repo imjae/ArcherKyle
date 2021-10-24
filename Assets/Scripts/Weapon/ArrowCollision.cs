@@ -60,7 +60,10 @@ public class ArrowCollision : MonoBehaviour
             // 번개 속성만 치명타, 기본공격 느낌
             if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
             {
-                // Debug.Log("불!");
+                if (other.CompareTag("MonsterCriticalZone"))
+                    MonsterCollisionBasicAction(GetRootObject(other.transform));
+                if (other.CompareTag("Monster"))
+                    MonsterCollisionBasicAction(other.gameObject);
             }
             else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
             {
@@ -88,6 +91,11 @@ public class ArrowCollision : MonoBehaviour
             }
             else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
             {
+                if (other.CompareTag("MonsterCriticalZone"))
+                    MonsterCollisionBasicAction(GetRootObject(other.transform));
+                if (other.CompareTag("Monster"))
+                    MonsterCollisionBasicAction(other.gameObject);
+
                 if (other.CompareTag("Monster") || other.CompareTag("MonsterCriticalZone"))
                 {
                     Vector3 genePoint = other.transform.position;

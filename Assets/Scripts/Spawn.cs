@@ -27,11 +27,11 @@ public class Spawn : MonoBehaviour
         yield return new WaitForSeconds(10f);
         RandomSpawn();
 
-        // while (true)
-        // {
-        //     yield return new WaitForSeconds(90f);
+        while (true)
+        {
+            yield return new WaitForSeconds(90f);
 
-        // }
+        }
     }
 
 
