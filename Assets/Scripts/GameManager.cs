@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
 
     public GameObject warningPanel;
+    public GameObject warningHit;
 
     public Text timeText;
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
@@ -81,5 +82,16 @@ public class GameManager : MonoBehaviour
             count++;
         }
         this.warningPanel.SetActive(false);
+    }
+    public IEnumerator BlinkWarningHit()
+    {
+        int count = 0;
+        while (count < 1)
+        {
+            this.warningHit.SetActive(true);
+            yield return new WaitForSeconds(.3f);
+            this.warningHit.SetActive(false);
+            count++;
+        }
     }
 }

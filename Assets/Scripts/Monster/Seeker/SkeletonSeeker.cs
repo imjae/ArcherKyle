@@ -30,6 +30,7 @@ public class SkeletonSeeker : Seeker
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
         MonsterName = "SEEKER";
+        MonsterWeak = "JOINT";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();

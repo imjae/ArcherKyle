@@ -31,7 +31,7 @@ public class Archer : Chaser
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
         MonsterName = "Skeleton Archer(ÇØ°ñ ±Ã¼ö)";
-        MonsterWeak = "LEG";
+        MonsterWeak = "HAT";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();

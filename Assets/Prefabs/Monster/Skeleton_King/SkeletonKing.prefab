@@ -342,9 +342,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3090029055879909215}
+  - component: {fileID: 829172724589445898}
   m_Layer: 17
   m_Name: sword1
-  m_TagString: Untagged
+  m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,6 +364,19 @@ Transform:
   m_Father: {fileID: 3765121076966139729}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &829172724589445898
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579445779576658381}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5070808, y: 0.23831417, z: 2.151358}
+  m_Center: {x: 0.07105547, y: 0.018746126, z: 1.4230212}
 --- !u!1 &675633883148731068
 GameObject:
   m_ObjectHideFlags: 0
@@ -21782,10 +21796,10 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 2.2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!136 &748386288
 CapsuleCollider:

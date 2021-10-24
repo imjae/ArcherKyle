@@ -32,6 +32,11 @@ public class PlayerMovement : MonoBehaviour
     // 활든 왼쪽발 어깨 관절
     public Transform leftSholderJoint;
 
+    // 2단점프 콤보
+    private bool jumpComboPossible;
+    int jumpComboStep;
+
+
     // 원소 컨트롤러
     private ElementController elementController;
     void Start()
@@ -63,8 +68,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        InputJump();
         InputDash();
+        InputJump();
     }
 
     // 마우스 인풋을 받을 변수
@@ -86,6 +91,16 @@ public class PlayerMovement : MonoBehaviour
         if (isMovement)
         {
             InputMovement();
+        }
+    }
+
+    void InputJump()
+    {
+        if (Input.GetButtonDown("Jump") && isGround)
+        {
+            _animator.SetTrigger("OnJumpTrigger");
+            _rigidbody.AddForce(Vector3.up * 200f);
+            // Debug.Log(isGround);
         }
     }
 
@@ -126,101 +141,91 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void InputJump()
-    {
-        if (Input.GetButtonDown("Jump") && this.isGround)
-        {
-            _animator.SetTrigger("OnJumpTrigger");
-            _rigidbody.AddForce(Vector3.up * 200f);
-            // Debug.Log(isGround);
-        }
-    }
+    float DoubleClickSecond_forward = 0.25f;
+    bool IsOneClick_forward = false;
+    double Timer_forward = 0;
 
-    float m_DoubleClickSecond_forward = 0.25f;
-    bool m_IsOneClick_forward = false;
-    double m_Timer_forward = 0;
+    float DoubleClickSecond_left = 0.25f;
+    bool IsOneClick_left = false;
+    double Timer_left = 0;
 
-    float m_DoubleClickSecond_left = 0.25f;
-    bool m_IsOneClick_left = false;
-    double m_Timer_left = 0;
+    float DoubleClickSecond_back = 0.25f;
+    bool IsOneClick_back = false;
+    double Timer_back = 0;
 
-    float m_DoubleClickSecond_back = 0.25f;
-    bool m_IsOneClick_back = false;
-    double m_Timer_back = 0;
-
-    float m_DoubleClickSecond_right = 0.25f;
-    bool m_IsOneClick_right = false;
-    double m_Timer_right = 0;
+    float DoubleClickSecond_right = 0.25f;
+    bool IsOneClick_right = false;
+    double Timer_right = 0;
 
     void InputDash()
     {
 
-        if (m_IsOneClick_forward && ((Time.time - m_Timer_forward) > m_DoubleClickSecond_forward))
+        if (IsOneClick_forward && ((Time.time - Timer_forward) > DoubleClickSecond_forward))
         {
-            m_IsOneClick_forward = false;
+            IsOneClick_forward = false;
         }
-        if (m_IsOneClick_left && ((Time.time - m_Timer_left) > m_DoubleClickSecond_left))
+        if (IsOneClick_left && ((Time.time - Timer_left) > DoubleClickSecond_left))
         {
-            m_IsOneClick_left = false;
+            IsOneClick_left = false;
         }
-        if (m_IsOneClick_right && ((Time.time - m_Timer_right) > m_DoubleClickSecond_right))
+        if (IsOneClick_right && ((Time.time - Timer_right) > DoubleClickSecond_right))
         {
-            m_IsOneClick_right = false;
+            IsOneClick_right = false;
         }
-        if (m_IsOneClick_back && ((Time.time - m_Timer_back) > m_DoubleClickSecond_back))
+        if (IsOneClick_back && ((Time.time - Timer_back) > DoubleClickSecond_back))
         {
-            m_IsOneClick_back = false;
+            IsOneClick_back = false;
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (!m_IsOneClick_forward) { m_Timer_forward = Time.time; m_IsOneClick_forward = true; }
-            else if (m_IsOneClick_forward && ((Time.time - m_Timer_forward) < m_DoubleClickSecond_forward))
+            if (!IsOneClick_forward) { Timer_forward = Time.time; IsOneClick_forward = true; }
+            else if (IsOneClick_forward && ((Time.time - Timer_forward) < DoubleClickSecond_forward))
             {
-                m_IsOneClick_forward = false;
+                IsOneClick_forward = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Forward");
                 GetDashEffect("Forward").GetComponent<ParticleSystem>().Play();
-                _rigidbody.AddForce(transform.forward * 2000f);
+                _rigidbody.AddForce(transform.forward * 2500f);
             }
 
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            if (!m_IsOneClick_left) { m_Timer_left = Time.time; m_IsOneClick_left = true; }
-            else if (m_IsOneClick_left && ((Time.time - m_Timer_left) < m_DoubleClickSecond_left))
+            if (!IsOneClick_left) { Timer_left = Time.time; IsOneClick_left = true; }
+            else if (IsOneClick_left && ((Time.time - Timer_left) < DoubleClickSecond_left))
             {
-                m_IsOneClick_left = false;
+                IsOneClick_left = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Left");
                 GetDashEffect("Left").GetComponent<ParticleSystem>().Play();
-                _rigidbody.AddForce(transform.right * -2000f);
+                _rigidbody.AddForce(transform.right * -2500f);
             }
 
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            if (!m_IsOneClick_back) { m_Timer_back = Time.time; m_IsOneClick_back = true; }
-            else if (m_IsOneClick_back && ((Time.time - m_Timer_back) < m_DoubleClickSecond_back))
+            if (!IsOneClick_back) { Timer_back = Time.time; IsOneClick_back = true; }
+            else if (IsOneClick_back && ((Time.time - Timer_back) < DoubleClickSecond_back))
             {
-                m_IsOneClick_back = false;
+                IsOneClick_back = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Backward");
                 GetDashEffect("Back").GetComponent<ParticleSystem>().Play();
-                _rigidbody.AddForce(transform.forward * -2000f);
+                _rigidbody.AddForce(transform.forward * -2500f);
             }
 
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            if (!m_IsOneClick_right) { m_Timer_right = Time.time; m_IsOneClick_right = true; }
-            else if (m_IsOneClick_right && ((Time.time - m_Timer_right) < m_DoubleClickSecond_right))
+            if (!IsOneClick_right) { Timer_right = Time.time; IsOneClick_right = true; }
+            else if (IsOneClick_right && ((Time.time - Timer_right) < DoubleClickSecond_right))
             {
-                m_IsOneClick_right = false;
+                IsOneClick_right = false;
                 //아래에 더블클릭에서 처리하고싶은 이벤트 작성
                 _animator.Play("Standing Dodge Right");
                 GetDashEffect("Right").GetComponent<ParticleSystem>().Play();
-                _rigidbody.AddForce(transform.right * 2000f);
+                _rigidbody.AddForce(transform.right * 2500f);
             }
 
         }

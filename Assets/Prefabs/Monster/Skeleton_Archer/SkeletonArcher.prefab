@@ -268,7 +268,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6986025849738517898}
   - component: {fileID: 7864255352449562266}
-  - component: {fileID: 737660451482557632}
   m_Layer: 15
   m_Name: CriticalZone
   m_TagString: MonsterCriticalZone
@@ -304,19 +303,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.36, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &737660451482557632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998257695541514441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f632edbf1af17b4d89ae3d716e32f6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterType: 0
 --- !u!1 &1056872288822747964
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,10 +1627,10 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 0
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 1.62
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1601599584091428855
 MonoBehaviour:

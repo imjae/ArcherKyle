@@ -218,9 +218,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 445602}
+  - component: {fileID: 2012964848814704032}
   m_Layer: 20
   m_Name: Bip001 Prop1
-  m_TagString: Untagged
+  m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,6 +240,19 @@ Transform:
   m_Father: {fileID: 427864}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.4864, y: -28.956799, z: 86.7719}
+--- !u!65 &2012964848814704032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.28888875, y: 0.08472146, z: 1.8439709}
+  m_Center: {x: 0.022381766, y: 0.0062024603, z: 1.0180658}
 --- !u!1 &123026
 GameObject:
   m_ObjectHideFlags: 0

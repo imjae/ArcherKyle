@@ -29,7 +29,8 @@ public class Swordsman : Chaser
         FaceCamera = transform.Find("FaceCamera").GetComponent<Camera>();
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
-        MonsterName = "Skeleton Swordman(ÇØ°ñ °Ë»ç»ç)";
+        MonsterName = "Skeleton Swordman(ÇØ°ñ °Ë»ç)";
+        MonsterWeak = "SHIELD";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();
@@ -43,7 +44,7 @@ public class Swordsman : Chaser
         Health.GodMode = false;
 
         AttackValue = 30f;
-        AttackRange = 3f;
+        AttackRange = 2f;
         SpeedValue = 4f;
 
         DetectionTime = 0.5f;

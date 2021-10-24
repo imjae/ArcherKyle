@@ -21135,9 +21135,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2616194011355659472}
+  - component: {fileID: 1640656195111237315}
   m_Layer: 19
   m_Name: sword
-  m_TagString: Untagged
+  m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21156,6 +21157,19 @@ Transform:
   m_Father: {fileID: 3002297031023674024}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.0675713e-14}
+--- !u!65 &1640656195111237315
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6193834734674688982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.70474494, y: 0.21966329, z: 1.5555828}
+  m_Center: {x: -0.19308916, y: -0.028797448, z: 0.89932066}
 --- !u!1 &6314728171810570310
 GameObject:
   m_ObjectHideFlags: 0
@@ -21756,7 +21770,7 @@ Transform:
   m_GameObject: {fileID: 8795494128353259469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 5430221438651301603}
   - {fileID: 321589073877688746}
@@ -21817,10 +21831,10 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 2.8
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1714987293
 MonoBehaviour:

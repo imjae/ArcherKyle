@@ -36,7 +36,6 @@ public class PlayerAction : MonoBehaviour
     // 칼공격 콤보
     private bool comboPossible;
     int comboStep;
-
     // 카메라와 플레이어 움직임에 관련된 스크립트에 접근하기위한 변수
     private CameraMovement cameraMovementScript;
     private PlayerMovement playerMovementScript;
@@ -90,11 +89,6 @@ public class PlayerAction : MonoBehaviour
     {
         InputEquipWeapons();
         InputAttackWeapons();
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     private void InputAttackWeapons()
@@ -265,6 +259,7 @@ public class PlayerAction : MonoBehaviour
         isSwitching = false;
     }
 
+    // 칼 공격 콤보 관련 함수
     public void SwordAttack()
     {
         if (comboStep == 0)
@@ -283,12 +278,10 @@ public class PlayerAction : MonoBehaviour
             }
         }
     }
-
     public void ComboPossible()
     {
         comboPossible = true;
     }
-
     public void Combo()
     {
         if (comboStep == 4)
@@ -296,7 +289,6 @@ public class PlayerAction : MonoBehaviour
         else
             _animator.Play($"SwordCombo{comboStep}");
     }
-
     public void ComboReset()
     {
         comboPossible = false;
@@ -555,6 +547,16 @@ public class PlayerAction : MonoBehaviour
 
             effect.gameObject.SetActive(false);
             effect.gameObject.GetComponent<ParticleSystem>().Stop();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("MonsterAttack"))
+        {
+            StartCoroutine(GameManager.Instance.BlinkWarningHit());
+
+            healthSystem.TakeDamage(30);
         }
     }
 }

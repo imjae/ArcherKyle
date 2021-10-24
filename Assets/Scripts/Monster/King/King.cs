@@ -29,6 +29,7 @@ public class King : Chaser
         CameraManagement.Camera.EnrollFaceCamera(FaceCamera);
 
         MonsterName = "Skeleton King(ÇØ°ñ¿Õ)";
+        MonsterWeak = "SHOULDER";
         IsAttacking = false;
 
         Animator = this.GetComponent<Animator>();

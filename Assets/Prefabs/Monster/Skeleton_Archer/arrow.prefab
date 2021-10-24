@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5554516509439522447}
   m_Layer: 0
   m_Name: arrow
-  m_TagString: Untagged
+  m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ceadb4db54e404eb2686b31690d142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMovement: 0
 --- !u!114 &-2923082893932973330
 MonoBehaviour:
   m_ObjectHideFlags: 0
