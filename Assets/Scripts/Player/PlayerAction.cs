@@ -13,6 +13,9 @@ public class PlayerAction : MonoBehaviour
         SWORD
     }
 
+    private PlayerHealthSystem healthSystem;
+    private PlayerEnergySystem energySystem;
+
     // 무기 장착 여부
     private bool isEquipWeapon;
     // 무기 교체중 여부
@@ -46,13 +49,18 @@ public class PlayerAction : MonoBehaviour
 
     private float aimTime;
     private bool isWeak;
+    private bool isEnergy;
     GameObject[] weakPointArr;
 
     void Start()
     {
+        healthSystem = GetComponent<PlayerHealthSystem>();
+        energySystem = GetComponent<PlayerEnergySystem>();
+
         // UnActiveRealBow();
         isEquipWeapon = false;
         isSwitching = false;
+        isEnergy = false;
         _animator = GetComponent<Animator>();
 
         backBow = hip.Find("BackBow").gameObject;
@@ -95,77 +103,92 @@ public class PlayerAction : MonoBehaviour
         {
             if (Input.GetButtonDown("Attack"))
             {
-                // 줌 시간 0으로 초기화
-                aimTime = 0f;
+                if (energySystem.hitPoint > 25f)
+                {
+                    isEnergy = true;
+                    // 줌 시간 0으로 초기화
+                    aimTime = 0f;
 
-                // 1인칭 시점 변환
-                cameraMovementScript.curView = CameraMovement.VIEW.ONE;
-                cameraMovementScript.TransCamersView();
-                playerMovementScript.isAim = true;
+                    // 1인칭 시점 변환
+                    cameraMovementScript.curView = CameraMovement.VIEW.ONE;
+                    cameraMovementScript.TransCamersView();
+                    playerMovementScript.isAim = true;
 
-                _animator.SetBool("IsAimed", playerMovementScript.isAim);
+                    _animator.SetBool("IsAimed", playerMovementScript.isAim);
 
-                // Aim 생성
-                ActiveAim();
-                aimAnimator.SetTrigger("UnScaleAim");
+                    // Aim 생성
+                    ActiveAim();
+                    aimAnimator.SetTrigger("UnScaleAim");
 
-                _animator.SetTrigger("DrawArrowTrigger");
+                    _animator.SetTrigger("DrawArrowTrigger");
+                }
+                else
+                {
+                    isEnergy = false;
+                    StartCoroutine(GameManager.Instance.BlinkWarningPanel());
+                }
+
             }
 
             if (Input.GetButton("Attack"))
             {
-                // 보라 번개 속성일때만 약점이 표시되어야 한다.
-                if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
-                {
-                    aimTime += Time.deltaTime;
-                    if (aimTime > 3f && !isWeak)
+                if (isEnergy)
+                {// 보라 번개 속성일때만 약점이 표시되어야 한다.
+                    if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
                     {
-                        isWeak = true;
-                        weakPointArr = GameObject.FindGameObjectsWithTag("WeakPoint");
-                        foreach (var o in weakPointArr)
+                        aimTime += Time.deltaTime;
+                        if (aimTime > 3f && !isWeak)
                         {
-                            if (o != null)
-                                o.GetComponent<ParticleSystem>().Play();
+                            isWeak = true;
+                            weakPointArr = GameObject.FindGameObjectsWithTag("WeakPoint");
+                            foreach (var o in weakPointArr)
+                            {
+                                if (o != null)
+                                    o.GetComponent<ParticleSystem>().Play();
+                            }
                         }
                     }
                 }
-
             }
 
             if (Input.GetButtonUp("Attack"))
             {
 
-                if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING) && weakPointArr != null)
+                if (isEnergy)
                 {
-                    isWeak = false;
-                    foreach (var o in weakPointArr)
+                    if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING) && weakPointArr != null)
                     {
-                        if (o != null)
-                            o.GetComponent<ParticleSystem>().Stop();
+                        isWeak = false;
+                        foreach (var o in weakPointArr)
+                        {
+                            if (o != null)
+                                o.GetComponent<ParticleSystem>().Stop();
+                        }
                     }
+
+                    // 1인칭 시점 변환
+                    cameraMovementScript.curView = CameraMovement.VIEW.THIRD;
+                    cameraMovementScript.TransCamersView();
+                    playerMovementScript.isAim = false;
+
+                    _animator.SetBool("IsAimed", playerMovementScript.isAim);
+                    _animator.SetTrigger("AimRecoilTrigger");
+
+                    // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
+
+                    GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
+
+                    Vector3 localScale = clone.transform.localScale;
+                    clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
+
+                    // 화살 UnAtive하고 클론된 화살 발싸
+                    UnActiveArrow();
+                    // Aim 제거
+                    UnActiveAim();
+                    UnActiveBowEffect();
+
+                    energySystem.TakeDamage(25f);
                 }
-
-
-                // 1인칭 시점 변환
-                cameraMovementScript.curView = CameraMovement.VIEW.THIRD;
-                cameraMovementScript.TransCamersView();
-                playerMovementScript.isAim = false;
-
-                _animator.SetBool("IsAimed", playerMovementScript.isAim);
-                _animator.SetTrigger("AimRecoilTrigger");
-
-                // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
-
-                GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
-
-                Vector3 localScale = clone.transform.localScale;
-                clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
-
-                // 화살 UnAtive하고 클론된 화살 발싸
-                UnActiveArrow();
-                // Aim 제거
-                UnActiveAim();
-                UnActiveBowEffect();
             }
         }
 

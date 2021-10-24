@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public float PlayeTime { get { return _playtime; } set { _playtime = value; } }
 
+
+    public GameObject warningPanel;
+
     public Text timeText;
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     // 인스턴스에 접근하기 위한 프로퍼티
@@ -43,7 +46,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -66,14 +68,18 @@ public class GameManager : MonoBehaviour
             _min++;
         }
     }
-    private void OnGUI()
+
+    public IEnumerator BlinkWarningPanel()
     {
-        string timeString;
-        timeString = "" + PlayeTime.ToString("00.00");
-        timeString = timeString.Replace(".", ":");
-        timeText.text = timeString;
+        int count = 0;
+        while (count < 4)
+        {
+            this.warningPanel.SetActive(false);
+            yield return new WaitForSeconds(.5f);
+            this.warningPanel.SetActive(true);
+            yield return new WaitForSeconds(.5f);
+            count++;
+        }
+        this.warningPanel.SetActive(false);
     }
-
-
-
 }
