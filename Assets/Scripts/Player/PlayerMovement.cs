@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    private PlayerEnergySystem energySystem;
     // 원소 컨트롤러
     private ElementController elementController;
     void Start()
@@ -50,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         isMovement = true;
         isSword = false;
 
+        energySystem = GetComponent<PlayerEnergySystem>();
         elementController = this.GetComponent<ElementController>();
     }
 
@@ -111,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     _animator.SetTrigger("FlipJumpTrigger");
                     _rigidbody.AddForce(Vector3.up * 250f);
+                    energySystem.HealDamage(10f);
                 }
                 jumpCount--;
                 // Debug.Log(isGround);
@@ -201,6 +204,7 @@ public class PlayerMovement : MonoBehaviour
                 _animator.Play("Standing Dodge Forward");
                 GetDashEffect("Forward").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.forward * 2500f);
+                energySystem.HealDamage(10f);
             }
 
         }
@@ -214,6 +218,7 @@ public class PlayerMovement : MonoBehaviour
                 _animator.Play("Standing Dodge Left");
                 GetDashEffect("Left").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.right * -2500f);
+                energySystem.HealDamage(10f);
             }
 
         }
@@ -227,6 +232,7 @@ public class PlayerMovement : MonoBehaviour
                 _animator.Play("Standing Dodge Backward");
                 GetDashEffect("Back").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.forward * -2500f);
+                energySystem.HealDamage(10f);
             }
 
         }
@@ -240,6 +246,7 @@ public class PlayerMovement : MonoBehaviour
                 _animator.Play("Standing Dodge Right");
                 GetDashEffect("Right").GetComponent<ParticleSystem>().Play();
                 _rigidbody.AddForce(transform.right * 2500f);
+                energySystem.HealDamage(10f);
             }
 
         }

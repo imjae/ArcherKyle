@@ -93,7 +93,7 @@ public abstract class Monster : Character
         _agent.SetDestination(target.position);
     }
 
-    // TODO 영상 삽입 코드
+    // TODO 발표
     // 몬스터에 설정된 Range값 범위 안에 충돌일어 났을 경우에 취할 행동 정의
     protected void DetectionInRange(float radius, Action<Collider> action)
     {

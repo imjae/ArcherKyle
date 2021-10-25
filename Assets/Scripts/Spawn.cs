@@ -19,7 +19,7 @@ public class Spawn : MonoBehaviour
         seekerPoint = transform.GetChild(0);
         chaserPoint = transform.GetChild(1);
 
-        // StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnRoutine());
         StartCoroutine(SeekerSpawnRoutine());
     }
 
@@ -70,7 +70,7 @@ public class Spawn : MonoBehaviour
     {
         List<Transform> resultList = new List<Transform>();
 
-        int[] randomSpwanIndexArr = GetRandomInt(5, 0, 30);
+        int[] randomSpwanIndexArr = GetRandomInt(20, 0, 30);
         for (int i = 0; i < randomSpwanIndexArr.Length; i++)
         {
             resultList.Add(chaserPoint.GetChild(randomSpwanIndexArr[i]));

@@ -142,7 +142,6 @@ public class PlayerAction : MonoBehaviour
                     isEnergy = false;
                     StartCoroutine(GameManager.Instance.BlinkWarningPanel());
                 }
-
             }
 
             if (Input.GetButton("Attack"))
@@ -151,7 +150,13 @@ public class PlayerAction : MonoBehaviour
                 {// 보라 번개 속성일때만 약점이 표시되어야 한다.
                     if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
                     {
-                        aimTime += Time.deltaTime;
+                        aimTime += Time.unscaledDeltaTime;
+
+                        if (aimTime > 2f)
+                        {
+                            GameManager.Instance.SetTimeScale(0.3f);
+                        }
+
                         if (aimTime > 3f && !isWeak)
                         {
                             isWeak = true;
@@ -168,12 +173,14 @@ public class PlayerAction : MonoBehaviour
 
             if (Input.GetButtonUp("Attack"))
             {
+                GameManager.Instance.SetTimeScale(1f);
 
                 if (isEnergy)
                 {
                     if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING) && weakPointArr != null)
                     {
                         isWeak = false;
+
                         foreach (var o in weakPointArr)
                         {
                             if (o != null)

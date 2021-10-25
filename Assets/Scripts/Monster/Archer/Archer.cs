@@ -65,6 +65,7 @@ public class Archer : Chaser
         }
     }
 
+    // TODO 공격모션 설명 할 때 표시할 코드드
     private void LateUpdate()
     {
         if (!IsDie)
@@ -73,10 +74,8 @@ public class Archer : Chaser
             {
                 if (detectObject.CompareTag("Player") && !IsAttacking)
                 {
-                    // ShotTrigger 이벤트에서 IsAttacking 변수 토글해주면 살짝 늦게 실행됨.
                     IsAttackingTrue();
                     target = detectObject.gameObject;
-                    // Debug.Log("멈춤 !");
 
                     Attack();
                 }
