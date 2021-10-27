@@ -180,7 +180,6 @@ public class PlayerAction : MonoBehaviour
                     if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING) && weakPointArr != null)
                     {
                         isWeak = false;
-
                         foreach (var o in weakPointArr)
                         {
                             if (o != null)
@@ -198,7 +197,9 @@ public class PlayerAction : MonoBehaviour
 
                     // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
 
-                    GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
+                    // GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
+                    PoolableObject clone = ObjectPoolManager.GetInstance().arrowPool.PopObject();
+
 
                     Vector3 localScale = clone.transform.localScale;
                     clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);

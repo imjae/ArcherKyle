@@ -75,10 +75,6 @@ public class PlayerMovement : MonoBehaviour
         InputJump();
     }
 
-    // 마우스 인풋을 받을 변수
-    private float rotX;
-    private float rotY;
-
     private void FixedUpdate()
     {
         if (!toggleCameraRotation)
@@ -87,9 +83,6 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log($"{_camera.transform.forward} / {new Vector3(1, 0, 1)} / { Vector3.Scale(_camera.transform.forward, new Vector3(1, 0, 1))}");
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
         }
-
-
-        // run = (Input.GetKey(KeyCode.LeftShift)) ? true : false;
 
         if (isMovement)
         {
@@ -153,8 +146,8 @@ public class PlayerMovement : MonoBehaviour
 
         _animator.SetFloat("MovementBlend", percent, 0.1f, Time.deltaTime);
 
-        _rigidbody.AddForce(moveDirection.normalized * 200f);
-        // _rigidbody.velocity = moveDirection.normalized * finalSpeed;
+        _rigidbody.AddForce(moveDirection.normalized * (finalSpeed * 50f));
+        // _rigidbody.velocity = moveDirection.normalized * finalSpeed * Time.deltaTime;
 
     }
 

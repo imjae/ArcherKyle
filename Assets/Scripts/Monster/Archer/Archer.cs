@@ -65,21 +65,21 @@ public class Archer : Chaser
         }
     }
 
-    // TODO 공격모션 설명 할 때 표시할 코드드
+    // TODO 범위 안에 지정 태그가 들어왔을떄 동작 정의할 수 있다.
     private void LateUpdate()
     {
         if (!IsDie)
         {
             DetectionInRange(AttackRange, (detectObject) =>
-            {
-                if (detectObject.CompareTag("Player") && !IsAttacking)
-                {
-                    IsAttackingTrue();
-                    target = detectObject.gameObject;
+             {
+                 if (detectObject.CompareTag("Player") && !IsAttacking)
+                 {
+                     IsAttackingTrue();
+                     target = detectObject.gameObject;
 
-                    Attack();
-                }
-            });
+                     Attack();
+                 }
+             });
         }
     }
 
@@ -125,7 +125,6 @@ public class Archer : Chaser
 
 
     // 아래부터 재정의 함수
-
     protected override void OnRunStatus()
     {
         base.OnRunStatus();

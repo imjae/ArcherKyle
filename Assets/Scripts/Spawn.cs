@@ -37,9 +37,9 @@ public class Spawn : MonoBehaviour
 
     IEnumerator SeekerSpawnRoutine()
     {
-
-        Monster seeker = generator.Spawn(MONSTER_TYPE.Seeker, monsterGenerator.transform);
-        seeker.transform.position = seekerPoint.position;
+        // 영상찍기용 시작하자마자 나오는 수색꾼
+        // Monster seeker = generator.Spawn(MONSTER_TYPE.Seeker, monsterGenerator.transform);
+        // seeker.transform.position = seekerPoint.position;
         while (true)
         {
             yield return new WaitForSeconds(180f);
@@ -70,7 +70,7 @@ public class Spawn : MonoBehaviour
     {
         List<Transform> resultList = new List<Transform>();
 
-        int[] randomSpwanIndexArr = GetRandomInt(20, 0, 30);
+        int[] randomSpwanIndexArr = GetRandomInt(7, 0, 30);
         for (int i = 0; i < randomSpwanIndexArr.Length; i++)
         {
             resultList.Add(chaserPoint.GetChild(randomSpwanIndexArr[i]));

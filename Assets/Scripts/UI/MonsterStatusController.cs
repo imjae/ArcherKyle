@@ -13,12 +13,6 @@ public class MonsterStatusController : MonoBehaviour
     public Text monsterRange;
     public Text monsterWeak;
 
-    private string _monsterName;
-    private string _monsterHealth;
-    private string _monsterAttackPoint;
-    private string _monsterRange;
-    private string _monsterWeak;
-
     public string MonsterName
     {
         get { return monsterName.text; }
