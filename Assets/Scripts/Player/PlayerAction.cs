@@ -197,8 +197,8 @@ public class PlayerAction : MonoBehaviour
 
                     // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
 
-                    // GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
-                    PoolableObject clone = ObjectPoolManager.GetInstance().arrowPool.PopObject();
+                    GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
+                    // PoolableObject clone = ObjectPoolManager.GetInstance().arrowPool.PopObject();
 
 
                     Vector3 localScale = clone.transform.localScale;

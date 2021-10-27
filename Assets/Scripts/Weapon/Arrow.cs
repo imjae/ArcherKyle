@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : PoolableObject
+public class Arrow : MonoBehaviour
 {
     public enum ARROW_TYPE
     {

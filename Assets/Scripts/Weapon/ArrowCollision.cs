@@ -58,7 +58,9 @@ public class ArrowCollision : MonoBehaviour
 
             // 얼음, 불은 속성 범위공격
             // 번개 속성만 치명타, 기본공격 느낌
-            if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
+
+
+            if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
             {
                 if (other.CompareTag("MonsterCriticalZone"))
                     MonsterCollisionBasicAction(GetRootObject(other.transform));
@@ -75,7 +77,7 @@ public class ArrowCollision : MonoBehaviour
 
                     Monster monster = GetRootObject(other.transform).GetComponent<Monster>();
                     HealthSystem health = monster.gameObject.GetComponent<HealthSystem>();
-                    // Debug.Log("크리티컬!! : " + health.maxHitPoint);
+                    Debug.Log("크리티컬!! : " + health.maxHitPoint);
                     health.TakeDamage(health.maxHitPoint);
 
                 }
@@ -83,7 +85,7 @@ public class ArrowCollision : MonoBehaviour
                 {
                     MonsterCollisionBasicAction(other.gameObject);
 
-                    // Debug.Log("몸통! : " + arrowScript.attackPoint);
+                    Debug.Log("몸통! : " + arrowScript.attackPoint);
                     GameObject monster = other.gameObject;
                     HealthSystem health = monster.GetComponent<HealthSystem>();
                     health.TakeDamage(arrowScript.attackPoint);

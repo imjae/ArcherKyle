@@ -15,6 +15,8 @@ public enum MONSTER_TYPE
 
 public class MonsterGenerator : MonsterFactory<MONSTER_TYPE>
 {
+
+    // public List<GameObject> monsterPrefabs;
     [SerializeField]
     private GameObject archer;
     [SerializeField]
@@ -31,6 +33,8 @@ public class MonsterGenerator : MonsterFactory<MONSTER_TYPE>
     protected override Monster Create(MONSTER_TYPE _type)
     {
         Monster monster = null;
+
+        // monster = Instantiate(monsterPrefabs[(int)_type].GetComponent<Monster>());
 
         switch (_type)
         {

@@ -24,12 +24,12 @@ public class ObjectPoolManager : MonoBehaviour
 
     void Start()
     {
-        arrowPool = new ObjectPool<PoolableObject>(5, () =>
-        {
-            Arrow arrow = Instantiate(arrowPrefab);
-            arrow.Create(arrowPool);
-            return arrow;
-        });
+        // arrowPool = new ObjectPool<PoolableObject>(5, () =>
+        // {
+        //     Arrow arrow = Instantiate(arrowPrefab);
+        //     arrow.Create(arrowPool);
+        //     return arrow;
+        // });
 
         arrowPool.Allocate();
     }

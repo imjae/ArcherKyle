@@ -212,7 +212,6 @@ public abstract class Monster : Character
         }
         else if (other.CompareTag("IceArrowExplosion"))
         {
-
             if (!IsDie)
             {
                 isIceParticleFirst = false;
@@ -235,4 +234,5 @@ public abstract class Monster : Character
         yield return new WaitForSeconds(time);
         action();
     }
+
 }
