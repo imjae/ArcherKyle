@@ -69,7 +69,7 @@ public class ArrowCollision : MonoBehaviour
             }
             else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
             {
-                // Debug.Log("전기! => " + other.tag);
+                Debug.Log("전기! => " + other.tag);
 
                 if (other.CompareTag("MonsterCriticalZone"))
                 {
