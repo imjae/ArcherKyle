@@ -21,7 +21,7 @@ public class CrystalCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag + " / " + other.name);
+        // Debug.Log(other.tag + " / " + other.name);
 
         if (other.CompareTag("MonsterAttack") && other.name.Equals("SeekerSword"))
         {

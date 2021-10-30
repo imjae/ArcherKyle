@@ -59,15 +59,14 @@ public class ArrowCollision : MonoBehaviour
             // 얼음, 불은 속성 범위공격
             // 번개 속성만 치명타, 기본공격 느낌
 
-
-            if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+            if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
             {
                 if (other.CompareTag("MonsterCriticalZone"))
                     MonsterCollisionBasicAction(GetRootObject(other.transform));
                 if (other.CompareTag("Monster"))
                     MonsterCollisionBasicAction(other.gameObject);
             }
-            else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
+            else if (elementController.currentElement == ElementController.ELEMENT.LIGHTNING)
             {
                 Debug.Log("전기! => " + other.tag);
 
