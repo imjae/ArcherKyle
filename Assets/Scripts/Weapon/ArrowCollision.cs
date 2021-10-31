@@ -41,7 +41,7 @@ public class ArrowCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || !other.CompareTag("Player"))
+        if ((!other.CompareTag("Player") || !other.CompareTag("Player")) && !other.CompareTag("HealingField"))
         {
             Debug.Log(name + " -> " + other.name);
 

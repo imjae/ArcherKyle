@@ -2,15 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     private float _playtime;
     private static GameManager _instance;
-    public float PlayeTime { get { return _playtime; } set { _playtime = value; } }
+    public float PlayTime { get { return _playtime; } set { _playtime = value; } }
 
 
+    // 게임메니저에서 가지고 있을 최상위 계층 오브젝트들 나열
+    public GameObject canvas;
+    public GameObject robotKyle;
     public GameObject warningPanel;
     public GameObject warningHit;
 
@@ -46,6 +50,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         // 아래의 함수를 사용하여 씬이 전환되더라도 선언되었던 인스턴스가 파괴되지 않는다.
         DontDestroyOnLoad(gameObject);
+
+        PlayTime = 0f;
+
+        canvas = GameObject.Find("Canvas").gameObject;
+        robotKyle = GameObject.Find("Robot Kyle").gameObject;
+
+        warningPanel = canvas.transform.Find("WarningPanel").gameObject;
+        warningHit = canvas.transform.Find("WarningHit").gameObject;
+        timeText = canvas.transform.Find("Time").GetChild(0).GetComponent<Text>();
     }
 
     // Start is called before the first frame update
@@ -56,8 +69,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayeTime += Time.deltaTime;
-        Timer();
+        if(SceneManager.GetActiveScene().name.Equals("Map_v1"))
+        {
+            PlayTime += Time.deltaTime;
+            Timer();
+        }
     }
 
 
