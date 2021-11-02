@@ -9931,7 +9931,7 @@ GameObject:
   - component: {fileID: 2918562625156226807}
   - component: {fileID: 1498976242}
   m_Layer: 0
-  m_Name: ArrowMissileRed
+  m_Name: FireArrow
   m_TagString: PlayerArrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

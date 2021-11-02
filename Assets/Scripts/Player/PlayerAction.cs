@@ -200,14 +200,9 @@ public class PlayerAction : MonoBehaviour
 
                     // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
                     GameObject clone;
-                    //  TODO 이부분 수정해야함. 화살 종류에 따라
-                    if(GetCurrentElementArrowName().Equals("ArrowMissileRed"))
-                    {
-                        clone = ObjectPooler.SpawnFromPool("FireArrow", arrowPoint.transform.position, cameraTransform.rotation);
-                    } else {
-                        clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
-                    }
 
+                    string arrowName = GetCurrentElementArrowName();
+                    clone = ObjectPooler.SpawnFromPool(arrowName, arrowPoint.transform.position, cameraTransform.rotation);
                      
                     // PoolableObject clone = ObjectPoolManager.GetInstance().arrowPool.PopObject();
 
@@ -462,11 +457,11 @@ public class PlayerAction : MonoBehaviour
     {
         string result = "";
         if (elementController.currentElement.Equals(ElementController.ELEMENT.FIRE))
-            result = "ArrowMissileRed";
+            result = "FireArrow";
         else if (elementController.currentElement.Equals(ElementController.ELEMENT.LIGHTNING))
-            result = "ArrowMissilePurple";
+            result = "LightningArrow";
         else if (elementController.currentElement.Equals(ElementController.ELEMENT.ICE))
-            result = "ArrowMissileBlue";
+            result = "IceArrow";
 
         return result;
     }
