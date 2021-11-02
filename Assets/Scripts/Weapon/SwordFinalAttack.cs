@@ -18,7 +18,7 @@ public class SwordFinalAttack : MonoBehaviour
     private void Start()
     {
         direction = GameObject.Find("Camera").transform;
-        robotKyle = GameObject.Find("Robot Kyle");
+        robotKyle = GameManager.Instance.robotKyle;
         elementController = robotKyle.GetComponent<ElementController>();
     }
 

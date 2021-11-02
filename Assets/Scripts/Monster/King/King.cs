@@ -34,7 +34,7 @@ public class King : Chaser
 
         Animator = this.GetComponent<Animator>();
         Health = this.GetComponent<HealthSystem>();
-        Player = GameObject.Find("Robot Kyle").transform;
+        Player = GameManager.Instance.robotKyle.transform;
 
         Health.hitPoint = 500f;
         Health.maxHitPoint = 500f;

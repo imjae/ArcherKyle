@@ -51,7 +51,6 @@ public class SkeletonSeeker : Seeker
 
         Animator = this.GetComponent<Animator>();
         Health = this.GetComponent<HealthSystem>();
-        // Player = GameObject.Find("Robot Kyle").transform;
 
         Health.hitPoint = 5000f;
         Health.maxHitPoint = 5000f;

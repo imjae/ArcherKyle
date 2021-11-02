@@ -35,7 +35,7 @@ public class ArrowCollision : MonoBehaviour
         col = GetComponent<Collider>();
         arrowMovement = GetComponent<ArrowMovement>();
         arrowScript = GetComponent<Arrow>();
-        elementController = GameObject.Find("Robot Kyle").GetComponent<ElementController>();
+        elementController = GameManager.Instance.robotKyle.GetComponent<ElementController>();
     }
 
 
@@ -47,7 +47,7 @@ public class ArrowCollision : MonoBehaviour
 
             arrowMovement.isMovement = false;
             rigid.velocity = Vector3.zero;
-            
+
             // TODO  Rigid,Collider 파괴 -> 오브젝트풀을 위한 재사용을 위해 파괴를 생략
             // Destroy(rigid);
             // Destroy(col);

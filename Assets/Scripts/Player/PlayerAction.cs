@@ -76,7 +76,7 @@ public class PlayerAction : MonoBehaviour
 
         cameraTransform = GameObject.Find("Camera").transform;
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
-        playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
+        playerMovementScript = GameManager.Instance.robotKyle.GetComponent<PlayerMovement>();
         elementController = GetComponent<ElementController>();
         canvas = GameObject.Find("Canvas");
         aim = canvas.transform.Find("Aim").gameObject;

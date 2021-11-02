@@ -35,7 +35,7 @@ public class Grunt : Chaser
 
         Animator = this.GetComponent<Animator>();
         Health = this.GetComponent<HealthSystem>();
-        Player = GameObject.Find("Robot Kyle").transform;
+        Player = GameManager.Instance.robotKyle.transform;
 
         Health.hitPoint = 300f;
         Health.maxHitPoint = 300f;

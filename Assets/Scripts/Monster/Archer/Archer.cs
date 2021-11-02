@@ -36,7 +36,7 @@ public class Archer : Chaser
 
         Animator = this.GetComponent<Animator>();
         Health = this.GetComponent<HealthSystem>();
-        Player = GameObject.Find("Robot Kyle").transform;
+        Player = GameManager.Instance.robotKyle.transform;
 
         Health.hitPoint = 150f;
         Health.maxHitPoint = 150f;
