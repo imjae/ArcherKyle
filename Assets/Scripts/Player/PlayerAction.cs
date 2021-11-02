@@ -33,6 +33,8 @@ public class PlayerAction : MonoBehaviour
     private GameObject realBow;
     private GameObject backSword;
     private GameObject realSword;
+    
+    private Transform arrowPoint;
 
     // 칼공격 콤보
     private bool comboPossible;
@@ -70,6 +72,8 @@ public class PlayerAction : MonoBehaviour
         backSword = hip.Find("BackSword").gameObject;
         realSword = rightWristJoint.Find("RealSword").gameObject;
 
+        arrowPoint = realBow.transform.Find("ArrowPoint");
+
         cameraTransform = GameObject.Find("Camera").transform;
         cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
         playerMovementScript = GameObject.Find("Robot Kyle").GetComponent<PlayerMovement>();
@@ -84,7 +88,6 @@ public class PlayerAction : MonoBehaviour
 
         UnActiveBow();
         UnActiveSword();
-        UnActiveArrow();
     }
 
     // Update is called once per frame
@@ -196,16 +199,22 @@ public class PlayerAction : MonoBehaviour
                     _animator.SetTrigger("AimRecoilTrigger");
 
                     // Vector3 localToWorldPosition = transform.TransformPoint(fireArrow.transform.position);
+                    GameObject clone;
+                    //  TODO 이부분 수정해야함. 화살 종류에 따라
+                    if(GetCurrentElementArrowName().Equals("ArrowMissileRed"))
+                    {
+                        clone = ObjectPooler.SpawnFromPool("FireArrow", arrowPoint.transform.position, cameraTransform.rotation);
+                    } else {
+                        clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
+                    }
 
-                    GameObject clone = Instantiate(GetCurrentArrow(), GetCurrentArrow().transform.position, cameraTransform.rotation);
+                     
                     // PoolableObject clone = ObjectPoolManager.GetInstance().arrowPool.PopObject();
 
 
                     Vector3 localScale = clone.transform.localScale;
                     clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
 
-                    // 화살 UnAtive하고 클론된 화살 발싸
-                    UnActiveArrow();
                     // Aim 제거
                     UnActiveAim();
                     UnActiveBowEffect();
@@ -324,32 +333,6 @@ public class PlayerAction : MonoBehaviour
         comboStep = 0;
     }
 
-    private void ActiveArrow()
-    {
-        for (int i = 0; i < realBow.transform.childCount; i++)
-        {
-            var bowChild = realBow.transform.GetChild(i).gameObject;
-            if (bowChild.name.Equals(GetCurrentElementArrowName()))
-            {
-                bowChild.GetComponent<ParticleSystem>().Play();
-                bowChild.SetActive(true);
-            }
-        }
-    }
-
-    private void UnActiveArrow()
-    {
-        for (int i = 0; i < realBow.transform.childCount; i++)
-        {
-            var bowChild = realBow.transform.GetChild(i).gameObject;
-            if (bowChild.name.Contains("ArrowMissile"))
-            {
-                bowChild.GetComponent<ParticleSystem>().Stop();
-                bowChild.SetActive(false);
-            }
-        }
-    }
-
     private void ActiveBow()
     {
         Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
@@ -362,8 +345,6 @@ public class PlayerAction : MonoBehaviour
     {
         Renderer backBowRenderer = backBow.transform.GetChild(0).GetComponent<Renderer>();
         Renderer realBowRenderer = realBow.transform.GetChild(0).GetComponent<Renderer>();
-
-        UnActiveArrow();
 
         backBowRenderer.enabled = true;
         realBowRenderer.enabled = false;

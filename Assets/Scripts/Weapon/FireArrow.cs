@@ -13,5 +13,4 @@ public class FireArrow : Arrow
     private void OnCollisionEnter(Collision other)
     {
     }
-
 }

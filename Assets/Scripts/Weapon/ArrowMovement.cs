@@ -10,21 +10,30 @@ public class ArrowMovement : MonoBehaviour
 
     public bool isMovement;
 
-    void Start()
+    void OnEnable()
     {
+        Invoke(nameof(DeactiveDelay), 3f);
+        
         colli = GetComponent<Collider>();
         rigid = GetComponent<Rigidbody>();
         isMovement = true;
         colli.enabled = false;
+    }
 
+    void OnDisable()
+    {
+        ObjectPooler.ReturnToPool(this.gameObject);
+        CancelInvoke();
     }
 
     private void FixedUpdate()
     {
-        if (name.Contains("Clone") && isMovement)
+        if (this.gameObject.activeSelf && isMovement)
         {
             colli.enabled = true;
             rigid.velocity = transform.forward * 20f;
         }
     }
+
+    void DeactiveDelay() => gameObject.SetActive(false);
 }
