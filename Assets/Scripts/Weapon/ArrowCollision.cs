@@ -47,11 +47,13 @@ public class ArrowCollision : MonoBehaviour
 
             arrowMovement.isMovement = false;
             rigid.velocity = Vector3.zero;
-            // Rigid,Collider 파괴
-            Destroy(rigid);
-            Destroy(col);
+            
+            // TODO  Rigid,Collider 파괴 -> 오브젝트풀을 위한 재사용을 위해 파괴를 생략
+            // Destroy(rigid);
+            // Destroy(col);
+
             // 맞은 대상 자식 오브젝트로 변경
-            transform.SetParent(other.transform);
+            // transform.SetParent(other.transform);
 
             // 공통적으로 화살이 터지는 이펙트는 존재한다.
             Instantiate(arrowExplosion, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), Quaternion.identity);

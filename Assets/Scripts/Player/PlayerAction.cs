@@ -207,8 +207,8 @@ public class PlayerAction : MonoBehaviour
                     // PoolableObject clone = ObjectPoolManager.GetInstance().arrowPool.PopObject();
 
 
-                    Vector3 localScale = clone.transform.localScale;
-                    clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
+                    // Vector3 localScale = clone.transform.localScale;
+                    // clone.transform.localScale = new Vector3(localScale.x * 9, localScale.y * 9, localScale.z * 9);
 
                     // Aim Á¦°Å
                     UnActiveAim();

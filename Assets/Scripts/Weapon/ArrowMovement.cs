@@ -17,7 +17,7 @@ public class ArrowMovement : MonoBehaviour
         colli = GetComponent<Collider>();
         rigid = GetComponent<Rigidbody>();
         isMovement = true;
-        colli.enabled = false;
+        // colli.enabled = false;
     }
 
     void OnDisable()
