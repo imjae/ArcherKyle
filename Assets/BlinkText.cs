@@ -14,7 +14,7 @@ public class BlinkText : MonoBehaviour
     void Start()
     {
         GameManager.Instance.SetTimeScale(1f);
-        restartKeyText = GameObject.Find("Canvas").transform.Find("pressKey").gameObject;
+        restartKeyText = GameManager.Instance.canvas.transform.Find("pressKey").gameObject;
         isAnykey = false;
         StartCoroutine(BlinkWarningPressKey());
     }

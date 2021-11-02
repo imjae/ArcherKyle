@@ -27,7 +27,7 @@ public class ElementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
         elementPanel = canvas.transform.Find("StatusPanel").Find("CurrentElementPanel").GetComponent<RectTransform>();
 
         count = elementPanel.childCount;

@@ -49,7 +49,7 @@ public class PlayerHealthSystem : MonoBehaviour
         maxHitPoint = 100f;
         timeleft = regenUpdateInterval;
 
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
         monsterStatus = canvas.transform.Find("StatusPanel");
         slider = monsterStatus.Find("StatusRightPanel").Find("HealthBar").GetComponent<Slider>();
 

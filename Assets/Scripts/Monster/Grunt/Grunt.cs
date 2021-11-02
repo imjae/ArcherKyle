@@ -13,7 +13,7 @@ public class Grunt : Chaser
 
     private void Awake()
     {
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
     }
 
     private void OnEnable()

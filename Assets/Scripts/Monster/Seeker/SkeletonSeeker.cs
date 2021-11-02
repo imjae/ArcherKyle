@@ -18,7 +18,7 @@ public class SkeletonSeeker : Seeker
 
     private void Awake()
     {
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
 
     }
 

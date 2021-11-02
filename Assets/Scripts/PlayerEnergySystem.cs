@@ -49,7 +49,7 @@ public class PlayerEnergySystem : MonoBehaviour
         maxHitPoint = 100f;
         timeleft = regenUpdateInterval;
 
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
         monsterStatus = canvas.transform.Find("StatusPanel");
         slider = monsterStatus.Find("StatusRightPanel").Find("EnergyBar").GetComponent<Slider>();
 

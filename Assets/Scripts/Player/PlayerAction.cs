@@ -75,10 +75,10 @@ public class PlayerAction : MonoBehaviour
         arrowPoint = realBow.transform.Find("ArrowPoint");
 
         cameraTransform = GameObject.Find("Camera").transform;
-        cameraMovementScript = GameObject.Find("Camera").GetComponent<CameraMovement>();
+        cameraMovementScript = cameraTransform.GetComponent<CameraMovement>();
         playerMovementScript = GameManager.Instance.robotKyle.GetComponent<PlayerMovement>();
         elementController = GetComponent<ElementController>();
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
         aim = canvas.transform.Find("Aim").gameObject;
         aimAnimator = aim.GetComponent<Animator>();
 

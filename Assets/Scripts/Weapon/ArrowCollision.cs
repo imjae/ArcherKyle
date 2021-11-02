@@ -25,7 +25,7 @@ public class ArrowCollision : MonoBehaviour
 
     private void Awake()
     {
-        canvas = GameObject.Find("Canvas");
+        canvas = GameManager.Instance.canvas;
         monsterStatusController = canvas.transform.Find("MonsterStatus").GetComponent<MonsterStatusController>();
     }
 
