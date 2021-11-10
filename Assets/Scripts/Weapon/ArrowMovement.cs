@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowMovement : MonoBehaviour
+public class ArrowMovement : MonoBehaviour, IPoolerable
 {
     Rigidbody rigid;
     Collider colli;
@@ -20,7 +20,7 @@ public class ArrowMovement : MonoBehaviour
         // colli.enabled = false;
     }
 
-    void OnDisable()
+    public void OnDisable()
     {
         ObjectPooler.ReturnToPool(this.gameObject);
         CancelInvoke();
